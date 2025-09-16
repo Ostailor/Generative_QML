@@ -1,0 +1,35 @@
+doped_nanoparticles:
+  dataset_version: nanoparticles-v0.1.0
+  expected_columns:
+  - reaction_id
+  - chemical_composition
+  - facet
+  - site
+  - adsorbate
+  - reaction_energy_eV
+  - source
+  license: CC-BY-4.0
+  source: https://api.catalysis-hub.org/
+high_entropy_alloys:
+  dataset_version: hea-v0.1.0
+  expected_columns:
+  - alloy_id
+  - elements
+  - processing_route
+  - phase
+  - yield_strength_MPa
+  - hardness_HV
+  - density_g_cm3
+  license: CC-BY-SA-4.0
+  source: https://www.kaggle.com/
+perovskites:
+  dataset_version: perovskites-v0.1.0
+  expected_columns:
+  - material_id
+  - pretty_formula
+  - spacegroup
+  - band_gap
+  - formation_energy_per_atom
+  - e_above_hull
+  license: CC-BY-4.0
+  source: https://next-gen.materialsproject.org/api/v2/materials

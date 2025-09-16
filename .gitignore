@@ -1,0 +1,15 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.env    
+.venv/
+
+# MLflow artifacts (tracked separately)
+tracking/mlflow/mlruns/
+tracking/mlflow/mlflow.db
+
+# Data downloads (retain raw placeholders but exclude real dumps if large)
+*.tmp
+*.log

@@ -1,0 +1,29 @@
+# Template for MLflow logging configuration per experiment pipeline.
+# Fill values per task before running experiment scripts.
+
+default_tags:
+  task: T?
+  milestone: M?
+  agent: ???
+  dataset_version: ??
+  code_revision: ??
+  workspace_entry: entry_id
+
+metrics:
+  # Example metrics expected by acceptance registry.
+  qkaa.rmse_relative_gap: null
+  qkaa.coverage_gap: null
+  qgma.valid_sample_rate: null
+  aloa.label_efficiency_gain: null
+
+params:
+  target_accuracy: null
+  acquisition_strategy: null
+  feature_map_id: null
+
+artifacts:
+  - path: ./reports/latest_figures
+    artifact_path: figures
+  - path: ./reports/tables
+    artifact_path: tables
+

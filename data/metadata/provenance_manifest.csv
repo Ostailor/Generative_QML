@@ -1,0 +1,4 @@
+domain,dataset_version,source_url_or_doi,license,expected_records,checksum_sha256,download_status,ingested_on,notes
+perovskites,perovskites-v0.1.0,https://doi.org/10.6084/m9.figshare.11890311,CC-BY-4.0,24000,023b3e8ec97ceefd7718a9b2079035b5163ae81826b1544aefa0e7cdc8d5077c,downloaded,2025-09-16,Awaiting API extraction via scripts/ingest_datasets.py.
+high_entropy_alloys,hea-v0.1.0,https://doi.org/10.24435/materialscloud:2017.0002/v1,CC-BY-SA-4.0,1545,61778e75dbec036add14abb1e13ae3c54ca34ab62481f304d3ccaf266395a2b8,downloaded,2025-09-16,Kaggle/NIMS dataset scheduled for download.
+doped_nanoparticles,nanoparticles-v0.1.0,https://doi.org/10.24435/materialscloud:2020.0046/v3,CC-BY-4.0,5000,a5efd26420cf248aa6f5248cd7b1f4f2d52797105cfb95627b44b2e779a250cb,downloaded,2025-09-16,Catalysis-Hub SAA dataset query placeholder; rerun ingestion after configuring API endpoint.

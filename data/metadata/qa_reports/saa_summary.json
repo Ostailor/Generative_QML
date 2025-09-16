@@ -1,0 +1,33 @@
+{
+  "name": "saa",
+  "rows": 5000,
+  "columns": [
+    "reaction_id",
+    "chemical_composition",
+    "surface_composition",
+    "facet",
+    "reaction_energy_eV",
+    "publication_id",
+    "publication_title",
+    "publication_doi",
+    "adsorbate",
+    "site_geometry",
+    "coordination",
+    "is_exothermic"
+  ],
+  "missing": {
+    "reaction_id": 0,
+    "chemical_composition": 0,
+    "surface_composition": 0,
+    "facet": 0,
+    "reaction_energy_eV": 0,
+    "publication_id": 0,
+    "publication_title": 0,
+    "publication_doi": 0,
+    "adsorbate": 0,
+    "site_geometry": 0,
+    "coordination": 0,
+    "is_exothermic": 0
+  },
+  "notes": []
+}

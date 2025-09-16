@@ -1,0 +1,80 @@
+# Metadata schema enforced across workspace artefacts.
+# Each record stored via workspace templates MUST contain these fields.
+
+required_fields:
+  - name: entry_id
+    type: string
+    description: Unique identifier (e.g., RKMA-LOG-2024-001) for cross-referencing across registers.
+  - name: entry_type
+    type: enum
+    allowed_values:
+      - decision_log
+      - lab_notebook
+      - milestone_review
+      - risk_update
+      - experiment_summary
+    description: Template category used for this entry.
+  - name: task_id
+    type: string
+    description: Task identifier from `TASKS.md` (e.g., T4.3) that the entry advances.
+  - name: milestone_id
+    type: string
+    description: Milestone identifier (e.g., M4) to support gating and reporting.
+  - name: owning_agent
+    type: enum
+    allowed_values:
+      - PDA
+      - QKAA
+      - QGMA
+      - ALOA
+      - MDIA
+      - DPQA
+      - QHSOA
+      - BRA
+      - RKMA
+    description: Agent responsible for the content/decision.
+  - name: collaborators
+    type: list[string]
+    description: Optional list of supporting agents.
+  - name: dataset_version
+    type: string
+    description: Semantic version of dataset (e.g., HEA-1.0.0) used/referenced.
+  - name: code_revision
+    type: string
+    description: Git commit SHA or tag associated with the work.
+  - name: mlflow_run_id
+    type: string
+    description: MLflow run URI or list of URIs linking documentation to experiment logs.
+  - name: qpu_backend
+    type: string
+    description: Hardware backend identifier (e.g., ionq.qpu, aer.simulator). Optional for non-hardware tasks.
+  - name: submission_status
+    type: enum
+    allowed_values: [draft, in_review, approved]
+    description: Approval status for the entry.
+  - name: reviewer_comments
+    type: string
+    description: Summary of review feedback when submission_status != approved.
+  - name: timestamp_utc
+    type: datetime
+    description: ISO-8601 timestamp of entry creation.
+
+optional_fields:
+  - name: risk_rating
+    type: enum
+    allowed_values: [low, medium, high]
+    description: Applies to risk_update entries.
+  - name: cost_tracking
+    type: object
+    properties:
+      qpu_cost
+      cpu_gpu_cost
+      storage_cost
+    description: Summarized cost metrics for resource-intensive experiments.
+
+validation:
+  - rule: collaborators must be subset of allowed agent codes.
+  - rule: mlflow_run_id required when entry_type in [lab_notebook, experiment_summary].
+  - rule: qpu_backend required when milestone_id in [M5, M6, M7] and entry_type includes hardware results.
+  - rule: dataset_version must exist in dataset registry maintained by DPQA.
+

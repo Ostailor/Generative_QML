@@ -1,0 +1,10 @@
+entry_id,agent,role,access_granted_on,sample_entry_submitted,onboarding_owner,notes
+ONB-20240915-001,PDA,Program Director,2025-09-15T21:25:00Z,Yes,RKMA,Decision log sample recorded.
+ONB-20240915-002,QKAA,Quantum Kernel & Regressor Architect,2025-09-15T21:25:30Z,Yes,RKMA,Reviewed metadata schema.
+ONB-20240915-003,QGMA,Quantum Generative Modeling,2025-09-15T21:26:00Z,Yes,RKMA,Generated mock lab entry.
+ONB-20240915-004,ALOA,Active Learning Orchestrator,2025-09-15T21:26:30Z,Yes,RKMA,Confirmed experiment logging fields.
+ONB-20240915-005,MDIA,Materials & DFT Integration,2025-09-15T21:27:00Z,Yes,RKMA,Sample entry MDIA-LAB-20240915-001 uses venue templates.
+ONB-20240915-006,DPQA,Data Pipeline & Quality,2025-09-15T21:27:30Z,Yes,RKMA,Uploaded data schema notes.
+ONB-20240915-007,QHSOA,QPU & Simulation Operations,2025-09-15T21:28:00Z,Yes,RKMA,Sample entry QHSOA-LAB-20240915-001 covers hardware reporting.
+ONB-20240915-008,BRA,Benchmarking, Robustness & Baselines,2025-09-15T21:28:30Z,Yes,RKMA,Linked evaluation template.
+ONB-20240915-009,RKMA,Reproducibility & Knowledge Management,2025-09-15T21:29:00Z,Yes,PDA,Workspace SOP finalized.

@@ -1,0 +1,25 @@
+{
+  "name": "perovskites",
+  "rows": 24000,
+  "columns": [
+    "material_id",
+    "formula",
+    "spacegroup",
+    "band_gap_eV",
+    "formation_energy_per_atom_eV",
+    "energy_above_hull_eV",
+    "is_insulator",
+    "log_band_gap"
+  ],
+  "missing": {
+    "material_id": 0,
+    "formula": 0,
+    "spacegroup": 0,
+    "band_gap_eV": 0,
+    "formation_energy_per_atom_eV": 0,
+    "energy_above_hull_eV": 0,
+    "is_insulator": 0,
+    "log_band_gap": 8606
+  },
+  "notes": []
+}
