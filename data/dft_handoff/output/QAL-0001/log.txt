@@ -1,0 +1,2 @@
+Step 1: Electronic SCF converged in 46 iterations.
+Step 2: Ionic relaxation converged to 0.01 eV/Å.

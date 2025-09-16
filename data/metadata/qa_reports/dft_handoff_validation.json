@@ -1,0 +1,13 @@
+{
+  "total_packages": 1,
+  "input_valid": 1,
+  "output_valid": 1,
+  "reports": [
+    {
+      "request_id": "QAL-0001",
+      "input_valid": true,
+      "output_valid": true,
+      "issues": []
+    }
+  ]
+}

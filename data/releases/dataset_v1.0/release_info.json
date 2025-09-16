@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "release_date": "2025-09-16",
+  "datasets": [
+    "perovskites",
+    "high_entropy_alloys",
+    "doped_nanoparticles"
+  ],
+  "processed_features": [
+    "data/processed/perovskites_features.parquet",
+    "data/processed/hea_features.parquet",
+    "data/processed/saa_features.parquet"
+  ],
+  "metadata_files": [
+    "data/metadata/data_catalog.md",
+    "data/metadata/provenance_manifest.csv",
+    "data/metadata/hea_constraints.yaml"
+  ],
+  "qa_reports": [
+    "data/metadata/qa_reports/perovskites_summary.json",
+    "data/metadata/qa_reports/hea_summary.json",
+    "data/metadata/qa_reports/saa_summary.json",
+    "data/metadata/qa_reports/noise_simulations_summary.json",
+    "data/metadata/qa_reports/hea_constraints_validation.json",
+    "data/metadata/qa_reports/dft_handoff_validation.json"
+  ],
+  "notes": "Release package with validated datasets, metadata, QA reports, and DFT handoff samples."
+}

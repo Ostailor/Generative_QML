@@ -1,0 +1,17 @@
+{
+  "request_id": "QAL-0001",
+  "status": "completed",
+  "total_energy_eV": -512.345,
+  "formation_energy_eV": -0.112,
+  "properties": {
+    "yield_strength_mpa": 912.0,
+    "exp_density_g_cm3": 7.85,
+    "bulk_modulus_GPa": 145.2
+  },
+  "uncertainty": {
+    "yield_strength_mpa": 25.0,
+    "exp_density_g_cm3": 0.05,
+    "bulk_modulus_GPa": 4.0
+  },
+  "dft_settings_hash": "24e2ae724a7efdb868312bfc319cc4a4cae22f4c0ff2d06f50b224e7cbf0c81d"
+}

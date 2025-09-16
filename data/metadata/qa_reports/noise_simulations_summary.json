@@ -1,0 +1,35 @@
+[
+  {
+    "name": "perovskites_noise",
+    "description": "Gaussian perturbations on band gap and energy above hull",
+    "rows": 24000,
+    "perturbation_params": {
+      "sigma_band_gap": 0.05,
+      "sigma_energy": 0.01
+    }
+  },
+  {
+    "name": "hea_dropout",
+    "description": "Random dropout of mechanical properties to stress-test imputation",
+    "rows": 1545,
+    "perturbation_params": {
+      "dropout_rate": 0.3
+    }
+  },
+  {
+    "name": "saa_noise",
+    "description": "Gaussian perturbation on reaction energies for SAA dataset",
+    "rows": 5000,
+    "perturbation_params": {
+      "sigma_reaction_energy": 0.1
+    }
+  },
+  {
+    "name": "saa_bias",
+    "description": "Systematic positive bias on reaction energies to emulate calibration drift",
+    "rows": 5000,
+    "perturbation_params": {
+      "bias": 0.05
+    }
+  }
+]

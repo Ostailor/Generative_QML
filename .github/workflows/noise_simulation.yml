@@ -1,0 +1,40 @@
+name: Noise Simulation QA
+
+on:
+  push:
+    paths:
+      - 'scripts/simulate_noise.py'
+      - 'data/processed/**'
+      - '.github/workflows/noise_simulation.yml'
+      - 'requirements-noise.txt'
+  pull_request:
+    paths:
+      - 'scripts/simulate_noise.py'
+      - 'data/processed/**'
+      - '.github/workflows/noise_simulation.yml'
+      - 'requirements-noise.txt'
+
+jobs:
+  simulate_noise:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-noise.txt
+      - name: Run noise simulations
+        run: |
+          python scripts/preprocess_datasets.py --datasets perovskites hea saa
+          python scripts/simulate_noise.py
+      - name: Upload simulation artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: noise-scenarios
+          path: |
+            data/simulations/
+            data/metadata/qa_reports/noise_simulations_summary.json

@@ -1,0 +1,112 @@
+[
+  {
+    "path": "data/raw/perovskites/materials_project_perovskites.csv",
+    "sha256": "023b3e8ec97ceefd7718a9b2079035b5163ae81826b1544aefa0e7cdc8d5077c",
+    "size_bytes": 1563177
+  },
+  {
+    "path": "data/raw/high_entropy_alloys/High Entropy Alloy Properties.csv",
+    "sha256": "61778e75dbec036add14abb1e13ae3c54ca34ab62481f304d3ccaf266395a2b8",
+    "size_bytes": 117219
+  },
+  {
+    "path": "data/raw/doped_nanoparticles/catalysis_hub_single_atom_alloy.csv",
+    "sha256": "a5efd26420cf248aa6f5248cd7b1f4f2d52797105cfb95627b44b2e779a250cb",
+    "size_bytes": 1091778
+  },
+  {
+    "path": "data/processed/perovskites_features.parquet",
+    "sha256": "e388337f6c6a96225e66f27289dba39e24bf69efeef3cc44d6a3ab9c82a0110f",
+    "size_bytes": 1029632
+  },
+  {
+    "path": "data/processed/hea_features.parquet",
+    "sha256": "83dccc0174d48d488ff85d7508990b052cd8addbf23aef38e4ce12c7fc772a1d",
+    "size_bytes": 46923
+  },
+  {
+    "path": "data/processed/saa_features.parquet",
+    "sha256": "015fe23db3e848ac39276694a53a891acde02c7f5e91e025015bd6739f6538e8",
+    "size_bytes": 111253
+  },
+  {
+    "path": "data/metadata/data_catalog.md",
+    "sha256": "eaf4c50d05e336d0ce0a80cc82ac18f9d12a33bc0302e66be6e2bdedc0e5a76d",
+    "size_bytes": 2594
+  },
+  {
+    "path": "data/metadata/provenance_manifest.csv",
+    "sha256": "6d42c51325456f1eccaaab901531b2a2fcf3f07bca080b0fcb294ffb26f19b37",
+    "size_bytes": 877
+  },
+  {
+    "path": "data/metadata/qa_reports/perovskites_summary.json",
+    "sha256": "92b71473605cd53cbf3023d2649bbb6fc3452f039b8f40a1038fc6aa01295d20",
+    "size_bytes": 474
+  },
+  {
+    "path": "data/metadata/qa_reports/hea_summary.json",
+    "sha256": "23cec74e710d6d55929ede9bddbe1faa2c6131f57d0be846c7364179856e3333",
+    "size_bytes": 1178
+  },
+  {
+    "path": "data/metadata/qa_reports/saa_summary.json",
+    "sha256": "02186853f1bb9faf846c47a3adcfc04aad03cb59b12849dad0a5fe7696df4485",
+    "size_bytes": 648
+  },
+  {
+    "path": "data/metadata/qa_reports/noise_simulations_summary.json",
+    "sha256": "b5d31fbf4564882472413519f20180e9c369069ce838da1579d884a05a8ad488",
+    "size_bytes": 842
+  },
+  {
+    "path": "data/metadata/qa_reports/hea_constraints_validation.json",
+    "sha256": "29e8970842ce913eb4050c358e68f69028b9bb8ee7944eb8063bb5a11ab8ae53",
+    "size_bytes": 70
+  },
+  {
+    "path": "data/metadata/qa_reports/dft_handoff_validation.json",
+    "sha256": "b56fc4dc48cd00eea12a1493a5189db25375687756030a55b2783157d6e8abe4",
+    "size_bytes": 204
+  },
+  {
+    "path": "data/metadata/hea_constraints.yaml",
+    "sha256": "c1b916580e248763dacf09c0e376e50f355a24b5b7a719a88700039093e06eae",
+    "size_bytes": 1044
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/metadata.json",
+    "sha256": "59f5cf444d12905385e73c9845257be1cf5448db5b6ef78d56ce6ab9753f65f2",
+    "size_bytes": 333
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/structure.cif",
+    "sha256": "1a6ef520b5b1196a86a9cfa15ee1e9ff98168bbed88cdabc4f5cf38d9b9a1c11",
+    "size_bytes": 48
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/vasp_settings.json",
+    "sha256": "b2c0290ba100a4e568666817e847064822312084acd61cdcc137c0fde6a1ff7c",
+    "size_bytes": 212
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/pseudopotentials.csv",
+    "sha256": "7c27461383b6d177d3f1291420679e302728f881edfaf2974862bb8accfd8b1e",
+    "size_bytes": 84
+  },
+  {
+    "path": "data/dft_handoff/output/QAL-0001/results.json",
+    "sha256": "7c50ace4b3c9ffe38a3586b75f9cbcf641ae59943dc9aa3abcdc9c618509886f",
+    "size_bytes": 442
+  },
+  {
+    "path": "data/dft_handoff/output/QAL-0001/structure_relaxed.cif",
+    "sha256": "6ef3010c324f92eaa4efbe8e43a4c37461e54dde7e1e21edda42d41713eeae44",
+    "size_bytes": 26
+  },
+  {
+    "path": "data/dft_handoff/output/QAL-0001/log.txt",
+    "sha256": "7fd3dafa81fce14183c342b319db92c0bcad1247a2e91ff0765ba8069186f125",
+    "size_bytes": 101
+  }
+]

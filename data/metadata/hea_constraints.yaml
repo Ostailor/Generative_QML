@@ -1,0 +1,69 @@
+composition_rules:
+  allowed_elements:
+  - Ag
+  - Al
+  - B
+  - C
+  - Ca
+  - Co
+  - Cr
+  - Cu
+  - Fe
+  - Ga
+  - Hf
+  - Li
+  - Mg
+  - Mn
+  - Mo
+  - Nb
+  - Nd
+  - Ni
+  - Pd
+  - Re
+  - Sc
+  - Si
+  - Sn
+  - Ta
+  - Ti
+  - V
+  - W
+  - Y
+  - Zn
+  - Zr
+  min_unique_elements: 3
+  max_unique_elements: 9
+  min_atomic_fraction: 0.08
+  max_atomic_fraction: 0.35
+phase_rules:
+  acceptable_labels:
+  - BCC
+  - FCC
+  - other
+  preferred_primary_labels:
+  - FCC
+  - BCC
+  allow_mixed_phase: true
+property_bounds:
+  calc_density_g_cm3:
+    min: 1.0
+    max: 14.0
+  vickers_hardness:
+    min: 80.0
+    max: 1200.0
+  yield_strength_mpa:
+    min: 20.0
+    max: 3500.0
+  elongation_pct:
+    min: 0.0
+    max: 110.0
+quality_checks:
+  allow_missing_fields:
+  - elongation_plastic_pct
+  - oxygen_wppm
+  - nitrogen_wppm
+  - carbon_wppm
+  require_density_pair: true
+metadata:
+  source: Derived from HEA dataset (NIMS + literature, see data_catalog.md)
+  usage: Apply to generative outputs and preprocessing QA to ensure chemical validity
+    and mechanical feasibility.
