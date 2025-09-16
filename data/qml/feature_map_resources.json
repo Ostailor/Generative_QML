@@ -1,0 +1,26 @@
+{
+  "composition_encoding": {
+    "qubits": 6,
+    "layers_range": [
+      1,
+      5
+    ],
+    "notes": "Data re-uploading ansatz with ZZ entanglers; moderate depth on IonQ."
+  },
+  "local_environment": {
+    "qubits": 8,
+    "layers_range": [
+      2,
+      4
+    ],
+    "notes": "Hardware-efficient CZ ladder capturing coordination features."
+  },
+  "phase_aware": {
+    "qubits": 4,
+    "layers_range": [
+      1,
+      1
+    ],
+    "notes": "Phase-controlled rotations with classical RBF hybridization."
+  }
+}

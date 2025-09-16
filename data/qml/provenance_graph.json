@@ -1,0 +1,27 @@
+{
+  "dataset_version": "1.0.0",
+  "runs": [
+    {
+      "task": "T2.2",
+      "run_id": "aee97d58ddc0416fb13bdc6628571635",
+      "artefacts": [
+        "data/qml/qsvr_metrics.json",
+        "data/qml/qsvr_predictions.csv"
+      ]
+    },
+    {
+      "task": "T2.3",
+      "run_id": "b0c579003f7b4fd3a163be299fa82f8b",
+      "artefacts": [
+        "data/qml/qgpr_metrics.json"
+      ]
+    },
+    {
+      "task": "T2.4",
+      "run_id": "b15d4a0bf60842b583f7d1d4a5ebb0c9",
+      "artefacts": [
+        "data/qml/classical_al_metrics.json"
+      ]
+    }
+  ]
+}

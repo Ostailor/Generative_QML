@@ -1,0 +1,11 @@
+{
+  "rmse_classical": 1.3026588597016495,
+  "mae_classical": 0.9173979520226131,
+  "rmse_quantum": 1.302637478510085,
+  "mae_quantum": 0.9174068093159129,
+  "relative_gap": -1.6413500284703462e-05,
+  "features": [
+    "formation_energy_per_atom_eV",
+    "energy_above_hull_eV"
+  ]
+}

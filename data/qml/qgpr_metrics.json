@@ -1,0 +1,6 @@
+{
+  "rmse_classical": 1.35934650839029,
+  "rmse_quantum": 1.8652089143040986,
+  "coverage_quantum": 0.936,
+  "coverage_gap": -0.013999999999999901
+}
