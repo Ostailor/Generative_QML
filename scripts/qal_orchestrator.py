@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -13,6 +14,7 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 CANDIDATE_PATH = BASE_DIR / "data" / "qml" / "qgan_conditioned_candidates.csv"
 ACQ_METRICS_PATH = BASE_DIR / "data" / "architecture" / "acquisition_metrics.json"
 RUN_SUMMARY_PATH = BASE_DIR / "data" / "architecture" / "qal_run_summary.json"
+MONITORING_LOG = BASE_DIR / "data" / "architecture" / "qal_monitoring_log.jsonl"
 
 
 def orchestrate(random_state: int = 42, top_k: int = 10) -> dict:
@@ -39,6 +41,12 @@ def orchestrate(random_state: int = 42, top_k: int = 10) -> dict:
     }
 
     RUN_SUMMARY_PATH.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+
+    entry = summary.copy()
+    entry["timestamp_utc"] = datetime.utcnow().isoformat() + "Z"
+    MONITORING_LOG.parent.mkdir(parents=True, exist_ok=True)
+    with MONITORING_LOG.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(entry) + "\n")
     return summary
 
 
