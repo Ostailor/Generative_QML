@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/omtailor/Quanutum_MS_Pipeline/mlruns/931108252681248621/378c96ba22b74a989bcce70c5e59c16b/artifacts
+end_time: 1758049650084
+entry_point_name: ''
+experiment_id: '931108252681248621'
+lifecycle_stage: active
+run_id: 378c96ba22b74a989bcce70c5e59c16b
+run_name: ambitious-ape-647
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1758049650070
+status: 3
+tags: []
+user_id: omtailor

@@ -1,0 +1,13 @@
+{
+  "request_id": "QAL-0001",
+  "status": "completed",
+  "timestamp_utc": "2025-09-16T19:02:59.928443Z",
+  "total_energy_eV": -0.10324303658842654,
+  "formation_energy_eV": -0.010324303658842654,
+  "properties": {
+    "yield_strength_mpa": 940.7885442949595,
+    "exp_density_g_cm3": 7.893965537044379
+  },
+  "run_type": "real",
+  "notes": "Captured as part of T5.3 validation."
+}

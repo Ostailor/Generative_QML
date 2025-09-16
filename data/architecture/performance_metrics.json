@@ -1,0 +1,6 @@
+{
+  "rmse_simulator": 1.48,
+  "rmse_dft": 1.32,
+  "label_efficiency_gain": 0.32,
+  "p_value": 0.031
+}

@@ -1,0 +1,4 @@
+{"run_id": "qal-orchestrator-42", "total_candidates": 120, "selected": 10, "dft_completed": 9, "acquisition_strategy": "expected_improvement", "expected_improvement_gain": 0.2488738037207228, "timestamp_utc": "2025-09-16T18:57:22.295245Z"}
+{"run_id": "qal-orchestrator-42", "total_candidates": 120, "selected": 10, "dft_completed": 9, "acquisition_strategy": "expected_improvement", "expected_improvement_gain": 0.2488738037207228, "timestamp_utc": "2025-09-16T19:02:59.924944Z"}
+{"run_id": "qal-orchestrator-43", "total_candidates": 120, "selected": 10, "dft_completed": 6, "acquisition_strategy": "expected_improvement", "expected_improvement_gain": 0.2488738037207228, "timestamp_utc": "2025-09-16T19:02:59.926895Z"}
+{"run_id": "qal-orchestrator-44", "total_candidates": 120, "selected": 10, "dft_completed": 5, "acquisition_strategy": "expected_improvement", "expected_improvement_gain": 0.2488738037207228, "timestamp_utc": "2025-09-16T19:02:59.928343Z"}

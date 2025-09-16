@@ -1,0 +1,66 @@
+{
+  "run_id": "qal-closed-loop-42",
+  "timestamp_utc": "2025-09-16T19:02:59.928570Z",
+  "iterations_completed": 3,
+  "orchestrator_runs": [
+    {
+      "run_id": "qal-orchestrator-42",
+      "total_candidates": 120,
+      "selected": 10,
+      "dft_completed": 9,
+      "acquisition_strategy": "expected_improvement",
+      "expected_improvement_gain": 0.2488738037207228
+    },
+    {
+      "run_id": "qal-orchestrator-43",
+      "total_candidates": 120,
+      "selected": 10,
+      "dft_completed": 6,
+      "acquisition_strategy": "expected_improvement",
+      "expected_improvement_gain": 0.2488738037207228
+    },
+    {
+      "run_id": "qal-orchestrator-44",
+      "total_candidates": 120,
+      "selected": 10,
+      "dft_completed": 5,
+      "acquisition_strategy": "expected_improvement",
+      "expected_improvement_gain": 0.2488738037207228
+    }
+  ],
+  "dft_results": [
+    {
+      "request_id": "QAL-0001",
+      "status": "completed",
+      "timestamp_utc": "2025-09-16T19:02:59.925352Z",
+      "total_energy_eV": -0.1022564460787913,
+      "formation_energy_eV": -0.01022564460787913,
+      "properties": {
+        "yield_strength_mpa": 935.778129688962,
+        "exp_density_g_cm3": 7.682494084048774
+      }
+    },
+    {
+      "request_id": "QAL-0001",
+      "status": "completed",
+      "timestamp_utc": "2025-09-16T19:02:59.926992Z",
+      "total_energy_eV": -0.09836825071215484,
+      "formation_energy_eV": -0.009836825071215484,
+      "properties": {
+        "yield_strength_mpa": 1014.2611032162281,
+        "exp_density_g_cm3": 7.6806025140694025
+      }
+    },
+    {
+      "request_id": "QAL-0001",
+      "status": "completed",
+      "timestamp_utc": "2025-09-16T19:02:59.928443Z",
+      "total_energy_eV": -0.10324303658842654,
+      "formation_energy_eV": -0.010324303658842654,
+      "properties": {
+        "yield_strength_mpa": 940.7885442949595,
+        "exp_density_g_cm3": 7.893965537044379
+      }
+    }
+  ]
+}

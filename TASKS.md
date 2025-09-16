@@ -75,6 +75,8 @@ Map the end-to-end work program required to deliver a conference-ready manuscrip
 | T5.4 | BRA | Analyze DFT-informed loop performance vs simulator-only outcomes. | T5.2 logs, T4.4 metrics | Comparative analysis report, statistical tests. | Significant gains (p<0.05) in predictive accuracy or label-efficiency documented. | T5.2 |
 | T5.5 | RKMA | Archive DFT workflows, datasets, and integration logs with reproducibility metadata. | T5.1-5.4 artefacts | Workflow package, provenance update. | Package regenerates end-to-end loop via scripted runbook. | T5.4 |
 
+------------ Produce "official HEA outputs here" ------------------------------
+
 ## M6 — Hardware Execution & Cost Management
 | Task ID | Owner (Agent) | Description & Key Activities | Required Inputs | Deliverables | Acceptance Criteria | Dependencies |
 | --- | --- | --- | --- | --- | --- | --- |

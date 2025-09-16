@@ -1,0 +1,47 @@
+[
+  {
+    "path": "scripts/dft/run_dft_workflow.py",
+    "sha256": "ca7cfd5c535f7b976b0ac6d840373ea787cfe43de836d4c3051e3e27b593b469",
+    "size_bytes": 1805
+  },
+  {
+    "path": "docs/interfaces/dft_workflow_plan.md",
+    "sha256": "e2f499c1dcadf023f16cccc0a07f4cedaf99953166415843200ac8330413b79d",
+    "size_bytes": 565
+  },
+  {
+    "path": "data/dft_workflow/QAL-0001/results.json",
+    "sha256": "34afbd24b69544b9c077b5f9c2dec7c507a4f2cc3cea20c44c33c03929a16402",
+    "size_bytes": 380
+  },
+  {
+    "path": "data/dft_workflow/QAL-0001/log.txt",
+    "sha256": "4f0d0cc16c6fa7733c95f7475c02107e9d0776939dc5eac033825e5e27fb5969",
+    "size_bytes": 24
+  },
+  {
+    "path": "data/dft_workflow/workflow_report.json",
+    "sha256": "e3e0776784464d58fc78338be4bc8bcabc677a7f02b172fbb273b60af5bfb5a2",
+    "size_bytes": 345
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/metadata.json",
+    "sha256": "59f5cf444d12905385e73c9845257be1cf5448db5b6ef78d56ce6ab9753f65f2",
+    "size_bytes": 333
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/structure.cif",
+    "sha256": "1a6ef520b5b1196a86a9cfa15ee1e9ff98168bbed88cdabc4f5cf38d9b9a1c11",
+    "size_bytes": 48
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/vasp_settings.json",
+    "sha256": "b2c0290ba100a4e568666817e847064822312084acd61cdcc137c0fde6a1ff7c",
+    "size_bytes": 212
+  },
+  {
+    "path": "data/dft_handoff/input/QAL-0001/pseudopotentials.csv",
+    "sha256": "7c27461383b6d177d3f1291420679e302728f881edfaf2974862bb8accfd8b1e",
+    "size_bytes": 84
+  }
+]
