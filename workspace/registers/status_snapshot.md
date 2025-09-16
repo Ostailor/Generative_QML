@@ -1,7 +1,7 @@
 # Weekly Status Snapshot
 
 - **Week Ending**: 2025-09-16
-- **Report Generated**: 2025-09-16T16:43:52.238864Z
+- **Report Generated**: 2025-09-16T17:15:33.447142Z
 - **Data Source**: MLflow + workspace registers
 
 ## Acceptance Coverage
@@ -21,8 +21,11 @@
 | M2 | T2.3 | pass | -0.01400 | b0c579003f7b4fd3a163be299fa82f8b |  |
 | M2 | T2.4 | pass | 1.00000 | b15d4a0bf60842b583f7d1d4a5ebb0c9 |  |
 | M2 | T2.5 | pass | 1.00000 | 296af7c422d14a15b3eef62b99e77e65 |  |
-| M3 | T3.2 | missing | n/a | n/a | No MLflow run found for tag |
-| M3 | T3.4 | missing | n/a | n/a | No MLflow run found for tag |
+| M3 | T3.1 | pass | 3.00000 | a7fb941b5d1e462790587fb6560bca70 |  |
+| M3 | T3.2 | pass | 0.88333 | 403b23131c4b4ac59359160a55f82a69 |  |
+| M3 | T3.3 | pass | 1.00000 | d5cfcc2bbfd545128d2f9f152f3bf87a |  |
+| M3 | T3.4 | pass | 0.22640 | e1ae86aa2c3b4b3298caf71575639dac |  |
+| M3 | T3.5 | pass | 1.00000 | 7b1278f3aae649d19b7b95c7852a52e4 |  |
 | M4 | T4.4 | missing | n/a | n/a | No MLflow run found for tag |
 | M5 | T5.2 | missing | n/a | n/a | No MLflow run found for tag |
 | M5 | T5.4 | missing | n/a | n/a | No MLflow run found for tag |

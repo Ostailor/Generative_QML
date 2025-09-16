@@ -1,0 +1,7 @@
+{
+  "samples": 120,
+  "compliance_rate": 1.0,
+  "compliance_valid_only": 1.0,
+  "tolerance": 0.15,
+  "alpha": 0.5
+}

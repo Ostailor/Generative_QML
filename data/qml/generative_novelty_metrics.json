@@ -1,0 +1,8 @@
+{
+  "quantum_novelty": 0.40785254615557504,
+  "classical_novelty": 0.18145247086398514,
+  "quantum_feasibility": 0.8833333333333333,
+  "classical_feasibility": 0.7666666666666667,
+  "novelty_gap": 0.2264000752915899,
+  "feasibility_gap": 0.11666666666666659
+}

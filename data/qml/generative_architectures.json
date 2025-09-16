@@ -1,0 +1,20 @@
+[
+  {
+    "architecture": "QVAE",
+    "variants": 2,
+    "expressivity_score": 0.72,
+    "resource_notes": "Requires 6 qubits, depth ~30 per layer"
+  },
+  {
+    "architecture": "QGAN",
+    "variants": 3,
+    "expressivity_score": 0.81,
+    "resource_notes": "Requires 8 qubits, depth ~40, training stability moderate"
+  },
+  {
+    "architecture": "Data re-uploading VQC",
+    "variants": 2,
+    "expressivity_score": 0.75,
+    "resource_notes": "Requires 6 qubits, depth ~25, good integration with feature maps"
+  }
+]
