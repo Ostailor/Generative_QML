@@ -1,0 +1,8 @@
+{
+  "run_id": "qal-orchestrator-42",
+  "total_candidates": 120,
+  "selected": 10,
+  "dft_completed": 9,
+  "acquisition_strategy": "expected_improvement",
+  "expected_improvement_gain": 0.2488738037207228
+}

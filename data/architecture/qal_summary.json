@@ -1,0 +1,5 @@
+{
+  "architecture_doc": "docs/architecture/qal_system_architecture.md",
+  "sequence_diagram": "docs/architecture/qal_sequence_diagram.md",
+  "api_contracts": "docs/architecture/qal_api_contracts.json"
+}

@@ -1,0 +1,22 @@
+{
+  "generator": {
+    "function": "generate_candidates",
+    "inputs": ["num_samples", "target_properties"],
+    "outputs": "DataFrame[candidate_id, composition, predicted_density, valid]"
+  },
+  "evaluator": {
+    "function": "evaluate_candidates",
+    "inputs": ["candidates"],
+    "outputs": "DataFrame[candidate_id, feasibility, novelty, score]"
+  },
+  "dft_handoff": {
+    "submit": "submit_dft_request(package_path)",
+    "fetch": "fetch_dft_results(request_id)",
+    "reference": "docs/interfaces/dft_handoff.md"
+  },
+  "model_update": {
+    "function": "update_models",
+    "inputs": ["labeled_data", "feature_maps"],
+    "outputs": "Updated QSVR/QGPR models"
+  }
+}
