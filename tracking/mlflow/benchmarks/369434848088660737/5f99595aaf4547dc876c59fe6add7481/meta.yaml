@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/omtailor/Quanutum_MS_Pipeline/tracking/mlflow/benchmarks/369434848088660737/5f99595aaf4547dc876c59fe6add7481/artifacts
+end_time: 1759355360852
+entry_point_name: ''
+experiment_id: '369434848088660737'
+lifecycle_stage: active
+run_id: 5f99595aaf4547dc876c59fe6add7481
+run_name: qe-benchmark-BENCH-RELAX-0001
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759355360383
+status: 4
+tags: []
+user_id: omtailor

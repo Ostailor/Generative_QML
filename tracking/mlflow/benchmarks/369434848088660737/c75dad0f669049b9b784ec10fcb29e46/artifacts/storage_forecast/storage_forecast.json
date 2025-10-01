@@ -1,0 +1,12 @@
+{
+  "request_id": "QAL-0001",
+  "runs_planned": 12,
+  "safety_factor": 1.5,
+  "per_run_bytes": 17825908.0,
+  "per_run_gib": 0.016601670533418655,
+  "total_bytes": 320866344.0,
+  "total_gib": 0.2988300696015358,
+  "per_run_wall_time_s": 13.96,
+  "per_run_cpu_time_s": 12.66,
+  "estimated_wall_time_hours": 0.06980000000000001
+}

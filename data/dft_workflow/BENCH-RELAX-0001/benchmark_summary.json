@@ -1,0 +1,51 @@
+{
+  "request_id": "BENCH-RELAX-0001",
+  "status": "completed",
+  "timestamp_utc": "2025-10-01T22:00:52.236463Z",
+  "total_energy_eV": -4670.127544153861,
+  "formation_energy_eV": -1167.5318860384652,
+  "properties": {
+    "exp_density_g_cm3": 7.631922550068916
+  },
+  "metadata": {
+    "request_id": "BENCH-RELAX-0001",
+    "source_dataset": "hea_features",
+    "timestamp_utc": "2025-10-01T00:00:00Z",
+    "composition": "Al0.25Co1Fe1Ni1",
+    "calculation": "vc-relax",
+    "verbosity": "high",
+    "kpoint_grid": [
+      6,
+      6,
+      6
+    ],
+    "encut": 600,
+    "smearing": {
+      "scheme": "gaussian",
+      "sigma": 0.15
+    },
+    "ions": {
+      "ion_dynamics": "bfgs",
+      "pot_extrapolation": "second_order",
+      "wfc_extrapolation": "second_order"
+    },
+    "cell": {
+      "cell_dynamics": "bfgs"
+    },
+    "electrons": {
+      "mixing_beta": 0.25,
+      "conv_thr": 1e-08,
+      "electron_maxstep": 500
+    },
+    "notes": "Benchmark profile for full variable-cell relaxation used in downstream HEA validation."
+  },
+  "disk_bytes": 18017140.0,
+  "disk_gib": 0.016779769212007523,
+  "wall_time_s": 641.8775562500014,
+  "cpu_time_s": 628.0354910000001,
+  "cpu_user_s": 596.657311,
+  "cpu_sys_s": 31.37818,
+  "rss_bytes": 29622272.0,
+  "max_rss_bytes": 284491776.0,
+  "job_label": "vc_relax"
+}

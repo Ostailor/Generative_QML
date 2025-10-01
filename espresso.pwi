@@ -1,0 +1,53 @@
+&CONTROL
+   calculation      = 'vc-relax'
+   verbosity        = 'high'
+   tstress          = .true.
+   tprnfor          = .true.
+   outdir           = '/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/BENCH-RELAX-0001/qe_tmp'
+   prefix           = 'bench-relax-0001'
+   pseudo_dir       = '/Users/omtailor/qe/pseudos/SSSP_PBE'
+/
+&SYSTEM
+   ecutwfc          = 44.09917056
+   ecutrho          = 352.79336448
+   occupations      = 'smearing'
+   degauss          = 0.01102479264
+   smearing         = 'gaussian'
+   input_dft        = 'PBE'
+   ntyp             = 4
+   nat              = 4
+   ibrav            = 0
+/
+&ELECTRONS
+   electron_maxstep = 500
+   conv_thr         = 1e-08
+   mixing_beta      = 0.25
+/
+&IONS
+/
+&CELL
+/
+&FCP
+/
+&RISM
+/
+ATOMIC_SPECIES
+Al 26.9815385 Al.pbe-n-kjpaw_psl.1.0.0.UPF
+Co 58.933194 Pm.paw.z_15.atompaw.wentzcovitch.v1.2.upf
+Fe 55.845 Fe.pbe-spn-kjpaw_psl.0.2.1.UPF
+Ni 58.6934 ni_pbe_v1.4.uspp.F.UPF
+
+K_POINTS automatic
+6 6 6  0 0 0
+
+CELL_PARAMETERS angstrom
+4.97803173955329 0.00000000000000 0.00000000000000
+2.48901586977665 4.31110194729839 0.00000000000000
+1.24450793488832 0.71851699121640 2.03227294754748
+
+ATOMIC_POSITIONS angstrom
+Al 0.0000000000 0.0000000000 0.0000000000  
+Co 1.2445079349 2.1555509736 0.0000000000  
+Fe 2.4890158698 0.0000000000 0.0000000000  
+Ni 3.7335238047 2.1555509736 0.0000000000  
+

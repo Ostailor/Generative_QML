@@ -1,0 +1,30 @@
+{
+  "request_id": "QAL-0001",
+  "status": "completed",
+  "timestamp_utc": "2025-10-01T21:31:40.617987Z",
+  "total_energy_eV": -4667.326313956945,
+  "formation_energy_eV": -1166.8315784892363,
+  "properties": {
+    "exp_density_g_cm3": 7.631922550068916
+  },
+  "metadata": {
+    "request_id": "QAL-0001",
+    "source_dataset": "hea_features",
+    "timestamp_utc": "2025-09-16T22:20:00Z",
+    "composition": "Al0.25Co1Fe1Ni1",
+    "constraints_version": "hea_constraints_v1",
+    "target_properties": [
+      "yield_strength_mpa",
+      "exp_density_g_cm3"
+    ],
+    "notes": "Initial HEA candidate generated from QAL loop iteration 1"
+  },
+  "disk_bytes": 17825908.0,
+  "disk_gib": 0.016601670533418655,
+  "wall_time_s": 13.25686320800014,
+  "cpu_time_s": 12.987689999999997,
+  "cpu_user_s": 12.328288999999998,
+  "cpu_sys_s": 0.6594009999999999,
+  "rss_bytes": 162283520.0,
+  "max_rss_bytes": 195985408.0
+}

@@ -33,3 +33,8 @@ M7,T7.2,"Stability thresholds identified","bra.sensitivity_index","task:T7.2","e
 M7,T7.4,"Quantum vs classical benchmark comparison","bra.quantum_vs_classical_gap","task:T7.4","experiment_summary","bra.quantum_vs_classical_gap >= 0","per-analysis"
 M8,T8.2,"Pipeline reproduces results in fresh environment","rkma.reproduction_success","task:T8.2","experiment_summary","rkma.reproduction_success == True","per-release"
 M9,T9.4,"All blocking comments resolved","rkma.review_blockers","task:T9.4","decision_log","rkma.review_blockers == 0","per-review"
+M5-real,T5R.1,"QE production stack + HPC readiness bundle completed","mdia.qe_benchmark_ready","task:T5R.1","lab_notebook_entry","mdia.qe_benchmark_ready == True","per-release"
+M5-real,T5R.2,"Real DFT loop executes autonomously","aloa.real_dft_iterations","task:T5R.2","lab_notebook_entry","aloa.real_dft_iterations >= 3","per-run"
+M5-real,T5R.3,"Production DFT outputs validated vs references","bra.dft_validation_gap","task:T5R.3","lab_notebook_entry","bra.dft_validation_gap <= 0.05","per-analysis"
+M5-real,T5R.4,"Closed loop with real DFT delivers candidates","aloa.real_label_efficiency_gain","task:T5R.4","experiment_summary","aloa.real_label_efficiency_gain >= 0.30","per-loop"
+M5-real,T5R.5,"Real DFT release package finalized","rkma.real_dft_release_docs","task:T5R.5","lab_notebook_entry","rkma.real_dft_release_docs >= 1","per-release"

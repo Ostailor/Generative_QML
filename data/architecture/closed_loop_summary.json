@@ -1,29 +1,29 @@
 {
-  "run_id": "qal-closed-loop-42",
-  "timestamp_utc": "2025-09-16T19:02:59.928570Z",
+  "run_id": "qal-closed-loop-101",
+  "timestamp_utc": "2025-09-16T21:23:01.142805Z",
   "iterations_completed": 3,
   "orchestrator_runs": [
     {
-      "run_id": "qal-orchestrator-42",
-      "total_candidates": 120,
-      "selected": 10,
-      "dft_completed": 9,
+      "run_id": "qal-orchestrator-101",
+      "total_candidates": 150,
+      "selected": 12,
+      "dft_completed": 8,
       "acquisition_strategy": "expected_improvement",
       "expected_improvement_gain": 0.2488738037207228
     },
     {
-      "run_id": "qal-orchestrator-43",
-      "total_candidates": 120,
-      "selected": 10,
-      "dft_completed": 6,
+      "run_id": "qal-orchestrator-102",
+      "total_candidates": 150,
+      "selected": 12,
+      "dft_completed": 7,
       "acquisition_strategy": "expected_improvement",
       "expected_improvement_gain": 0.2488738037207228
     },
     {
-      "run_id": "qal-orchestrator-44",
-      "total_candidates": 120,
-      "selected": 10,
-      "dft_completed": 5,
+      "run_id": "qal-orchestrator-103",
+      "total_candidates": 150,
+      "selected": 12,
+      "dft_completed": 10,
       "acquisition_strategy": "expected_improvement",
       "expected_improvement_gain": 0.2488738037207228
     }
@@ -32,34 +32,67 @@
     {
       "request_id": "QAL-0001",
       "status": "completed",
-      "timestamp_utc": "2025-09-16T19:02:59.925352Z",
-      "total_energy_eV": -0.1022564460787913,
-      "formation_energy_eV": -0.01022564460787913,
+      "timestamp_utc": "2025-09-16T21:22:25.678380Z",
+      "total_energy_eV": -4667.326313956945,
+      "formation_energy_eV": -1166.8315784892363,
       "properties": {
-        "yield_strength_mpa": 935.778129688962,
-        "exp_density_g_cm3": 7.682494084048774
+        "exp_density_g_cm3": 7.631922550068916
+      },
+      "metadata": {
+        "request_id": "QAL-0001",
+        "source_dataset": "hea_features",
+        "timestamp_utc": "2025-09-16T22:20:00Z",
+        "composition": "Al0.25Co1Fe1Ni1",
+        "constraints_version": "hea_constraints_v1",
+        "target_properties": [
+          "yield_strength_mpa",
+          "exp_density_g_cm3"
+        ],
+        "notes": "Initial HEA candidate generated from QAL loop iteration 1"
       }
     },
     {
       "request_id": "QAL-0001",
       "status": "completed",
-      "timestamp_utc": "2025-09-16T19:02:59.926992Z",
-      "total_energy_eV": -0.09836825071215484,
-      "formation_energy_eV": -0.009836825071215484,
+      "timestamp_utc": "2025-09-16T21:22:47.069171Z",
+      "total_energy_eV": -4667.326217764704,
+      "formation_energy_eV": -1166.831554441176,
       "properties": {
-        "yield_strength_mpa": 1014.2611032162281,
-        "exp_density_g_cm3": 7.6806025140694025
+        "exp_density_g_cm3": 7.631922550068916
+      },
+      "metadata": {
+        "request_id": "QAL-0001",
+        "source_dataset": "hea_features",
+        "timestamp_utc": "2025-09-16T22:20:00Z",
+        "composition": "Al0.25Co1Fe1Ni1",
+        "constraints_version": "hea_constraints_v1",
+        "target_properties": [
+          "yield_strength_mpa",
+          "exp_density_g_cm3"
+        ],
+        "notes": "Initial HEA candidate generated from QAL loop iteration 1"
       }
     },
     {
       "request_id": "QAL-0001",
       "status": "completed",
-      "timestamp_utc": "2025-09-16T19:02:59.928443Z",
-      "total_energy_eV": -0.10324303658842654,
-      "formation_energy_eV": -0.010324303658842654,
+      "timestamp_utc": "2025-09-16T21:23:01.142304Z",
+      "total_energy_eV": -4667.326313956945,
+      "formation_energy_eV": -1166.8315784892363,
       "properties": {
-        "yield_strength_mpa": 940.7885442949595,
-        "exp_density_g_cm3": 7.893965537044379
+        "exp_density_g_cm3": 7.631922550068916
+      },
+      "metadata": {
+        "request_id": "QAL-0001",
+        "source_dataset": "hea_features",
+        "timestamp_utc": "2025-09-16T22:20:00Z",
+        "composition": "Al0.25Co1Fe1Ni1",
+        "constraints_version": "hea_constraints_v1",
+        "target_properties": [
+          "yield_strength_mpa",
+          "exp_density_g_cm3"
+        ],
+        "notes": "Initial HEA candidate generated from QAL loop iteration 1"
       }
     }
   ]

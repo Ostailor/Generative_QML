@@ -77,6 +77,15 @@ Map the end-to-end work program required to deliver a conference-ready manuscrip
 
 ------------ Produce "official HEA outputs here" ------------------------------
 
+## M5-real — Production DFT Execution (Non-Mock)
+| Task ID | Owner (Agent) | Description & Key Activities | Required Inputs | Deliverables | Acceptance Criteria | Dependencies |
+| --- | --- | --- | --- | --- | --- | --- |
+| T5R.1 | MDIA | Commission production DFT stack (Quantum ESPRESSO/VASP) with containerization, pseudopotential management, and convergence defaults; produce HPC readiness bundle (benchmark case, scheduler template, storage forecast). | T5.1 workflow scripts, T1.5 interface spec | Environment spec, validated input templates, smoke-test log, QE benchmark report, scheduler script, storage/cost model. | Benchmark HEA structure converges within abs(delta_E) < 1e-4 eV/atom, wall-clock/CPU/memory logged to MLflow (`mdia.qe_benchmark_ready = True`), HPC job template validated, storage forecast recorded. | T5.1 |
+| T5R.2 | MDIA & ALOA | Replace mock engine in `scripts/dft/run_dft_workflow.py` with production solver, adding asynchronous queue management, failure recovery, and latency monitoring hooks for the QAL loop. | T5R.1 environment, T5.2 integration tests | Updated workflow scripts, monitoring dashboard, queue policy doc. | Closed-loop integration test completes >=3 real DFT jobs automatically with latency and failure stats logged (`aloa.real_dft_iterations`, `mdia.dft_jobs_completed`). | T5R.1, T5.2 |
+| T5R.3 | BRA & MDIA | Validate physical fidelity of production DFT outputs versus literature references; quantify uncertainty propagation for downstream models. | T5R.2 outputs, T1.4 constraints | Validation report, uncertainty budget, MLflow metrics. | Benchmark property deviation <=5% and uncertainty bounds stored for each candidate (`bra.dft_validation_gap <= 0.05`). | T5R.2 |
+| T5R.4 | ALOA, QKAA & QGMA | Re-run active-learning + generative loop with real DFT backend to produce publication-grade datasets and metrics. | T5R.2 pipeline, T5.3 generative updates | Closed-loop campaign log, candidate library, label-efficiency analysis. | >=10 chemically valid candidates confirmed by real DFT; label-efficiency >=30% verified with real data (`aloa.real_label_efficiency_gain`). | T5R.3 |
+| T5R.5 | RKMA | Refresh release packages, provenance records, and reproducibility scripts incorporating production DFT artefacts. | T5R.4 artefacts, T5.5 package | Updated release bundle, provenance graph update, reproduction runbook. | Reproduction script replays real DFT campaign using cached outputs; provenance audit passes (`rkma.real_dft_release_docs >= 1`). | T5R.4 |
+
 ## M6 — Hardware Execution & Cost Management
 | Task ID | Owner (Agent) | Description & Key Activities | Required Inputs | Deliverables | Acceptance Criteria | Dependencies |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -124,4 +133,3 @@ The project is considered complete when:
 1. All milestone exit criteria are met and recorded in PDA decision logs.
 2. Reproducibility attestations (T8.1-T8.4) and compliance checks are passed.
 3. Manuscript submission (T9.6) is confirmed with all supplementary artefacts archived for post-review rebuttal or journal extension.
-

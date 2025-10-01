@@ -1,0 +1,24 @@
+{
+  "request_id": "BENCH-ELASTIC-0001",
+  "source_dataset": "hea_features",
+  "timestamp_utc": "2025-10-01T00:00:00Z",
+  "composition": "Al0.25Co1Fe1Ni1",
+  "calculation": "scf",
+  "verbosity": "medium",
+  "kpoint_grid": [8, 8, 8],
+  "encut": 650,
+  "smearing": {
+    "scheme": "mv",
+    "sigma": 0.12
+  },
+  "electrons": {
+    "mixing_beta": 0.3,
+    "conv_thr": 1e-9,
+    "electron_maxstep": 400
+  },
+  "stress_analysis": {
+    "strain_amplitude": 0.003,
+    "strain_directions": 6
+  },
+  "notes": "Benchmark profile for post-relaxation elastic response evaluation (finite-strain workflow)."
+}

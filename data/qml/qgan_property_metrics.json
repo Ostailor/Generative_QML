@@ -1,5 +1,5 @@
 {
-  "samples": 120,
+  "samples": 150,
   "compliance_rate": 1.0,
   "compliance_valid_only": 1.0,
   "tolerance": 0.15,
