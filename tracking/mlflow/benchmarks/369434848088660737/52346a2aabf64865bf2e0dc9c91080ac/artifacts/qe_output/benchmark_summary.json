@@ -1,0 +1,433 @@
+{
+  "request_id": "BENCH-ELASTIC-0001",
+  "status": "completed",
+  "timestamp_utc": "2025-10-01T23:15:29.939574Z",
+  "total_energy_eV": -4667.382769142937,
+  "formation_energy_eV": -1166.8456922857342,
+  "properties": {
+    "exp_density_g_cm3": 7.631922550068916
+  },
+  "metadata": {
+    "request_id": "BENCH-ELASTIC-0001",
+    "source_dataset": "hea_features",
+    "timestamp_utc": "2025-10-01T00:00:00Z",
+    "composition": "Al0.25Co1Fe1Ni1",
+    "calculation": "scf",
+    "verbosity": "medium",
+    "kpoint_grid": [
+      8,
+      8,
+      8
+    ],
+    "encut": 650,
+    "smearing": {
+      "scheme": "mv",
+      "sigma": 0.12
+    },
+    "electrons": {
+      "mixing_beta": 0.3,
+      "conv_thr": 1e-09,
+      "electron_maxstep": 400
+    },
+    "stress_analysis": {
+      "strain_amplitude": 0.003,
+      "strain_directions": 6
+    },
+    "notes": "Benchmark profile for post-relaxation elastic response evaluation (finite-strain workflow)."
+  },
+  "strain_results": [
+    {
+      "index": 0,
+      "sign": "positive",
+      "strain_tensor": [
+        [
+          0.003,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "total_energy_eV": -4667.380715227683,
+      "stress_voigt": [
+        0.03129999310214931,
+        0.018914965030723905,
+        0.05601863241854895,
+        0.012821152938645145,
+        0.0224397721154746,
+        0.011032581904236612
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_0_positive/qe_tmp"
+    },
+    {
+      "index": 0,
+      "sign": "negative",
+      "strain_tensor": [
+        [
+          -0.003,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ]
+      ],
+      "total_energy_eV": -4667.384896664985,
+      "stress_voigt": [
+        0.03200605630823769,
+        0.019051770515388623,
+        0.05635651442094234,
+        0.012922150276317084,
+        0.02214045273291958,
+        0.010907712468569487
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_0_negative/qe_tmp"
+    },
+    {
+      "index": 1,
+      "sign": "positive",
+      "strain_tensor": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.003,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "total_energy_eV": -4667.380715227683,
+      "stress_voigt": [
+        0.03150749672318438,
+        0.0185908553925585,
+        0.055959870331176186,
+        0.013023147613989023,
+        0.02232316609834427,
+        0.010878331424883104
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_1_positive/qe_tmp"
+    },
+    {
+      "index": 1,
+      "sign": "negative",
+      "strain_tensor": [
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.003,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ]
+      ],
+      "total_energy_eV": -4667.384896664985,
+      "stress_voigt": [
+        0.03170122797999147,
+        0.01928865518011008,
+        0.056317951801103966,
+        0.012710974024821211,
+        0.02225797690766511,
+        0.011061962947922993
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_1_negative/qe_tmp"
+    },
+    {
+      "index": 2,
+      "sign": "positive",
+      "strain_tensor": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.003
+        ]
+      ],
+      "total_energy_eV": -4667.37303998475,
+      "stress_voigt": [
+        0.031723263762756256,
+        0.019003108161783053,
+        0.056380386518937536,
+        0.012916641330625886,
+        0.022371828451949842,
+        0.011015136909547822
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_2_positive/qe_tmp"
+    },
+    {
+      "index": 2,
+      "sign": "negative",
+      "strain_tensor": [
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.003
+        ]
+      ],
+      "total_energy_eV": -4667.392463198439,
+      "stress_voigt": [
+        0.0314863790980348,
+        0.01886997530757913,
+        0.055889172194805825,
+        0.012818398465799545,
+        0.02220196929313794,
+        0.010925157463258275
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_2_negative/qe_tmp"
+    },
+    {
+      "index": 3,
+      "sign": "positive",
+      "strain_tensor": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.003
+        ],
+        [
+          0.0,
+          0.003,
+          0.0
+        ]
+      ],
+      "total_energy_eV": -4667.37561567829,
+      "stress_voigt": [
+        0.031914240546717744,
+        0.01944198750184839,
+        0.05623072682766002,
+        0.012973567102768252,
+        0.022277258217584296,
+        0.011249267101423684
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_3_positive/qe_tmp"
+    },
+    {
+      "index": 3,
+      "sign": "negative",
+      "strain_tensor": [
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.003
+        ],
+        [
+          -0.0,
+          -0.003,
+          -0.0
+        ]
+      ],
+      "total_energy_eV": -4667.389917573479,
+      "stress_voigt": [
+        0.03128162994984532,
+        0.01843752307082019,
+        0.05603424109800734,
+        0.012755045590350783,
+        0.02230113031557948,
+        0.010692863586612814
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_3_negative/qe_tmp"
+    },
+    {
+      "index": 4,
+      "sign": "positive",
+      "strain_tensor": [
+        [
+          0.0,
+          0.0,
+          0.003
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.003,
+          0.0,
+          0.0
+        ]
+      ],
+      "total_energy_eV": -4667.37561567829,
+      "stress_voigt": [
+        0.03239902776754305,
+        0.01915460416829096,
+        0.05632437890441036,
+        0.012803707943956353,
+        0.022371828451949842,
+        0.011022482170469418
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_4_positive/qe_tmp"
+    },
+    {
+      "index": 4,
+      "sign": "negative",
+      "strain_tensor": [
+        [
+          -0.0,
+          -0.0,
+          -0.003
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.003,
+          -0.0,
+          -0.0
+        ]
+      ],
+      "total_energy_eV": -4667.389917437422,
+      "stress_voigt": [
+        0.03107871711688624,
+        0.018981990536633464,
+        0.05619950946874324,
+        0.012935004482929875,
+        0.022194624032216347,
+        0.010904039838108687
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_4_negative/qe_tmp"
+    },
+    {
+      "index": 5,
+      "sign": "positive",
+      "strain_tensor": [
+        [
+          0.0,
+          0.003,
+          0.0
+        ],
+        [
+          0.003,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "total_energy_eV": -4667.381848037594,
+      "stress_voigt": [
+        0.03153871408210117,
+        0.018857121100966337,
+        0.056118711598605694,
+        0.012917559488241087,
+        0.02237274660956504,
+        0.010982083235400642
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_5_positive/qe_tmp"
+    },
+    {
+      "index": 5,
+      "sign": "negative",
+      "strain_tensor": [
+        [
+          -0.0,
+          -0.003,
+          -0.0
+        ],
+        [
+          -0.003,
+          -0.0,
+          -0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          -0.0
+        ]
+      ],
+      "total_energy_eV": -4667.383722765885,
+      "stress_voigt": [
+        0.03174989033359704,
+        0.019096760238533395,
+        0.056247253664733605,
+        0.012826661884336342,
+        0.022217577972596332,
+        0.010960047452635855
+      ],
+      "max_force_eV_A": 0.0,
+      "output_subdir": "strain_5_negative/qe_tmp"
+    }
+  ],
+  "disk_bytes": 1341479957.0,
+  "disk_gib": 1.2493505673483014,
+  "wall_time_s": 2183.6240575420015,
+  "cpu_time_s": 2170.8368029999997,
+  "cpu_user_s": 2125.0429169999998,
+  "cpu_sys_s": 45.793886,
+  "rss_bytes": 29736960.0,
+  "max_rss_bytes": 331661312.0,
+  "job_label": "elastic_eval"
+}

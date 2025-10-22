@@ -1,0 +1,13 @@
+{
+  "request_id": "BENCH-ELASTIC-0001",
+  "job_label": "elastic_eval",
+  "runs_planned": 24,
+  "safety_factor": 1.2,
+  "per_run_bytes": 1341479957.0,
+  "per_run_gib": 1.2493505673483014,
+  "total_bytes": 38634622761.6,
+  "total_gib": 35.98129633963108,
+  "per_run_wall_time_s": 2183.6240575420015,
+  "per_run_cpu_time_s": 2170.8368029999997,
+  "estimated_wall_time_hours": 17.46899246033601
+}

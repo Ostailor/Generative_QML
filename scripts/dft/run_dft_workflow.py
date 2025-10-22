@@ -6,9 +6,10 @@ import argparse
 import json
 import os
 import shutil
+import copy
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 
 import numpy as np
 
@@ -50,6 +51,50 @@ def _select_pseudopotentials(elements: np.ndarray) -> Dict[str, str]:
     return mapping
 
 
+def _build_strain_matrices(amplitude: float) -> List[np.ndarray]:
+    epsilons: List[np.ndarray] = []
+    # Normal strains
+    for axis in range(3):
+        strain = np.zeros((3, 3))
+        strain[axis, axis] = amplitude
+        epsilons.append(strain)
+    # Shear strains (yz, xz, xy)
+    shear_pairs = [(1, 2), (0, 2), (0, 1)]
+    for i, j in shear_pairs:
+        strain = np.zeros((3, 3))
+        strain[i, j] = amplitude
+        strain[j, i] = amplitude
+        epsilons.append(strain)
+    return epsilons
+
+
+def _apply_strain(atoms, strain_matrix: np.ndarray):
+    strained = atoms.copy()
+    base_cell = atoms.get_cell()
+    transformation = np.eye(3) + strain_matrix
+    new_cell = transformation @ base_cell
+    strained.set_cell(new_cell, scale_atoms=True)
+    return strained
+
+
+def _run_single_calculation(atoms, calc_kwargs: dict, outdir: Path, prefix: str) -> dict:
+    run_kwargs = copy.deepcopy(calc_kwargs)
+    outdir.mkdir(parents=True, exist_ok=True)
+    run_kwargs["outdir"] = str(outdir)
+    run_kwargs["prefix"] = prefix
+
+    atoms.calc = Espresso(**run_kwargs)
+    energy = float(atoms.get_potential_energy())
+    stress_voigt = atoms.get_stress(voigt=True).tolist()
+    max_force = float(np.abs(atoms.get_forces()).max())
+
+    return {
+        "total_energy_eV": energy,
+        "stress_voigt": stress_voigt,
+        "max_force_eV_A": max_force,
+    }
+
+
 def run_workflow(request_id: str) -> dict:
     input_path = INPUT_DIR / request_id
     output_path = OUTPUT_DIR / request_id
@@ -88,7 +133,7 @@ def run_workflow(request_id: str) -> dict:
         "pseudopotentials": pseudopotentials,
         "tstress": True,
         "tprnfor": True,
-        "outdir": str(output_path / "qe_tmp"),
+        "outdir": str(output_path / "qe_tmp" / "base"),
         "prefix": request_id.lower(),
         "profile": profile,
         "input_data": {
@@ -110,8 +155,12 @@ def run_workflow(request_id: str) -> dict:
         },
     }
 
-    atoms.calc = Espresso(**calc_kwargs)
-    total_energy = float(atoms.get_potential_energy())
+    base_result = _run_single_calculation(
+        atoms,
+        calc_kwargs,
+        output_path / "qe_tmp" / "base",
+        request_id.lower(),
+    )
 
     volume = atoms.get_volume()
     mass = atoms.get_masses().sum()
@@ -121,13 +170,51 @@ def run_workflow(request_id: str) -> dict:
         "request_id": request_id,
         "status": "completed",
         "timestamp_utc": datetime.utcnow().isoformat() + "Z",
-        "total_energy_eV": total_energy,
-        "formation_energy_eV": total_energy / len(atoms),
+        "total_energy_eV": base_result["total_energy_eV"],
+        "formation_energy_eV": base_result["total_energy_eV"] / len(atoms),
         "properties": {
             "exp_density_g_cm3": density,
         },
         "metadata": metadata,
+        "strain_results": [],
     }
+
+    stress_cfg = metadata.get("stress_analysis")
+    if stress_cfg:
+        amplitude = float(stress_cfg.get("strain_amplitude", 0.003))
+        max_directions = int(stress_cfg.get("strain_directions", 6))
+        strain_matrices = _build_strain_matrices(amplitude)[:max_directions]
+
+        relaxed_atoms = atoms.copy()
+        base_cell = relaxed_atoms.get_cell()
+
+        for idx, strain_matrix in enumerate(strain_matrices):
+            for sign, label in [(1.0, "positive"), (-1.0, "negative")]:
+                signed_matrix = strain_matrix * sign
+                strained_atoms = _apply_strain(relaxed_atoms, signed_matrix)
+
+                strain_dir = output_path / f"strain_{idx}_{label}"
+                calc_kwargs_strain = copy.deepcopy(calc_kwargs)
+                calc_kwargs_strain["input_data"]["control"]["calculation"] = "scf"
+
+                result = _run_single_calculation(
+                    strained_atoms,
+                    calc_kwargs_strain,
+                    strain_dir / "qe_tmp",
+                    f"{request_id.lower()}_strain_{idx}_{label}",
+                )
+
+                results["strain_results"].append(
+                    {
+                        "index": idx,
+                        "sign": label,
+                        "strain_tensor": signed_matrix.tolist(),
+                        "total_energy_eV": result["total_energy_eV"],
+                        "stress_voigt": result["stress_voigt"],
+                        "max_force_eV_A": result["max_force_eV_A"],
+                        "output_subdir": str((strain_dir / "qe_tmp").relative_to(output_path)),
+                    }
+                )
 
     (output_path / "results.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
     (output_path / "log.txt").write_text("Quantum ESPRESSO run completed.\n", encoding="utf-8")

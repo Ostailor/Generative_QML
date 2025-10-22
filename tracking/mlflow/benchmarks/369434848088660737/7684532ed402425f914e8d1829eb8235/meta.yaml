@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/omtailor/Quanutum_MS_Pipeline/tracking/mlflow/benchmarks/369434848088660737/7684532ed402425f914e8d1829eb8235/artifacts
+end_time: 1759362950675
+entry_point_name: ''
+experiment_id: '369434848088660737'
+lifecycle_stage: active
+run_id: 7684532ed402425f914e8d1829eb8235
+run_name: qe-storage-plan
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759362950656
+status: 3
+tags: []
+user_id: omtailor

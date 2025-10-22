@@ -1,0 +1,47 @@
+{
+  "request_id": "BENCH-ELASTIC-0001",
+  "status": "completed",
+  "timestamp_utc": "2025-10-01T22:43:37.073447Z",
+  "total_energy_eV": -4667.382769142937,
+  "formation_energy_eV": -1166.8456922857342,
+  "properties": {
+    "exp_density_g_cm3": 7.631922550068916
+  },
+  "metadata": {
+    "request_id": "BENCH-ELASTIC-0001",
+    "source_dataset": "hea_features",
+    "timestamp_utc": "2025-10-01T00:00:00Z",
+    "composition": "Al0.25Co1Fe1Ni1",
+    "calculation": "scf",
+    "verbosity": "medium",
+    "kpoint_grid": [
+      8,
+      8,
+      8
+    ],
+    "encut": 650,
+    "smearing": {
+      "scheme": "mv",
+      "sigma": 0.12
+    },
+    "electrons": {
+      "mixing_beta": 0.3,
+      "conv_thr": 1e-09,
+      "electron_maxstep": 400
+    },
+    "stress_analysis": {
+      "strain_amplitude": 0.003,
+      "strain_directions": 6
+    },
+    "notes": "Benchmark profile for post-relaxation elastic response evaluation (finite-strain workflow)."
+  },
+  "disk_bytes": 103192144.0,
+  "disk_gib": 0.0961051732301712,
+  "wall_time_s": 144.01983974999894,
+  "cpu_time_s": 140.846653,
+  "cpu_user_s": 137.235308,
+  "cpu_sys_s": 3.6113450000000005,
+  "rss_bytes": 63045632.0,
+  "max_rss_bytes": 313622528.0,
+  "job_label": "elastic_eval"
+}

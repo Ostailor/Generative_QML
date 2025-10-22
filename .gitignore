@@ -13,3 +13,4 @@ tracking/mlflow/mlflow.db
 # Data downloads (retain raw placeholders but exclude real dumps if large)
 *.tmp
 *.log
+*.dat

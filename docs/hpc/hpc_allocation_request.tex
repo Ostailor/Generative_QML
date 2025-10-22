@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\sisetup{
+  group-minimum-digits=4,
+  detect-all
+}
+
+\begin{document}
+
+\begin{center}
+{\LARGE HPC Allocation Request for Quantum-Active Learning DFT}\\[0.5em]
+{\large October 2025}\\[0.5em]
+{\normalsize Program: Generative Quantum Machine Learning for Cost-Efficient, High-Strength Materials Discovery}
+\end{center}
+
+\section*{Executive Summary}
+The quantum-active learning (QAL) workflow couples quantum support vector/gau\-ssian process regressors with density-functional theory (DFT) feedback to screen and validate high-entropy alloys. Closed-loop iterations require three production Quantum~ESPRESSO (QE) job classes---\texttt{scf\_screen}, \texttt{vc\_relax}, and \texttt{elastic\_eval}---that were benchmarked previously. The measured footprints (Tables~\ref{tab:per-run} and~\ref{tab:scaled}) motivate a request for:
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Compute}: 1{,}200 CPU core-hours on CPU-only nodes (rounded up from 1{,}022 core-hours to cover scheduling overhead and reruns), provisioned on 32-core nodes with \(\geq 120\)~GiB memory.
+  \item \textbf{Storage}: 60~GiB of project space plus 250~GiB of scratch to host QE temporary files, elastic-strain wavefunctions, and MLflow artifacts (benchmarked workloads require 42.3~GiB including safety buffers).
+  \item \textbf{Queue policy}: Job arrays of width 16--24 to keep the active-learning loop saturated while respecting per-partition limits.
+\end{itemize}
+I have all artifacts required for immediate deployment: benchmark summaries, storage forecasts, SLURM templates, and environment manifests.
+
+\section*{Workload Overview}
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{\texttt{scf\_screen}}: Fast single-point SCF solves that supply acquisition functions with updated energetics during each QAL iteration.
+  \item \textbf{\texttt{vc\_relax}}: Variable-cell relaxations for shortlisted alloys prior to downstream mechanical evaluation; captures lattice and ionic rearrangements required for manuscript-quality claims.
+  \item \textbf{\texttt{elastic\_eval}}: Finite-strain elasticity batches that deliver elastic tensors, yield proxies, and uncertainty annotations for the PDA milestone gate.
+\end{itemize}
+Each profile was executed with QE~7.4.1, SSSP PBE~1.3 pseudopotentials, and the orchestration scripts \texttt{scripts/dft/qe\_benchmark.py} and \texttt{scripts/dft/storage\_planner.py}.
+
+\section*{Benchmark Evidence}
+Per-run measurements (Table~\ref{tab:per-run}) are sourced directly from the benchmark summaries under \texttt{data/dft\_workflow/\(<\)request\_id\(>\)/benchmark\_summary.json}. The aggregated storage and runtime projections (Table~\ref{tab:scaled}) follow \texttt{docs/hpc/storage\_forecast\_plan.json}, which incorporates the safety factors indicated.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Benchmark-verified per-run resource footprint (Task T5R.1).}
+  \label{tab:per-run}
+  \begin{tabular}{@{}lcccccc@{}}
+    \toprule
+    Job class & Runs $\times$ safety & Wall (s) & CPU (s) & Peak RSS (GiB) & Disk/run (GiB) \\
+    \midrule
+    \texttt{scf\_screen} & \(200 \times 1.5\) & \num{13.34} & \num{13.09} & \num{0.19} & \num{0.0166} \\
+    \texttt{vc\_relax} & \(60 \times 1.3\) & \num{641.88} & \num{628.04} & \num{0.26} & \num{0.0168} \\
+    \texttt{elastic\_eval} & \(24 \times 1.2\) & \num{2183.62} & \num{2170.84} & \num{0.31} & \num{1.2494} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Scaled allocation request derived from benchmarking and storage forecasts. Core-hours assume the indicated MPI task counts.}
+  \label{tab:scaled}
+  \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    Job class & Total wall (hr) & Planned MPI tasks & Core-hours & Total disk (GiB) \\
+    \midrule
+    \texttt{scf\_screen} & \num{1.11} & 16 & \num{17.79} & \num{4.98} \\
+    \texttt{vc\_relax} & \num{13.91} & 32 & \num{445.04} & \num{1.31} \\
+    \texttt{elastic\_eval} & \num{17.47} & 32 & \num{559.01} & \num{35.98} \\
+    \midrule
+    \textbf{Total} & \num{32.49} & -- & \num{1021.84} & \num{42.27} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section*{Resource Request Rationale}
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Compute scale}: The elastic evaluation workload dominates at 559 core-hours when executed with 32 MPI ranks; the relaxation stage contributes another 445 core-hours. Rounding the total (1{,}021.8 core-hours) to 1{,}200 core-hours provides a 15\% contingency for reruns, parameter sweeps, and prospective feature-map ablations required by the PDA milestone process.
+  \item \textbf{Concurrency}: Active learning requires multiple DFT callbacks per iteration. Queueing \texttt{vc\_relax} jobs in arrays of 8 and \texttt{elastic\_eval} batches in arrays of 4 keeps total wall-clock under two days for each discovery cycle while remaining under typical 32-job array limits.
+  \item \textbf{Memory headroom}: Although peak RSS remained below 0.31~GiB per MPI rank, reserving 120~GiB per node allows for higher plane-wave cutoffs (observed up to 650~Ry) and larger supercells anticipated for HEA mixing studies without resubmitting allocation amendments.
+  \item \textbf{Storage and scratch}: Elastic evaluations emit \(\approx\)1.25~GiB per run. The aggregated projection of 42.3~GiB (with safety factors) motivates a 60~GiB persistent allocation. Requesting 250~GiB of scratch accommodates simultaneous MPI jobs and transient \texttt{qe\_tmp} directories emphasized in \texttt{docs/hpc/qe\_slurm\_template.sh}.
+  \item \textbf{Operational readiness}: The SLURM template, environment manifest, and MLflow tracking already align with the target HPC stack, minimizing bring-up risk. Storage forecasts and benchmark artifacts deliver the traceability required by RKMA.
+\end{itemize}
+
+\section*{Execution Plan and Risk Mitigation}
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Job staging}: Use SLURM job arrays driven by \texttt{scripts/dft/storage\_planner.py} to batch candidates per acquisition iteration. The planner guarantees scratch usage stays within allocation limits.
+  \item \textbf{Monitoring}: MLflow logs (metrics and artifacts) and the QE output archives will be mirrored nightly to object storage, satisfying RKMA reproducibility checks and enabling quick rollback on failure.
+  \item \textbf{Fallback}: Should queue wait times exceed PDA-defined SLAs, short \texttt{scf\_screen} jobs can be diverted to on-prem nodes; the HPC allocation is prioritized for \texttt{vc\_relax} and \texttt{elastic\_eval}, which cannot be executed economically on workstations.
+  \item \textbf{Contingency}: The 15\% compute margin covers reruns triggered by pseudopotential updates, DFT convergence restarts, or acquisition function perturbations introduced during robustness studies led by BRA.
+\end{itemize}
+
+\section*{Summary}
+Benchmark data confirms that the QAL pipeline will consume approximately 1{,}022 core-hours and 42~GiB of output storage across the three production QE workloads. A request for 1{,}200 CPU core-hours, 60~GiB project storage, and 250~GiB scratch---all on CPU-only nodes compatible with QE~7.4.1---provides the capacity needed to execute upcoming active-learning campaigns, satisfy PDA milestone gates, and maintain reproducible artefact management. Approval will unblock the transition from local benchmarking to full-scale HPC-backed discovery.
+
+\end{document}
