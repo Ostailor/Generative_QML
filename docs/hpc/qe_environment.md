@@ -34,7 +34,7 @@ Before requesting HPC allocations, validate the local build:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements-preprocess.txt -r requirements-noise.txt ase mlflow psutil
+pip install -r requirements-preprocess.txt -r requirements-noise.txt
 python scripts/dft/qe_benchmark.py --request-id QAL-0001 --experiment dft_benchmarks
 ```
 

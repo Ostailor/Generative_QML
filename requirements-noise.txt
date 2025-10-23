@@ -1,2 +1,1 @@
-pandas>=2.2
-pyarrow>=14
+-r requirements.txt

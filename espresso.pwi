@@ -1,17 +1,17 @@
 &CONTROL
    calculation      = 'scf'
-   verbosity        = 'medium'
+   verbosity        = 'low'
    tstress          = .true.
    tprnfor          = .true.
-   outdir           = '/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/BENCH-ELASTIC-0001/strain_5_negative/qe_tmp'
-   prefix           = 'bench-elastic-0001_strain_5_negative'
+   outdir           = '/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0003/qe_tmp/base'
+   prefix           = 'queue-0003'
    pseudo_dir       = '/Users/omtailor/qe/pseudos/SSSP_PBE'
 /
 &SYSTEM
-   ecutwfc          = 47.774101439999995
-   ecutrho          = 382.19281151999996
+   ecutwfc          = 38.219281152
+   ecutrho          = 305.754249216
    occupations      = 'smearing'
-   degauss          = 0.008819834112
+   degauss          = 0.01469972352
    smearing         = 'mv'
    input_dft        = 'PBE'
    ntyp             = 4
@@ -19,8 +19,8 @@
    ibrav            = 0
 /
 &ELECTRONS
-   electron_maxstep = 400
-   conv_thr         = 1e-09
+   electron_maxstep = 200
+   conv_thr         = 1e-06
    mixing_beta      = 0.3
 /
 &IONS
@@ -38,16 +38,16 @@ Fe 55.845 Fe.pbe-spn-kjpaw_psl.0.2.1.UPF
 Ni 58.6934 ni_pbe_v1.4.uspp.F.UPF
 
 K_POINTS automatic
-8 8 8  0 0 0
+4 4 4  0 0 0
 
 CELL_PARAMETERS angstrom
-4.97056469194396 -0.01293330584190 0.00000000000000
-2.47408177455799 4.31110194729839 0.00000000000000
+4.97803173955329 0.00000000000000 0.00000000000000
+2.48901586977665 4.31110194729839 0.00000000000000
 1.24450793488832 0.71851699121640 2.03227294754748
 
 ATOMIC_POSITIONS angstrom
 Al 0.0000000000 0.0000000000 0.0000000000  
-Co 1.2370408873 2.1555509736 0.0000000000  
-Fe 2.4852823460 -0.0064666529 0.0000000000  
-Ni 3.7223232333 2.1490843207 0.0000000000  
+Co 1.2445079349 2.1555509736 0.0000000000  
+Fe 2.4890158698 0.0000000000 0.0000000000  
+Ni 3.7335238047 2.1555509736 0.0000000000  
 

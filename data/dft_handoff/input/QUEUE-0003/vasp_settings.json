@@ -1,0 +1,12 @@
+{
+  "functional": "PBE",
+  "encut": 520,
+  "kpoint_grid": [6, 6, 6],
+  "ediff": 1e-05,
+  "smearing": {
+    "scheme": "Methfessel-Paxton",
+    "sigma": 0.2
+  },
+  "spin_polarized": true,
+  "electron_steps": 120
+}

@@ -1,0 +1,24 @@
+{
+  "request_id": "QUEUE-0003",
+  "status": "completed",
+  "timestamp_utc": "2025-10-23T01:06:22.427419Z",
+  "total_energy_eV": -4667.326313956945,
+  "formation_energy_eV": -1166.8315784892363,
+  "max_force_eV_A": 0.0,
+  "properties": {
+    "exp_density_g_cm3": 7.631922550068916
+  },
+  "metadata": {
+    "request_id": "QUEUE-0003",
+    "source_dataset": "hea_features",
+    "timestamp_utc": "2025-09-16T22:20:00Z",
+    "composition": "Al0.25Co1Fe1Ni1",
+    "constraints_version": "hea_constraints_v1",
+    "target_properties": [
+      "yield_strength_mpa",
+      "exp_density_g_cm3"
+    ],
+    "notes": "Initial HEA candidate generated from QAL loop iteration 1 | queue smoke test 3"
+  },
+  "strain_results": []
+}

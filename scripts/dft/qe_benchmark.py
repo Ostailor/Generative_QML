@@ -27,6 +27,7 @@ import resource
 import shutil
 import sys
 import time
+import threading
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -100,6 +101,28 @@ def _parse_pw_log(log_path: Path) -> Dict[str, float]:
     return metrics
 
 
+def _monitor_pw_progress(log_path: Path, stop_evt: threading.Event, interval: float) -> None:
+    last_line = ""
+    announced = False
+    while not stop_evt.is_set():
+        if log_path.exists():
+            if not announced:
+                print(f"[pw.x] monitoring {log_path}", flush=True)
+                announced = True
+            try:
+                with log_path.open("r", encoding="utf-8", errors="ignore") as handle:
+                    lines = [line.strip() for line in handle if line.strip()]
+            except OSError:
+                lines = []
+            if lines:
+                candidate = lines[-1]
+                if candidate != last_line:
+                    preview = candidate if len(candidate) <= 160 else candidate[:157] + "..."
+                    print(f"[pw.x] {preview}", flush=True)
+                    last_line = candidate
+        stop_evt.wait(interval)
+
+
 def run_benchmark(
     request_id: str,
     experiment: Optional[str],
@@ -107,6 +130,7 @@ def run_benchmark(
     tracking_uri: Optional[str],
     from_log: Optional[Path],
     job_label: Optional[str],
+    progress_interval: float,
 ) -> Dict[str, float]:
     if tracking_uri:
         mlflow.set_tracking_uri(tracking_uri)
@@ -114,6 +138,7 @@ def run_benchmark(
         mlflow.set_experiment(experiment)
 
     summary: Dict[str, float] = {}
+    metrics: Dict[str, float] = {}
     tags = {
         "task": "T5R.1",
         "agent": "MDIA",
@@ -149,12 +174,33 @@ def run_benchmark(
             if output_dir.exists():
                 shutil.rmtree(output_dir)
 
+            stop_evt: Optional[threading.Event] = None
+            monitor_thread: Optional[threading.Thread] = None
+            if progress_interval > 0:
+                stop_evt = threading.Event()
+                # ASE's Espresso writes to espresso.pwo by default; fall back to pwscf.out
+                primary = output_dir / "qe_tmp" / "base" / "espresso.pwo"
+                fallback = output_dir / "qe_tmp" / "base" / "pwscf.out"
+                log_path = primary if primary.exists() else fallback
+                monitor_thread = threading.Thread(
+                    target=_monitor_pw_progress,
+                    args=(log_path, stop_evt, progress_interval),
+                    daemon=True,
+                )
+                monitor_thread.start()
+
             proc = psutil.Process()
             start_rusage_self = resource.getrusage(resource.RUSAGE_SELF)
             start_rusage_children = resource.getrusage(resource.RUSAGE_CHILDREN)
 
             start_wall = time.perf_counter()
-            results = run_workflow(request_id)
+            try:
+                results = run_workflow(request_id)
+            finally:
+                if stop_evt:
+                    stop_evt.set()
+                    if monitor_thread:
+                        monitor_thread.join(timeout=max(progress_interval, 1.0))
             wall_time = time.perf_counter() - start_wall
 
             end_rusage_self = resource.getrusage(resource.RUSAGE_SELF)
@@ -234,6 +280,12 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="Path to a Quantum ESPRESSO output (.pwo) for metric extraction",
     )
+    parser.add_argument(
+        "--progress-interval",
+        type=float,
+        default=30.0,
+        help="Seconds between pw.x log updates (set 0 to disable)",
+    )
     return parser.parse_args()
 
 
@@ -246,6 +298,7 @@ def main() -> None:
         tracking_uri=args.tracking_uri,
         from_log=args.from_log,
         job_label=args.job_label,
+        progress_interval=args.progress_interval,
     )
     print(json.dumps(summary, indent=2))
 

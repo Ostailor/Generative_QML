@@ -1,0 +1,69 @@
+{
+  "timestamp_utc": "2025-10-23T01:17:24.706533Z",
+  "formulas": [
+    {
+      "formula": "Al0.25Co1Fe1Ni1",
+      "normalized_formula": "Al0.25Co1Fe1Ni1",
+      "requests": [
+        {
+          "request_id": "BENCH-RELAX-0001",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/BENCH-RELAX-0001/results.json",
+          "timestamp_utc": "2025-10-01T22:00:52.236463Z"
+        },
+        {
+          "request_id": "QAL-0001",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QAL-0001/results.json",
+          "timestamp_utc": "2025-10-01T21:44:55.418546Z"
+        },
+        {
+          "request_id": "QUEUE-0001",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0001/results.json",
+          "timestamp_utc": "2025-10-23T01:06:11.586608Z"
+        },
+        {
+          "request_id": "QUEUE-0002",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0002/results.json",
+          "timestamp_utc": "2025-10-23T01:06:09.405066Z"
+        },
+        {
+          "request_id": "QUEUE-0003",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0003/results.json",
+          "timestamp_utc": "2025-10-23T01:06:22.427419Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 7.631922550068916,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": 7.9,
+          "relative_gap": 0.03393385442165624,
+          "values": [
+            7.631922550068916,
+            7.631922550068916,
+            7.631922550068916,
+            7.631922550068916,
+            7.631922550068916
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -1166.9716399990823,
+          "std": 0.31318705704642463,
+          "ci95": 0.6138466318109923,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -1167.5318860384652,
+            -1166.8315784892363,
+            -1166.8315784892363,
+            -1166.8315784892363,
+            -1166.8315784892363
+          ]
+        }
+      },
+      "missing_reference": false
+    }
+  ],
+  "max_relative_gap": 0.03393385442165624,
+  "status": "pass"
+}

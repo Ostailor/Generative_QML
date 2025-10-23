@@ -1,0 +1,82 @@
+{
+  "run_id": "dft-queue-20251023T010428",
+  "started_at": "2025-10-23T01:04:28.901613Z",
+  "completed_at": "2025-10-23T01:04:58.723501Z",
+  "total_jobs": 3,
+  "completed_jobs": 3,
+  "failed_jobs": 0,
+  "latency": {
+    "avg": 19.41772122232942,
+    "min": 14.207964291999815,
+    "max": 29.82048558400129,
+    "p95": 28.260908404699876
+  },
+  "jobs": [
+    {
+      "request_id": "QUEUE-0001",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2025-10-23T01:04:28.901852Z",
+      "completed_at": "2025-10-23T01:04:43.109941Z",
+      "latency_s": 14.207964291999815,
+      "latest_attempt_latency_s": 14.207886165997479,
+      "errors": [],
+      "output_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0001",
+      "result_snapshot": {
+        "total_energy_eV": -4667.326313956945,
+        "formation_energy_eV": -1166.8315784892363,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 0
+    },
+    {
+      "request_id": "QUEUE-0003",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2025-10-23T01:04:43.110325Z",
+      "completed_at": "2025-10-23T01:04:57.335157Z",
+      "latency_s": 14.224713790987153,
+      "latest_attempt_latency_s": 14.224705833999906,
+      "errors": [],
+      "output_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0003",
+      "result_snapshot": {
+        "total_energy_eV": -4667.326313956945,
+        "formation_energy_eV": -1166.8315784892363,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 1
+    },
+    {
+      "request_id": "QUEUE-0002",
+      "status": "completed",
+      "attempts": 2,
+      "started_at": "2025-10-23T01:04:28.901973Z",
+      "completed_at": "2025-10-23T01:04:58.722700Z",
+      "latency_s": 29.82048558400129,
+      "latest_attempt_latency_s": 14.055007415998261,
+      "errors": [
+        {
+          "attempt": 1,
+          "error": "StopIteration()",
+          "traceback": "Traceback (most recent call last):\n  File \"/Users/omtailor/Quanutum_MS_Pipeline/scripts/dft/run_dft_workflow.py\", line 313, in _worker\n    result = run_workflow(request_id)\n             ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omtailor/Quanutum_MS_Pipeline/scripts/dft/run_dft_workflow.py\", line 173, in run_workflow\n    base_result = _run_single_calculation(\n                  ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omtailor/Quanutum_MS_Pipeline/scripts/dft/run_dft_workflow.py\", line 99, in _run_single_calculation\n    energy = float(atoms.get_potential_energy())\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omtailor/anaconda3/lib/python3.11/site-packages/ase/atoms.py\", line 835, in get_potential_energy\n    energy = self._calc.get_potential_energy(self)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omtailor/anaconda3/lib/python3.11/site-packages/ase/calculators/abc.py\", line 26, in get_potential_energy\n    return self.get_property(name, atoms)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omtailor/anaconda3/lib/python3.11/site-packages/ase/calculators/calculator.py\", line 519, in get_property\n    self.calculate(atoms, [name], system_changes)\n  File \"/Users/omtailor/anaconda3/lib/python3.11/site-packages/ase/calculators/genericfileio.py\", line 336, in calculate\n    self.results = self.template.read_results(self.directory)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omtailor/anaconda3/lib/python3.11/site-packages/ase/calculators/espresso.py\", line 94, in read_results\n    atoms = read(path, format='espresso-out')\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omtailor/anaconda3/lib/python3.11/site-packages/ase/io/formats.py\", line 794, in read\n    return next(_iread(filename, slice(index, None), format, io,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nStopIteration\n",
+          "failed_at": "2025-10-23T01:04:43.162265Z",
+          "attempt_latency_s": 14.255886708007893
+        }
+      ],
+      "output_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0002",
+      "result_snapshot": {
+        "total_energy_eV": -4667.326313956945,
+        "formation_energy_eV": -1166.8315784892363,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 2
+    }
+  ],
+  "artefacts": {
+    "jobs_log": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/queue_runs/dft-queue-20251023T010428/jobs.jsonl",
+    "summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/queue_runs/dft-queue-20251023T010428/summary.json"
+  }
+}

@@ -1,0 +1,14 @@
+artifact_uri: /Users/omtailor/Quanutum_MS_Pipeline/mlruns/188734605920722127/e7236a7c5276426bbe2f94e796c37b3b/artifacts
+end_time: 1761181499341
+entry_point_name: ''
+experiment_id: '188734605920722127'
+lifecycle_stage: active
+run_id: e7236a7c5276426bbe2f94e796c37b3b
+run_name: dft-queue-20251023T010428
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761181499313
+status: 3
+tags: []
+user_id: omtailor
