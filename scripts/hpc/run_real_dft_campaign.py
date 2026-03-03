@@ -486,18 +486,22 @@ def main() -> None:
         iteration_summaries.append(iteration_record)
 
         for job in queue_summary["jobs"]:
-            result_path = Path(job["output_dir"]) / "results.json"
-            if not result_path.exists():
-                continue
-            result = json.loads(result_path.read_text())
-            completed = job["status"] == "completed"
-            if result.get('max_force_eV_A') is None and result.get('forces_eV_A'):
-                result['max_force_eV_A'] = max((sum(f**2 for f in vec))**0.5 for vec in result['forces_eV_A'])
-
+            completed = job.get("status") == "completed"
             completed_jobs += int(completed)
             failed_jobs += int(not completed)
+
+            output_dir = job.get("output_dir")
+            result_path = Path(output_dir) / "results.json" if output_dir else None
+            result: Dict[str, Any] = {}
+            if result_path is not None and result_path.exists():
+                result = json.loads(result_path.read_text())
+                if result.get("max_force_eV_A") is None and result.get("forces_eV_A"):
+                    result["max_force_eV_A"] = max(
+                        (sum(f ** 2 for f in vec)) ** 0.5 for vec in result["forces_eV_A"]
+                    )
+
             candidate_info = manifest_df[manifest_df["request_id"] == job["request_id"]].iloc[0]
-            density = result["properties"].get("exp_density_g_cm3")
+            density = result.get("properties", {}).get("exp_density_g_cm3")
             raw_max_force = result.get("max_force_eV_A")
             if raw_max_force is None:
                 max_force_val = np.inf
@@ -517,13 +521,13 @@ def main() -> None:
                 "candidate_id": candidate_info["candidate_id"],
                 "composition": candidate_info["composition"],
                 "phase": candidate_info["phase"],
-                "status": job["status"],
+                "status": job.get("status"),
                 "latency_s": job.get("latency_s"),
                 "formation_energy_eV": formation,
                 "density_g_cm3": density,
                 "max_force_eV_A": raw_max_force,
                 "valid_flag": valid_flag,
-                "result_path": str(result_path),
+                "result_path": str(result_path) if result_path is not None else None,
             }
             candidate_records.append(candidate_record)
 

@@ -84,13 +84,34 @@ def _select_pseudopotentials(elements: np.ndarray) -> Dict[str, str]:
     if not PSEUDO_DIR.exists():
         raise FileNotFoundError(f"Pseudopotential directory {PSEUDO_DIR} not found.")
     mapping: Dict[str, str] = {}
-    ups = [p for p in PSEUDO_DIR.iterdir() if p.suffix.lower() == ".upf"]
+    ups = sorted((p for p in PSEUDO_DIR.iterdir() if p.suffix.lower() == ".upf"), key=lambda p: p.name.lower())
     for elem in elements:
-        pattern = elem.lower()
-        candidates = [p for p in ups if pattern in p.name.lower()]
-        if not candidates:
+        symbol = str(elem).strip()
+        pattern = symbol.lower()
+
+        # Prefer exact element filename match (e.g., "Y.upf").
+        exact = [p for p in ups if p.stem.lower() == pattern]
+        if exact:
+            mapping[elem] = exact[0].name
+            continue
+
+        # Fallback: allow prefixed variants like "Y_pbe..." while preventing
+        # accidental substring matches (e.g., Y -> Dy, Yb).
+        prefixed = []
+        for p in ups:
+            stem = p.stem.lower()
+            if not stem.startswith(pattern):
+                continue
+            if len(stem) == len(pattern):
+                prefixed.append(p)
+                continue
+            next_char = stem[len(pattern)]
+            if not next_char.isalpha():
+                prefixed.append(p)
+
+        if not prefixed:
             raise FileNotFoundError(f"No pseudopotential found for {elem} in {PSEUDO_DIR}")
-        mapping[elem] = candidates[0].name
+        mapping[elem] = prefixed[0].name
     return mapping
 
 
