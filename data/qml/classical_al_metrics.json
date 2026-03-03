@@ -1,34 +1,20 @@
 {
-  "final_rmse": 1.5625313007571937,
-  "iterations": 3,
+  "final_rmse": 2.261269485886217,
+  "iterations": 1,
   "history": [
     {
       "iteration": 0,
-      "rmse": 1.4091491361015662,
-      "random_mean_std": 0.04712923616170883,
-      "uncertainty_max_std": 0.8524677157402039,
-      "pool_evaluated": 1000
-    },
-    {
-      "iteration": 1,
-      "rmse": 1.7395416507565629,
-      "random_mean_std": 0.02847609855234623,
-      "uncertainty_max_std": 0.2294488400220871,
-      "pool_evaluated": 1000
-    },
-    {
-      "iteration": 2,
-      "rmse": 1.5625313007571937,
-      "random_mean_std": 0.02332666516304016,
-      "uncertainty_max_std": 0.1426052749156952,
-      "pool_evaluated": 1000
+      "rmse": 2.261269485886217,
+      "random_mean_std": 0.04067632555961609,
+      "uncertainty_max_std": 0.2617104649543762,
+      "pool_evaluated": 256
     }
   ],
   "runtime_profile": {
-    "pool_subsample": 1000,
+    "pool_subsample": 256,
     "optimizer": "none",
     "optimizer_effective": "none",
-    "max_eval_size": 96,
+    "max_eval_size": 64,
     "accelerator_requested": "cpu",
     "accelerator_effective": "cpu",
     "accelerator_reason": "forced_cpu",

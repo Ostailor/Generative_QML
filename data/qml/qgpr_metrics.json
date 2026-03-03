@@ -1,18 +1,18 @@
 {
-  "rmse_classical": 1.525069668672909,
-  "rmse_quantum": 1.4643643488652416,
-  "coverage_quantum": 0.03,
-  "coverage_gap": -0.9199999999999999,
+  "rmse_classical": 1.526136721008687,
+  "rmse_quantum": 2.200000001306818,
+  "coverage_quantum": 0.9,
+  "coverage_gap": -0.04999999999999993,
   "runtime_profile": {
-    "max_train": 800,
-    "max_test": 200,
-    "optimizer": "none",
-    "optimizer_effective": "none",
+    "max_train": 200,
+    "max_test": 80,
+    "optimizer": "fmin_l_bfgs_b",
+    "optimizer_effective": "fmin_l_bfgs_b",
     "float32": true,
     "accelerator_requested": "cpu",
     "accelerator_effective": "cpu",
     "accelerator_reason": "forced_cpu",
-    "engine_requested": "backend",
-    "engine_effective": "backend"
+    "engine_requested": "sklearn",
+    "engine_effective": "sklearn"
   }
 }

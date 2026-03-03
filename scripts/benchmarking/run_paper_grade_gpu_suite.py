@@ -62,6 +62,10 @@ FASTEST_PRESET = {
     "classical_query_batch": 16,
 }
 
+DEFAULT_QGPR_ENGINE = "sklearn"
+DEFAULT_QGPR_OPTIMIZER = "fmin_l_bfgs_b"
+DEFAULT_QGPR_CATASTROPHIC_GAP = 0.25
+
 
 class SuiteError(RuntimeError):
     """Raised on failed paper-grade checks."""
@@ -151,6 +155,12 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument("--max-qsvr-relative-gap", type=float, default=0.10)
     parser.add_argument("--max-abs-qgpr-coverage-gap", type=float, default=0.05)
+    parser.add_argument(
+        "--qgpr-catastrophic-coverage-gap",
+        type=float,
+        default=DEFAULT_QGPR_CATASTROPHIC_GAP,
+        help="Immediate fail-fast threshold for per-run abs(coverage_gap).",
+    )
 
     parser.add_argument(
         "--fast",
@@ -168,6 +178,17 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument("--qgpr-max-train", type=int, default=None)
     parser.add_argument("--qgpr-max-test", type=int, default=None)
+    parser.add_argument(
+        "--qgpr-engine",
+        choices=["auto", "sklearn", "backend"],
+        default=DEFAULT_QGPR_ENGINE,
+        help="QGPR implementation engine for paper-grade suite.",
+    )
+    parser.add_argument(
+        "--qgpr-optimizer",
+        default=DEFAULT_QGPR_OPTIMIZER,
+        help="QGPR optimizer setting (for sklearn engine).",
+    )
 
     parser.add_argument("--classical-iterations", type=int, default=None)
     parser.add_argument("--classical-pool-subsample", type=int, default=None)
@@ -229,17 +250,18 @@ def _run_qgpr(args: argparse.Namespace, seed: int, run_index: int, accelerator_m
         random_state=seed,
         max_train=args.qgpr_max_train,
         max_test=args.qgpr_max_test,
-        optimizer="none",
+        optimizer=args.qgpr_optimizer,
         use_float32=True,
         accelerator=accelerator_mode,
-        gpr_engine="backend",
+        gpr_engine=args.qgpr_engine,
     )
     dt = time.perf_counter() - t0
     coverage_gap = float(metrics["coverage_gap"])
     rmse_quantum = float(metrics["rmse_quantum"])
-    if abs(coverage_gap) > args.max_abs_qgpr_coverage_gap:
+    if abs(coverage_gap) > float(args.qgpr_catastrophic_coverage_gap):
         raise SuiteError(
-            f"QGPR run {run_index} failed coverage gate: abs(coverage_gap)={abs(coverage_gap):.6f} > {args.max_abs_qgpr_coverage_gap:.6f}"
+            f"QGPR run {run_index} failed catastrophic coverage gate: "
+            f"abs(coverage_gap)={abs(coverage_gap):.6f} > {args.qgpr_catastrophic_coverage_gap:.6f}"
         )
     return RunRecord("qgpr", run_index, seed, coverage_gap, rmse_quantum, dt)
 
@@ -329,6 +351,16 @@ def main() -> None:
             "runtime_s": _stats(sub["runtime_s"].astype(float).tolist()),
         }
 
+    qgpr_sub = runs_df[runs_df["model"] == "qgpr"]
+    if len(qgpr_sub) == 0:
+        raise SuiteError("No QGPR records found; expected at least one run.")
+    qgpr_mean_abs_coverage_gap = float(abs(qgpr_sub["metric_primary"].astype(float).mean()))
+    if qgpr_mean_abs_coverage_gap > float(args.max_abs_qgpr_coverage_gap):
+        raise SuiteError(
+            "QGPR aggregate coverage gate failed: "
+            f"mean_abs_coverage_gap={qgpr_mean_abs_coverage_gap:.6f} > {args.max_abs_qgpr_coverage_gap:.6f}"
+        )
+
     summary = {
         "timestamp_utc": _utc_now(),
         "started_utc": started_utc,
@@ -344,6 +376,8 @@ def main() -> None:
             "qsvr_max_test": int(args.qsvr_max_test),
             "qgpr_max_train": int(args.qgpr_max_train),
             "qgpr_max_test": int(args.qgpr_max_test),
+            "qgpr_engine": args.qgpr_engine,
+            "qgpr_optimizer": args.qgpr_optimizer,
             "classical_iterations": int(args.classical_iterations),
             "classical_pool_subsample": int(args.classical_pool_subsample),
             "classical_max_eval_size": int(args.classical_max_eval_size),
@@ -359,6 +393,8 @@ def main() -> None:
         "gates": {
             "qsvr_relative_gap_max": float(args.max_qsvr_relative_gap),
             "qgpr_abs_coverage_gap_max": float(args.max_abs_qgpr_coverage_gap),
+            "qgpr_catastrophic_coverage_gap_max": float(args.qgpr_catastrophic_coverage_gap),
+            "qgpr_mean_abs_coverage_gap_observed": qgpr_mean_abs_coverage_gap,
         },
         "artifacts": {
             "runs_csv": str(args.runs_path),

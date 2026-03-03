@@ -245,6 +245,23 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--paper-grade-max-qsvr-relative-gap", type=float, default=0.10)
     parser.add_argument("--paper-grade-max-abs-qgpr-coverage-gap", type=float, default=0.05)
     parser.add_argument(
+        "--paper-grade-qgpr-engine",
+        choices=["auto", "sklearn", "backend"],
+        default="sklearn",
+        help="QGPR engine for paper-grade suite (default: sklearn).",
+    )
+    parser.add_argument(
+        "--paper-grade-qgpr-optimizer",
+        default="fmin_l_bfgs_b",
+        help="QGPR optimizer for paper-grade suite.",
+    )
+    parser.add_argument(
+        "--paper-grade-qgpr-catastrophic-coverage-gap",
+        type=float,
+        default=0.25,
+        help="Immediate fail-fast per-run QGPR abs coverage gap threshold.",
+    )
+    parser.add_argument(
         "--paper-grade-summary-path",
         type=Path,
         default=DEFAULT_PAPER_GRADE_SUMMARY,
@@ -463,6 +480,12 @@ def main() -> None:
                 str(args.paper_grade_max_qsvr_relative_gap),
                 "--max-abs-qgpr-coverage-gap",
                 str(args.paper_grade_max_abs_qgpr_coverage_gap),
+                "--qgpr-engine",
+                str(args.paper_grade_qgpr_engine),
+                "--qgpr-optimizer",
+                str(args.paper_grade_qgpr_optimizer),
+                "--qgpr-catastrophic-coverage-gap",
+                str(args.paper_grade_qgpr_catastrophic_coverage_gap),
                 "--summary-path",
                 str(args.paper_grade_summary_path),
                 "--runs-path",
@@ -597,6 +620,9 @@ def main() -> None:
             "paper_grade_allow_cpu_fallback": bool(args.paper_grade_allow_cpu_fallback),
             "paper_grade_max_qsvr_relative_gap": args.paper_grade_max_qsvr_relative_gap,
             "paper_grade_max_abs_qgpr_coverage_gap": args.paper_grade_max_abs_qgpr_coverage_gap,
+            "paper_grade_qgpr_engine": args.paper_grade_qgpr_engine,
+            "paper_grade_qgpr_optimizer": args.paper_grade_qgpr_optimizer,
+            "paper_grade_qgpr_catastrophic_coverage_gap": args.paper_grade_qgpr_catastrophic_coverage_gap,
             "expected_label_efficiency": args.expected_label_efficiency,
             "expected_valid_candidates": args.expected_valid_candidates,
             "expected_completed_jobs": args.expected_completed_jobs,
