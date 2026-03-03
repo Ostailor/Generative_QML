@@ -1,0 +1,89 @@
+{
+  "campaign_id": "t5r4-14539888",
+  "timestamp_utc": "2025-10-27T15:36:56.350590Z",
+  "iterations_planned": 10,
+  "iterations_executed": 6,
+  "classical_label_budget": 120,
+  "quantum_label_budget": 24,
+  "label_efficiency_gain": 0.8,
+  "total_jobs": 24,
+  "completed_jobs": 24,
+  "failed_jobs": 0,
+  "valid_candidates": 24,
+  "max_force_threshold": 0.05,
+  "iteration_summaries": [
+    {
+      "iteration": 1,
+      "request_ids": [
+        "REALCAM-I01-C03",
+        "REALCAM-I01-C02",
+        "REALCAM-I01-C04",
+        "REALCAM-I01-C01"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_01/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_01/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 2,
+      "request_ids": [
+        "REALCAM-I02-C02",
+        "REALCAM-I02-C03",
+        "REALCAM-I02-C04",
+        "REALCAM-I02-C01"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_02/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_02/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 3,
+      "request_ids": [
+        "REALCAM-I03-C03",
+        "REALCAM-I03-C02",
+        "REALCAM-I03-C01",
+        "REALCAM-I03-C04"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_03/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_03/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 4,
+      "request_ids": [
+        "REALCAM-I04-C01",
+        "REALCAM-I04-C04",
+        "REALCAM-I04-C02",
+        "REALCAM-I04-C03"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_04/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_04/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 5,
+      "request_ids": [
+        "REALCAM-I05-C01",
+        "REALCAM-I05-C03",
+        "REALCAM-I05-C04",
+        "REALCAM-I05-C02"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_05/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_05/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 6,
+      "request_ids": [
+        "REALCAM-I06-C01",
+        "REALCAM-I06-C02",
+        "REALCAM-I06-C03",
+        "REALCAM-I06-C04"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_06/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/iteration_06/queue_monitoring/jobs.jsonl"
+    }
+  ],
+  "notes": [
+    "Campaign truncated after iteration 6 (compute budget exhausted); metrics derived from HPC queue artefacts."
+  ],
+  "mlflow_run": {
+    "run_id": "278a6115639f4f3a9e2a9cb194a55fb3",
+    "experiment_id": "968183626604800577"
+  }
+}

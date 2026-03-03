@@ -23,7 +23,7 @@ import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Sequence, Tuple
+from typing import Any, Dict, List, Sequence, Tuple
 
 import mlflow
 import numpy as np
@@ -38,6 +38,36 @@ CAMPAIGN_ROOT = DATA_DIR / "dft_workflow" / "campaigns"
 
 sys.path.insert(0, str(BASE_DIR / "scripts"))
 from dft.run_dft_workflow import run_queue  # noqa: E402
+
+JOB_CLASS_PROFILES: Dict[str, Dict[str, Any]] = {
+    "scf_screen": {
+        "calculation": "scf",
+        "max_force_threshold": 0.05,
+        "relaxation": {},
+        "stress_analysis": None,
+    },
+    "vc_relax": {
+        "calculation": "vc-relax",
+        "max_force_threshold": 0.03,
+        "relaxation": {
+            "ion_dynamics": "bfgs",
+            "cell_dynamics": "bfgs",
+            "force_threshold_ev_per_ang": 0.03,
+            "pressure_threshold_kbar": 1.0,
+            "max_steps": 200,
+        },
+        "stress_analysis": None,
+    },
+    "elastic_eval": {
+        "calculation": "scf",
+        "max_force_threshold": 0.08,
+        "relaxation": {},
+        "stress_analysis": {
+            "strain_amplitude": 0.003,
+            "strain_directions": 6,
+        },
+    },
+}
 
 
 def parse_composition(formula: str) -> Dict[str, float]:
@@ -114,10 +144,17 @@ def write_handoff_package(
     candidate: pd.Series,
     *,
     request_id: str,
+    job_class: str,
     iteration_index: int,
     output_root: Path,
     random_state: int,
     base_lattice_constant: float,
+    supercell: Tuple[int, int, int],
+    calculation: str,
+    relaxation: Dict[str, float | int | str | None],
+    stress_analysis: Dict[str, float | int] | None = None,
+    custom_k_grid: Sequence[int] | None = None,
+    custom_cutoffs: Tuple[float, float] | None = None,
 ) -> Path:
     """Create metadata + CIF handoff package for a candidate."""
     rng = np.random.default_rng(random_state)
@@ -127,7 +164,6 @@ def write_handoff_package(
         lattice_constant = base_lattice_constant
     else:
         lattice_constant = base_lattice_constant * (7.5 / density) ** (1 / 3)
-    supercell = (2, 2, 2)
     atoms = build_atoms(
         fractions,
         phase=candidate.get("phase", "fcc"),
@@ -145,6 +181,13 @@ def write_handoff_package(
     write(structure_path, atoms, format="cif")
 
     timestamp = datetime.utcnow().isoformat() + "Z"
+    overrides: Dict[str, Any] = {}
+    if custom_k_grid is not None:
+        overrides["k_grid"] = [int(v) for v in custom_k_grid]
+    if custom_cutoffs is not None:
+        overrides["ecutwfc_ry"] = float(custom_cutoffs[0])
+        overrides["ecutrho_ry"] = float(custom_cutoffs[1])
+
     metadata = {
         "request_id": request_id,
         "source_dataset": "qgan_conditioned_candidates",
@@ -152,9 +195,10 @@ def write_handoff_package(
         "candidate_id": candidate["candidate_id"],
         "composition": candidate["composition"],
         "phase": candidate.get("phase"),
-        "calculation": "scf",
+        "job_class": job_class,
+        "calculation": calculation,
         "verbosity": "low",
-        "kpoint_grid": [4, 4, 4],
+        "kpoint_grid": overrides.get("k_grid", [4, 4, 4]),
         "encut": 550,
         "smearing": {
             "scheme": "mv",
@@ -173,6 +217,12 @@ def write_handoff_package(
         "iteration_index": iteration_index,
         "notes": f"T5R.4 production handoff for candidate {candidate['candidate_id']}",
     }
+    if overrides:
+        metadata["qe_overrides"] = overrides
+    if relaxation:
+        metadata["relaxation"] = relaxation
+    if stress_analysis:
+        metadata["stress_analysis"] = stress_analysis
     (handoff_dir / "metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     return handoff_dir
 
@@ -215,10 +265,17 @@ def log_campaign_to_mlflow(
     mlflow.set_experiment(experiment)
     with mlflow.start_run(run_name=run_name) as run:
         mlflow.set_tags({"task": "T5R.4", "milestone": "M5-real"})
+        job_class = summary.get("job_class", "unknown")
+        mlflow.log_param("job_class", job_class)
+        mlflow.log_param("calculation_mode", summary.get("calculation_mode", "unknown"))
         mlflow.log_metric("aloa.real_label_efficiency_gain", float(summary["label_efficiency_gain"]))
         mlflow.log_metric("aloa.real_valid_candidates", float(summary["valid_candidates"]))
         mlflow.log_metric("aloa.real_dft_completed", float(summary["completed_jobs"]))
         mlflow.log_metric("aloa.real_dft_failed", float(summary["failed_jobs"]))
+        mlflow.log_metric(f"aloa.{job_class}.label_efficiency_gain", float(summary["label_efficiency_gain"]))
+        mlflow.log_metric(f"aloa.{job_class}.valid_candidates", float(summary["valid_candidates"]))
+        mlflow.log_metric(f"aloa.{job_class}.dft_completed", float(summary["completed_jobs"]))
+        mlflow.log_metric(f"aloa.{job_class}.dft_failed", float(summary["failed_jobs"]))
         for record in candidate_records:
             prefix = f"{record['request_id']}"
             if record.get("formation_energy_eV") is not None:
@@ -244,17 +301,104 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--experiment", default="t5r4_real_campaign")
     parser.add_argument("--queue-experiment", default="dft_queue_runs_real")
     parser.add_argument("--queue-tracking-uri", default=None)
-    parser.add_argument("--max-force-threshold", type=float, default=0.05)
+    parser.add_argument(
+        "--job-class",
+        choices=sorted(JOB_CLASS_PROFILES.keys()),
+        default="scf_screen",
+        help="Execution profile for this campaign (controls calculation mode and acceptance checks).",
+    )
+    parser.add_argument("--max-force-threshold", type=float, default=None)
     parser.add_argument("--random-state", type=int, default=42)
     parser.add_argument("--lattice-constant", type=float, default=3.65)
+    parser.add_argument(
+        "--supercell",
+        type=int,
+        nargs=3,
+        default=[2, 2, 2],
+        metavar=("SX", "SY", "SZ"),
+        help="Supercell replication factors for generated structures (default: 2 2 2).",
+    )
     parser.add_argument("--campaign-root", type=Path, default=CAMPAIGN_ROOT)
     parser.add_argument("--handoff-root", type=Path, default=HANDOFF_INPUT_DIR)
+    parser.add_argument('--resume', action='store_true', help='Reuse existing handoffs and QE outputs if present.')
+    parser.add_argument('--k-grid', type=int, nargs=3, default=[4, 4, 4], metavar=('KX', 'KY', 'KZ'), help='Monkhorst-Pack grid for QE runs.')
+    parser.add_argument('--ecutwfc', type=float, default=40.42423968, help='Plane-wave cutoff (Ry).')
+    parser.add_argument('--ecutrho', type=float, default=323.39391744, help='Charge density cutoff (Ry).')
+    parser.add_argument('--max-wall-seconds', type=int, default=None, help='Abort QE jobs exceeding this wall time (seconds).')
+
+    parser.add_argument(
+        "--calculation",
+        choices=["scf", "relax", "vc-relax"],
+        default=None,
+        help="Quantum ESPRESSO calculation mode for production runs.",
+    )
+    parser.add_argument(
+        "--ion-dynamics",
+        default="bfgs",
+        help="Ion dynamics scheme when running relax/vc-relax calculations.",
+    )
+    parser.add_argument(
+        "--cell-dynamics",
+        default="bfgs",
+        help="Cell dynamics scheme when running vc-relax calculations.",
+    )
+    parser.add_argument(
+        "--relax-force-threshold",
+        type=float,
+        default=0.03,
+        help="Force convergence threshold (eV/Angstrom) for relax/vc-relax.",
+    )
+    parser.add_argument(
+        "--relax-pressure-threshold",
+        type=float,
+        default=1.0,
+        help="Pressure convergence threshold (kbar) for vc-relax.",
+    )
+    parser.add_argument(
+        "--relax-max-steps",
+        type=int,
+        default=200,
+        help="Maximum ionic steps for relax/vc-relax calculations.",
+    )
     return parser.parse_args()
+
+
+def _resolve_profile(args: argparse.Namespace) -> Dict[str, Any]:
+    profile = dict(JOB_CLASS_PROFILES[args.job_class])
+    calculation = args.calculation or profile["calculation"]
+    max_force_threshold = (
+        args.max_force_threshold
+        if args.max_force_threshold is not None
+        else float(profile["max_force_threshold"])
+    )
+
+    relaxation_config: Dict[str, float | int | str] = dict(profile.get("relaxation") or {})
+    if calculation in {"relax", "vc-relax"}:
+        relaxation_config.setdefault("ion_dynamics", args.ion_dynamics)
+        relaxation_config.setdefault("force_threshold_ev_per_ang", args.relax_force_threshold)
+        relaxation_config.setdefault("max_steps", args.relax_max_steps)
+        if calculation == "vc-relax":
+            relaxation_config.setdefault("cell_dynamics", args.cell_dynamics)
+            relaxation_config.setdefault("pressure_threshold_kbar", args.relax_pressure_threshold)
+        else:
+            relaxation_config.pop("cell_dynamics", None)
+            relaxation_config.pop("pressure_threshold_kbar", None)
+    else:
+        relaxation_config = {}
+
+    stress_analysis = profile.get("stress_analysis")
+    return {
+        "calculation": calculation,
+        "max_force_threshold": max_force_threshold,
+        "relaxation": relaxation_config,
+        "stress_analysis": stress_analysis,
+    }
 
 
 def main() -> None:
     args = parse_args()
     rng = np.random.default_rng(args.random_state)
+    profile = _resolve_profile(args)
 
     candidate_df = pd.read_csv(args.candidate_csv)
     candidate_df = candidate_df[candidate_df.get("property_compliant", 0) == 1].copy()
@@ -266,6 +410,8 @@ def main() -> None:
     campaign_id = args.campaign_id or f"t5r4-{datetime.utcnow():%Y%m%dT%H%M%SZ}"
     campaign_dir = args.campaign_root / campaign_id
     campaign_dir.mkdir(parents=True, exist_ok=True)
+
+    relaxation_config: Dict[str, float | int | str] = dict(profile["relaxation"])
 
     batches = select_batches(candidate_df, iterations=args.iterations, top_k=args.top_k)
     completed_jobs = 0
@@ -283,14 +429,25 @@ def main() -> None:
         for offset, (_, candidate) in enumerate(batch.iterrows(), start=1):
             request_id = f"{args.request_prefix}-I{iter_index:02d}-C{offset:02d}"
             random_seed = args.random_state + iter_index * 100 + offset
-            write_handoff_package(
-                candidate,
-                request_id=request_id,
-                iteration_index=iter_index,
-                output_root=args.handoff_root,
-                random_state=random_seed,
-                base_lattice_constant=args.lattice_constant,
-            )
+            handoff_path = args.handoff_root / request_id / "metadata.json"
+            if args.resume and handoff_path.exists():
+                _ = handoff_path  # reuse existing handoff
+            else:
+                write_handoff_package(
+                    candidate,
+                    request_id=request_id,
+                    job_class=args.job_class,
+                    iteration_index=iter_index,
+                    output_root=args.handoff_root,
+                    random_state=random_seed,
+                    base_lattice_constant=args.lattice_constant,
+                    supercell=(int(args.supercell[0]), int(args.supercell[1]), int(args.supercell[2])),
+                    calculation=profile["calculation"],
+                    relaxation=relaxation_config.copy(),
+                    stress_analysis=profile["stress_analysis"],
+                    custom_k_grid=args.k_grid,
+                    custom_cutoffs=(args.ecutwfc, args.ecutrho),
+                )
             request_ids.append(request_id)
             manifest_records.append(
                 {
@@ -316,6 +473,8 @@ def main() -> None:
             experiment=args.queue_experiment,
             run_name=f"{campaign_id}-iter{iter_index:02d}",
             monitor_dir=iter_monitor_dir,
+            resume=args.resume,
+            max_wall_seconds=args.max_wall_seconds,
         )
 
         iteration_record = {
@@ -332,15 +491,24 @@ def main() -> None:
                 continue
             result = json.loads(result_path.read_text())
             completed = job["status"] == "completed"
+            if result.get('max_force_eV_A') is None and result.get('forces_eV_A'):
+                result['max_force_eV_A'] = max((sum(f**2 for f in vec))**0.5 for vec in result['forces_eV_A'])
+
             completed_jobs += int(completed)
             failed_jobs += int(not completed)
             candidate_info = manifest_df[manifest_df["request_id"] == job["request_id"]].iloc[0]
             density = result["properties"].get("exp_density_g_cm3")
-            max_force = result.get("max_force_eV_A", np.nan)
+            raw_max_force = result.get("max_force_eV_A")
+            if raw_max_force is None:
+                max_force_val = np.inf
+            else:
+                max_force_val = float(raw_max_force)
+                if math.isnan(max_force_val):
+                    max_force_val = np.inf
             formation = result.get("formation_energy_eV")
             valid_flag = int(
                 completed
-                and float(max_force or np.inf) <= args.max_force_threshold
+                and max_force_val <= profile["max_force_threshold"]
                 and not math.isnan(float(density or np.nan))
             )
             candidate_record = {
@@ -353,7 +521,7 @@ def main() -> None:
                 "latency_s": job.get("latency_s"),
                 "formation_energy_eV": formation,
                 "density_g_cm3": density,
-                "max_force_eV_A": max_force,
+                "max_force_eV_A": raw_max_force,
                 "valid_flag": valid_flag,
                 "result_path": str(result_path),
             }
@@ -374,6 +542,8 @@ def main() -> None:
 
     summary = {
         "campaign_id": campaign_id,
+        "job_class": args.job_class,
+        "calculation_mode": profile["calculation"],
         "timestamp_utc": datetime.utcnow().isoformat() + "Z",
         "iterations_planned": args.iterations,
         "iterations_executed": len(iteration_summaries),
@@ -384,7 +554,7 @@ def main() -> None:
         "completed_jobs": completed_jobs,
         "failed_jobs": failed_jobs,
         "valid_candidates": valid_candidates,
-        "max_force_threshold": args.max_force_threshold,
+        "max_force_threshold": profile["max_force_threshold"],
         "iteration_summaries": iteration_summaries,
     }
 

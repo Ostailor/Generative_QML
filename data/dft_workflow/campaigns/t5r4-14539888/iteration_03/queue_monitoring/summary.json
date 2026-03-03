@@ -1,0 +1,93 @@
+{
+  "run_id": "dft-queue-20251025T202901",
+  "started_at": "2025-10-25T20:29:01.886220Z",
+  "completed_at": "2025-10-25T21:40:47.033977Z",
+  "total_jobs": 4,
+  "completed_jobs": 4,
+  "failed_jobs": 0,
+  "latency": {
+    "avg": 2635.495311454637,
+    "min": 1135.5938039384782,
+    "max": 4305.13949570246,
+    "p95": 4115.083105623489
+  },
+  "jobs": [
+    {
+      "request_id": "REALCAM-I03-C03",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2025-10-25T20:29:01.890251Z",
+      "completed_at": "2025-10-25T20:47:57.484055Z",
+      "latency_s": 1135.5938039384782,
+      "latest_attempt_latency_s": 1135.592941429466,
+      "errors": [],
+      "output_dir": "/scratch/zt1/project/hpcintro/user/otailor/projects/Generative_QML/data/dft_workflow/REALCAM-I03-C03",
+      "result_snapshot": {
+        "total_energy_eV": -23699.669140359234,
+        "formation_energy_eV": -2962.4586425449043,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 0
+    },
+    {
+      "request_id": "REALCAM-I03-C02",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2025-10-25T20:29:01.889465Z",
+      "completed_at": "2025-10-25T21:03:25.040509Z",
+      "latency_s": 2063.1510510016233,
+      "latest_attempt_latency_s": 2063.149740656838,
+      "errors": [],
+      "output_dir": "/scratch/zt1/project/hpcintro/user/otailor/projects/Generative_QML/data/dft_workflow/REALCAM-I03-C02",
+      "result_snapshot": {
+        "total_energy_eV": -23699.669140359234,
+        "formation_energy_eV": -2962.4586425449043,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 1
+    },
+    {
+      "request_id": "REALCAM-I03-C01",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2025-10-25T20:29:01.888904Z",
+      "completed_at": "2025-10-25T21:19:39.985792Z",
+      "latency_s": 3038.096895175986,
+      "latest_attempt_latency_s": 3038.0962238190696,
+      "errors": [],
+      "output_dir": "/scratch/zt1/project/hpcintro/user/otailor/projects/Generative_QML/data/dft_workflow/REALCAM-I03-C01",
+      "result_snapshot": {
+        "total_energy_eV": -23699.669140359234,
+        "formation_energy_eV": -2962.4586425449043,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 2
+    },
+    {
+      "request_id": "REALCAM-I03-C04",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2025-10-25T20:29:01.890621Z",
+      "completed_at": "2025-10-25T21:40:47.030117Z",
+      "latency_s": 4305.13949570246,
+      "latest_attempt_latency_s": 4305.138752879575,
+      "errors": [],
+      "output_dir": "/scratch/zt1/project/hpcintro/user/otailor/projects/Generative_QML/data/dft_workflow/REALCAM-I03-C04",
+      "result_snapshot": {
+        "total_energy_eV": -23699.669140359234,
+        "formation_energy_eV": -2962.4586425449043,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 3
+    }
+  ],
+  "artefacts": {
+    "jobs_log": "/scratch/zt1/project/hpcintro/user/otailor/projects/Generative_QML/data/dft_workflow/campaigns/t5r4-14539888/iteration_03/queue_monitoring/jobs.jsonl",
+    "summary_path": "/scratch/zt1/project/hpcintro/user/otailor/projects/Generative_QML/data/dft_workflow/campaigns/t5r4-14539888/iteration_03/queue_monitoring/summary.json"
+  },
+  "mlflow_run": true
+}

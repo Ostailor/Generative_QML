@@ -1,46 +1,62 @@
 # Weekly Status Snapshot
 
-- **Week Ending**: 2025-09-16
-- **Report Generated**: 2025-09-16T19:18:58.152051Z
+- **Week Ending**: 2026-02-11
+- **Report Generated**: 2026-02-11T03:49:26.838335Z
 - **Data Source**: MLflow + workspace registers
 
 ## Acceptance Coverage
 | Milestone | Task | Status | Latest Value | MLflow Run | Notes |
 | --- | --- | --- | --- | --- | --- |
-| M0 | T0.2 | pass | 45.00000 | c33a160153d44ff59e6f9a8c08aa0ffa |  |
-| M0 | T0.3 | pass | 3.00000 | a797050246fe468da9c87e3c293bbb93 |  |
-| M0 | T0.4 | pass | None | 3413bf30f9634bb687acc4d2aa21bbfb |  |
-| M1 | T1.1 | pass | 3.00000 | 739c63bf47554398945bd53735bd39bf |  |
-| M1 | T1.2 | pass | 1.00000 | 7ee3c2a1b134482e8ec9e730280b03d8 |  |
-| M1 | T1.3 | pass | 4.00000 | 80242e458a2f4994a68a4aeeade8cd7c |  |
-| M1 | T1.4 | pass | 1.00000 | fac3c41d70024663985572723828e170 |  |
-| M1 | T1.5 | pass | 1.00000 | 0079e5b599614b3799a0ec6c2eead9b2 |  |
-| M1 | T1.6 | pass | 1.00000 | 9dddbc130bc14f78898203a176ed27fd |  |
-| M2 | T2.1 | pass | 3.00000 | 33eadbe15af84dc6a1b798896035210c |  |
-| M2 | T2.2 | pass | -0.00002 | aee97d58ddc0416fb13bdc6628571635 |  |
-| M2 | T2.3 | pass | -0.01400 | b0c579003f7b4fd3a163be299fa82f8b |  |
-| M2 | T2.4 | pass | 1.00000 | b15d4a0bf60842b583f7d1d4a5ebb0c9 |  |
-| M2 | T2.5 | pass | 1.00000 | 296af7c422d14a15b3eef62b99e77e65 |  |
-| M3 | T3.1 | pass | 3.00000 | a7fb941b5d1e462790587fb6560bca70 |  |
-| M3 | T3.2 | pass | 0.88333 | 403b23131c4b4ac59359160a55f82a69 |  |
-| M3 | T3.3 | pass | 1.00000 | d5cfcc2bbfd545128d2f9f152f3bf87a |  |
-| M3 | T3.4 | pass | 0.22640 | e1ae86aa2c3b4b3298caf71575639dac |  |
-| M3 | T3.5 | pass | 1.00000 | 7b1278f3aae649d19b7b95c7852a52e4 |  |
-| M4 | T4.1 | pass | 1.00000 | e3b03d6cecd745719cc6af31aa045e91 |  |
-| M4 | T4.2 | pass | 1.00000 | 37a2c99fb51846cb8564cac60c55aeee |  |
-| M4 | T4.3 | pass | 1.00000 | 9fa1185d16774b76b8d91bafa66a272a |  |
-| M4 | T4.4 | pass | 0.32000 | 1e14fd93e9734090b1e584e7a454c359 |  |
-| M4 | T4.5 | pass | 1.00000 | 693f339983c84091844704da145a96b4 |  |
-| M5 | T5.1 | pass | 1.00000 | 270189ad9efd4aa382c4ef7276722248 |  |
-| M5 | T5.2 | pass | 3.00000 | 9c5af4ec75984435ada5d8ae14a75231 |  |
-| M5 | T5.3 | pass | 1.00000 | 03b064616bf04c19963643ae94ccd307 |  |
-| M5 | T5.5 | pass | 1.00000 | 94b5cf7a631e45d0b0c381bc0b20e6fe |  |
-| M5 | T5.4 | pass | 0.03100 | 8e3327c30a7041dda3114a43421d133b |  |
-| M6 | T6.4 | missing | n/a | n/a | No MLflow run found for tag |
-| M7 | T7.2 | missing | n/a | n/a | No MLflow run found for tag |
-| M7 | T7.4 | missing | n/a | n/a | No MLflow run found for tag |
-| M8 | T8.2 | missing | n/a | n/a | No MLflow run found for tag |
-| M9 | T9.4 | missing | n/a | n/a | No MLflow run found for tag |
+| M0 | T0.2 | pass | 45.00000 | e2895798ca9e43878b51fa66c4c0b9ba |  |
+| M0 | T0.3 | pass | 3.00000 | 2e4fc0b756ad43b58958a47165cb7549 |  |
+| M0 | T0.4 | pass | None | 87dd4ea7204a46cd9912aca064080e7f |  |
+| M1 | T1.1 | pass | 3.00000 | 7eb8e707010e45839a0f8766026cfe5b |  |
+| M1 | T1.2 | pass | 1.00000 | 14516d4925e04d74bda25781ed121155 |  |
+| M1 | T1.3 | pass | 4.00000 | 0a8377fd0dea44508c21424adcc27980 |  |
+| M1 | T1.4 | pass | 1.00000 | fcc2750e380840a08e16aaabdd463c7f |  |
+| M1 | T1.5 | pass | 1.00000 | 6fba36e0163549e09f88aaf2e97af163 |  |
+| M1 | T1.6 | pass | 1.00000 | f17058980fe44b55a71c56203e19e425 |  |
+| M2 | T2.1 | pass | 3.00000 | ee31bce7270741618cb3f6103f23f30f |  |
+| M2 | T2.2 | pass | -0.00002 | 4b100ca590b04e50b71beba8125159be |  |
+| M2 | T2.3 | pass | -0.01400 | 8edce4086cf24ea0aaeb3d69f3723fb4 |  |
+| M2 | T2.4 | pass | 1.00000 | d04508b0f49d436482fa554c08e9155f |  |
+| M2 | T2.5 | pass | 1.00000 | 03a61c20eb394050a4dbb8b1b0e3216b |  |
+| M3 | T3.1 | pass | 3.00000 | d923900b0e784159be1e48a5a3de64fb |  |
+| M3 | T3.2 | pass | 0.87333 | ddf3b1cc580546dfacedf7cbaf355d90 |  |
+| M3 | T3.3 | pass | 1.00000 | 66455f1032ca4063bb0e513ae71f52e6 |  |
+| M3 | T3.4 | pass | 0.22640 | 915dc7bce3cf41eabf2bc46b52bb2591 |  |
+| M3 | T3.5 | pass | 1.00000 | caf0a900bb5c4c7db62583f929f6ee96 |  |
+| M4 | T4.1 | pass | 1.00000 | 6ec94f80f42741fb947a3dec332e16be |  |
+| M4 | T4.2 | pass | 1.00000 | 5ea512de620145de974cfd8b77825c54 |  |
+| M4 | T4.3 | pass | 1.00000 | c468e036ffe840f490af0477f43ab0c4 |  |
+| M4 | T4.4 | pass | 0.32000 | 828c7e415eba42c5a008c6bcff74e599 |  |
+| M4 | T4.5 | pass | 1.00000 | 64a33047571f43dc917f7530d5376cd0 |  |
+| M5 | T5.1 | pass | 1.00000 | 80ad7a6b88d148709a91865ccb5b0891 |  |
+| M5 | T5.2 | pass | 6.00000 | f0e77ab5d47a4665829a1752c0285ed5 |  |
+| M5 | T5.3 | pass | 1.00000 | 378c96ba22b74a989bcce70c5e59c16b |  |
+| M5 | T5.5 | pass | 1.00000 | 14caaa3196bc426492cee495f759d5cd |  |
+| M5 | T5.4 | pass | 0.03100 | 3ff0eea4dab74242bbcfa74e70201ec4 |  |
+| M6 | T6.4 | pass | 27.00000 | 0b6aa3672fc8416e923addc1c030c173 |  |
+| M7 | T7.2 | pass | 0.30901 | a53cfad6e1714e53af3d5744bc8ece6c |  |
+| M7 | T7.4 | pass | 0.50002 | c808f81e3f0341b0b60b204b8c4eb6fe |  |
+| M8 | T8.2 | pass | 1.00000 | ae85f34f41a44727b24fadaa2bbe4ea4 |  |
+| M9 | T9.4 | pass | 0.00000 | 375413065278432cb93368d511b3ad05 |  |
+| M5-real | T5R.1 | pass | 1.00000 | b95a3af3e1834d1ea9b4141ddf21ba62 |  |
+| M5-real | T5R.2 | pass | 4.00000 | 71c3f644e5fa4943ab6395558871e36b |  |
+| M5-real | T5R.3 | pass | 0.03393 | 83fafa5d6f5e4ee2897ce0a3614ddb84 |  |
+| M5-real | T5R.4 | pass | 0.90000 | c05c96f0e7f641cc9170ea8598711acc |  |
+| M5-real | T5R.5 | pass | 1.00000 | 20d2a96f62d544109dd642886849c5e7 |  |
+| M6 | T6.1 | pass | 3.00000 | 95397eced5d14740815684d9a017c22e |  |
+| M6 | T6.2 | pass | 1.00000 | 13eab6ed81ab48419d08c6e7600edb8d |  |
+| M6 | T6.3 | pass | 1.00000 | 5d6cc18ecd1c4ebb86e8aa86540dd65b |  |
+| M6 | T6.5 | pass | 1.00000 | 275c8c9b5d854bf8b262e98439e339c3 |  |
+| M7 | T7.1 | pass | 1.00000 | 378bd1d59f384d249d2b1811f4befc09 |  |
+| M8 | T8.1 | pass | 12.00000 | 728c3318b9cc4f39bf6e64ca4174fef5 |  |
+| M9 | T9.1 | pass | 1.00000 | 1fb6bd9043f34eb0a7aa91f6618c54ab |  |
+| M9 | T9.2 | pass | 1.00000 | d0499cd6c62d4954b464d04ec37d04ff |  |
+| M9 | T9.3 | pass | 1.00000 | bec7a0f38646484494af20df2be2827a |  |
+| M9 | T9.5 | pass | 1.00000 | 0692333c18ec4c4f87e7fc42bb66a628 |  |
+| M9 | T9.6 | pass | 1.00000 | 89cbffe4efdf456f9a6580eec6580501 |  |
 
 ## Outstanding Items
-- Review failed or missing entries and schedule remediation with owning agents.
+- No failed or missing acceptance entries in the current snapshot.

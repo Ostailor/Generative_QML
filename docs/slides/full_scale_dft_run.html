@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Generative QML + DFT Program Brief</title>
+    <style>
+      body {
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+          "Helvetica Neue", Arial, sans-serif;
+      }
+      .remark-slide-content {
+        font-size: 24px;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #0f172a;
+      }
+      img {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+      }
+      .caption {
+        font-size: 16px;
+        color: #475569;
+        text-align: center;
+        margin-top: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle
+
+# Generative QML + DFT Program
+### Status & Full-Scale DFT Run Plan
+_Updated: 2025-11-09_
+
+---
+
+## Program Snapshot
+- **Objective**: Modular quantum-active-learning (QAL) workflow marrying QSVR/QGPR regressors, QGAN generators, Bayesian acquisition, and DFT validation for HEA discovery.
+- **Differentiators**: Quantum kernels inside the active-learning loop, property-conditioned generation, and automated DFT feedback tied to MLflow + RKMA provenance.
+- **Agent stack**: PDA governance across DPQA, QKAA, QGMA, ALOA, MDIA, BRA, QHSOA, RKMA ensures scoped tasks, quality gates, and reproducibility hooks (`AGENTS.md` / `TASKS.md`).
+- **Evidence base**: 45-source literature synthesis, dataset releases v1.0, QA dashboards, and MLflow tracking spanning M0–M5 deliverables.
+
+---
+
+## Milestone Completion (M0–M5)
+![Milestone completion chart](assets/milestone_progress.png)
+.caption[Completed milestones (M0–M5) with in-flight roadmap toward hardware, benchmarking, reproducibility, and manuscript prep.]
+
+- Charter, literature stack, and venue targeting locked (M0).
+- Data, constraints, and DFT handoff artefacts released with QA manifests (M1).
+- Quantum regressors/generators benchmarked with provenance + novelty gains (M2–M3).
+- Active-learning orchestration + gate review approved the move into real DFT (M4).
+
+---
+
+## Quantum Stack Highlights
+- **Data/Noise readiness**: Harmonized HEA/perovskite/SAA datasets, perturbation sims, and HEA constraint engine with 100% validation (README.md, `data/releases/dataset_v1.0/`).
+- **QSVR/QGPR**: Feature-map brief + QSVR parity with classical RMSE and QGPR coverage within −1.4% of nominal CI95 target (`data/qml/qsvr_metrics.json`, `workspace/entries/...T2.2`, `T2.3`).
+- **Generative modeling**: QGAN valid rate 88.3% (pre-conditioning) → 100% post-conditioning with DFT-informed priors; novelty delta +0.226 vs classical baselines.
+- **Active learning**: Orchestrator baseline demonstrated 32% pre-production label-efficiency gains; production campaign achieved 0.80 under real DFT (`data/dft_workflow/campaigns/t5r4-14539888/closed_loop_summary.json`).
+
+---
+
+## Real DFT Integration Wins
+![DFT KPI chart](assets/dft_campaign_metrics.png)
+.caption[T5R.4 campaign metrics vs acceptance thresholds (valid candidates, label-efficiency gain, iteration coverage).]
+
+- QE 7.4.1 benchmarked + storage forecasts assembled (T5R.1 `workspace/entries/2025-10-01_T5R1_qe_benchmark.md`).
+- DFT validation gap 3.39% vs reference datasets (T5R.3 `workspace/entries/2025-10-22_T5R3_dft_validation.md`).
+- Production campaign `t5r4-14539888` delivered 24 converged candidates over 6 iterations with `aloa.real_label_efficiency_gain = 0.80` (T5R.4 log 2025-10-27).
+- Queue artefacts + MLflow runs archived for BRA/RKMA consumption; acceptance gates for M5 satisfied.
+
+---
+
+## Path to Full-Scale DFT Run
+![Next-step timeline](assets/full_scale_dft_next_steps.png)
+.caption[Sequenced actions to finish the 10-iteration campaign and prep manuscript-grade assets.]
+
+- **Queue hardening**: Turn on `--max-workers > 1`, integrate latency/error metrics, and enable alert routing to BRA before next allocation window.
+- **HPC completion**: Resume iterations 7–10 via `sbatch hpc/scripts/t5r4_real_campaign.sbatch`, include `vc_relax` + `elastic_eval` job classes per `docs/hpc/job_profile_plan.json`.
+- **Model refresh**: Retrain QSVR/QGPR with real QE labels, update acquisition weighting with BRA-provided uncertainty bounds, and regenerate novelty/feasibility dashboards.
+- **Packaging**: Sync campaign artefacts to RKMA release bundles, refresh `TASKS.md`/gate logs, and draft PDA memo covering resource deltas + manuscript implications.
+
+---
+
+## Action Checklist
+1. **Environment** — Mirror QE env (`docs/hpc/qe_environment.md`), activate `.venv`, export `QE_PW_COMMAND` and pseudopotential paths.
+2. **Benchmarks & forecasts** — Run `python scripts/dft/qe_benchmark.py --request-id <id>` for any new job class, then `python scripts/dft/storage_planner.py --config docs/hpc/job_profile_plan.json`.
+3. **Campaign launch** — `sbatch hpc/scripts/t5r4_real_campaign.sbatch --iterations 10 --top-k 4` (adjust for remaining allocation); monitor `data/dft_workflow/campaigns/<id>/queue_monitoring/`.
+4. **Validation** — Execute `python scripts/dft/validate_production_outputs.py --campaign <id>`; deliver report + MLflow link to BRA.
+5. **Documentation** — Update `workspace/entries/lab_notebooks`, push artefacts to `data/releases/dft_workflow_v1/`, and notify PDA/RKMA for gating + manuscript figures.
+
+---
+
+class: center, middle
+
+## Questions?
+Contact PDA (Program Director Agent) for milestone gating or RKMA for reproducibility packaging.
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script>
+      /* global remark */
+      remark.create({
+        ratio: '16:9',
+        navigation: { click: false }
+      });
+    </script>
+  </body>
+</html>

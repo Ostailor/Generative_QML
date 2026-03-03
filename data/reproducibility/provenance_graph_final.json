@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "timestamp_utc": "2026-02-11T02:20:00Z",
+  "nodes": [
+    {
+      "id": "dataset.release.v1",
+      "type": "dataset_release",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/dataset_v1.0"
+    },
+    {
+      "id": "campaign.t5r4.14539888",
+      "type": "dft_campaign",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888"
+    },
+    {
+      "id": "release.real_dft.v1",
+      "type": "release_bundle",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1"
+    },
+    {
+      "id": "hardware.m6.summary",
+      "type": "hardware_summary",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/hardware_summary.json"
+    },
+    {
+      "id": "benchmark.m7.summary",
+      "type": "benchmark_summary",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/data/benchmarks/m7/m7_summary.json"
+    },
+    {
+      "id": "figure.manuscript.kpi",
+      "type": "figure",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures/fig_real_dft_kpi.png"
+    },
+    {
+      "id": "figure.manuscript.hardware",
+      "type": "figure",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures/fig_hardware_cost_fidelity.png"
+    },
+    {
+      "id": "figure.manuscript.m7",
+      "type": "figure",
+      "path": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures/fig_m7_benchmark_summary.png"
+    },
+    {
+      "id": "mlflow.m6.t64",
+      "type": "mlflow_run",
+      "run_id": "0b6aa3672fc8416e923addc1c030c173"
+    },
+    {
+      "id": "mlflow.m7.t72",
+      "type": "mlflow_run",
+      "run_id": "a53cfad6e1714e53af3d5744bc8ece6c"
+    },
+    {
+      "id": "mlflow.m7.t74",
+      "type": "mlflow_run",
+      "run_id": "c808f81e3f0341b0b60b204b8c4eb6fe"
+    },
+    {
+      "id": "mlflow.m8.t82",
+      "type": "mlflow_run",
+      "run_id": "c498d5fa06844f238524d1cc21f2ddc4"
+    }
+  ],
+  "edges": [
+    {
+      "from": "dataset.release.v1",
+      "to": "campaign.t5r4.14539888",
+      "relation": "provides_candidates"
+    },
+    {
+      "from": "campaign.t5r4.14539888",
+      "to": "release.real_dft.v1",
+      "relation": "packaged_as"
+    },
+    {
+      "from": "campaign.t5r4.14539888",
+      "to": "benchmark.m7.summary",
+      "relation": "evaluated_by"
+    },
+    {
+      "from": "hardware.m6.summary",
+      "to": "benchmark.m7.summary",
+      "relation": "hardware_context_for"
+    },
+    {
+      "from": "benchmark.m7.summary",
+      "to": "figure.manuscript.m7",
+      "relation": "visualized_as"
+    },
+    {
+      "from": "campaign.t5r4.14539888",
+      "to": "figure.manuscript.kpi",
+      "relation": "visualized_as"
+    },
+    {
+      "from": "hardware.m6.summary",
+      "to": "figure.manuscript.hardware",
+      "relation": "visualized_as"
+    },
+    {
+      "from": "hardware.m6.summary",
+      "to": "mlflow.m6.t64",
+      "relation": "logged_in"
+    },
+    {
+      "from": "benchmark.m7.summary",
+      "to": "mlflow.m7.t72",
+      "relation": "logged_in"
+    },
+    {
+      "from": "benchmark.m7.summary",
+      "to": "mlflow.m7.t74",
+      "relation": "logged_in"
+    },
+    {
+      "from": "release.real_dft.v1",
+      "to": "mlflow.m8.t82",
+      "relation": "validated_in"
+    }
+  ]
+}

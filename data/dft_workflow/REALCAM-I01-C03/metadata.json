@@ -1,0 +1,35 @@
+{
+  "request_id": "REALCAM-I01-C03",
+  "source_dataset": "qgan_conditioned_candidates",
+  "timestamp_utc": "2025-10-25T17:01:41.418858Z",
+  "candidate_id": "QGAN-149",
+  "composition": "Y0.06 Hf0.06 Si0.06 Zn0.10 Sn0.19 Ti0.06 Mo0.06 Ga0.34 V0.06",
+  "phase": "BCC",
+  "calculation": "scf",
+  "verbosity": "low",
+  "kpoint_grid": [
+    4,
+    4,
+    4
+  ],
+  "encut": 550,
+  "smearing": {
+    "scheme": "mv",
+    "sigma": 0.15
+  },
+  "electrons": {
+    "mixing_beta": 0.3,
+    "conv_thr": 1e-06,
+    "electron_maxstep": 200
+  },
+  "target_properties": [
+    "exp_density_g_cm3",
+    "formation_energy_eV"
+  ],
+  "predicted_properties": {
+    "predicted_density_g_cm3": 7.638,
+    "target_density_g_cm3": 7.435
+  },
+  "iteration_index": 1,
+  "notes": "T5R.4 reconstructed artefact for candidate QGAN-149"
+}

@@ -1,0 +1,6 @@
+{
+  "qsvr_transpiled_models": 1,
+  "qgpr_transpiled_models": 1,
+  "qgma_transpiled_models": 1,
+  "mitigation_profile": "readout-symmetrization + ZNE"
+}

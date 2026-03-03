@@ -1,0 +1,35 @@
+{
+  "request_id": "REALCAM-I03-C03",
+  "source_dataset": "qgan_conditioned_candidates",
+  "timestamp_utc": "2025-10-25T20:47:57.484055Z",
+  "candidate_id": "QGAN-054",
+  "composition": "Mn0.41 Mg0.09 Ag0.41 Cu0.09",
+  "phase": "FCC",
+  "calculation": "scf",
+  "verbosity": "low",
+  "kpoint_grid": [
+    4,
+    4,
+    4
+  ],
+  "encut": 550,
+  "smearing": {
+    "scheme": "mv",
+    "sigma": 0.15
+  },
+  "electrons": {
+    "mixing_beta": 0.3,
+    "conv_thr": 1e-06,
+    "electron_maxstep": 200
+  },
+  "target_properties": [
+    "exp_density_g_cm3",
+    "formation_energy_eV"
+  ],
+  "predicted_properties": {
+    "predicted_density_g_cm3": 5.966,
+    "target_density_g_cm3": 6.304
+  },
+  "iteration_index": 3,
+  "notes": "T5R.4 reconstructed artefact for candidate QGAN-054"
+}

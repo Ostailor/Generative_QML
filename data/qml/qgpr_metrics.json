@@ -1,6 +1,18 @@
 {
-  "rmse_classical": 1.35934650839029,
-  "rmse_quantum": 1.8652089143040986,
-  "coverage_quantum": 0.936,
-  "coverage_gap": -0.013999999999999901
+  "rmse_classical": 1.525069668672909,
+  "rmse_quantum": 1.4643643488652416,
+  "coverage_quantum": 0.03,
+  "coverage_gap": -0.9199999999999999,
+  "runtime_profile": {
+    "max_train": 800,
+    "max_test": 200,
+    "optimizer": "none",
+    "optimizer_effective": "none",
+    "float32": true,
+    "accelerator_requested": "cpu",
+    "accelerator_effective": "cpu",
+    "accelerator_reason": "forced_cpu",
+    "engine_requested": "backend",
+    "engine_effective": "backend"
+  }
 }

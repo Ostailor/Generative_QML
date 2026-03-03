@@ -1,0 +1,59 @@
+{
+  "request_id": "REALCAM-I06-C03",
+  "status": "completed",
+  "timestamp_utc": "2025-10-26T00:45:11.960849Z",
+  "total_energy_eV": -23264.667082630156,
+  "formation_energy_eV": -2908.0833853287695,
+  "max_force_eV_A": 0.0,
+  "properties": {
+    "exp_density_g_cm3": 8.37339782694558
+  },
+  "metadata": {
+    "request_id": "REALCAM-I06-C03",
+    "source_dataset": "qgan_conditioned_candidates",
+    "timestamp_utc": "2025-10-25T23:21:57.616570Z",
+    "candidate_id": "QGAN-101",
+    "composition": "Mn0.23 Ni0.35 Pd0.07 Ag0.07 V0.07 Ti0.21",
+    "phase": "FCC",
+    "calculation": "scf",
+    "verbosity": "low",
+    "kpoint_grid": [
+      4,
+      4,
+      4
+    ],
+    "encut": 550,
+    "smearing": {
+      "scheme": "mv",
+      "sigma": 0.15
+    },
+    "electrons": {
+      "mixing_beta": 0.3,
+      "conv_thr": 1e-06,
+      "electron_maxstep": 200
+    },
+    "target_properties": [
+      "exp_density_g_cm3",
+      "formation_energy_eV"
+    ],
+    "predicted_properties": {
+      "predicted_density_g_cm3": 6.897,
+      "target_density_g_cm3": 6.827
+    },
+    "iteration_index": 6,
+    "notes": "T5R.4 production handoff for candidate QGAN-101"
+  },
+  "strain_results": [],
+  "schema_version": "2.0.0",
+  "engine": {
+    "name": "quantum_espresso",
+    "command": "pw.x",
+    "mode": "scf"
+  },
+  "dft_settings_hash": "961c6c697492aa5d468f3ba24581487761c435559eb81589dc56c4afef51a2fa",
+  "evidence_tier": "production_dft",
+  "uncertainty": {
+    "formation_energy_eV": 0.0,
+    "exp_density_g_cm3": 0.02
+  }
+}

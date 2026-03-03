@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "release_date_utc": "2026-02-11T03:45:18.444798Z",
+  "task": "T5R.5",
+  "milestone": "M5-real",
+  "campaign_id": "t5r4-20260211-fasttrack-221-mw4",
+  "evidence_tier": "production_dft",
+  "headline_metrics": {
+    "label_efficiency_gain": 0.9,
+    "valid_candidates": 12,
+    "completed_jobs": 12,
+    "failed_jobs": 0
+  },
+  "sources": [
+    "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4",
+    "scripts/dft/validate_production_outputs.py",
+    "scripts/dft/run_dft_workflow.py",
+    "scripts/hpc/run_real_dft_campaign.py"
+  ]
+}

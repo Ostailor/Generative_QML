@@ -1,0 +1,21 @@
+{
+  "timestamp_utc": "2026-03-02T21:05:37.751160Z",
+  "checks": {
+    "required_files_present": true,
+    "release_manifest_valid": true
+  },
+  "required_files": [
+    "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1/release_manifest.json",
+    "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1/campaign/closed_loop_summary.json",
+    "/Users/omtailor/Quanutum_MS_Pipeline/data/benchmarks/m7/m7_metrics_table.csv",
+    "/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/hardware_summary.json",
+    "/Users/omtailor/Quanutum_MS_Pipeline/data/benchmarks/m7/m7_summary.json"
+  ],
+  "missing_files": [],
+  "manifest_verification": {
+    "checked": 15,
+    "mismatches": [],
+    "ok": true
+  },
+  "reproduction_success": true
+}

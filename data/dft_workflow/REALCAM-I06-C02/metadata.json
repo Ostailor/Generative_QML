@@ -1,0 +1,35 @@
+{
+  "request_id": "REALCAM-I06-C02",
+  "source_dataset": "qgan_conditioned_candidates",
+  "timestamp_utc": "2025-10-26T00:19:39.995736Z",
+  "candidate_id": "QGAN-041",
+  "composition": "Li0.40 Sn0.09 Mn0.12 Re0.40",
+  "phase": "FCC",
+  "calculation": "scf",
+  "verbosity": "low",
+  "kpoint_grid": [
+    4,
+    4,
+    4
+  ],
+  "encut": 550,
+  "smearing": {
+    "scheme": "mv",
+    "sigma": 0.15
+  },
+  "electrons": {
+    "mixing_beta": 0.3,
+    "conv_thr": 1e-06,
+    "electron_maxstep": 200
+  },
+  "target_properties": [
+    "exp_density_g_cm3",
+    "formation_energy_eV"
+  ],
+  "predicted_properties": {
+    "predicted_density_g_cm3": 6.691,
+    "target_density_g_cm3": 6.482
+  },
+  "iteration_index": 6,
+  "notes": "T5R.4 reconstructed artefact for candidate QGAN-041"
+}

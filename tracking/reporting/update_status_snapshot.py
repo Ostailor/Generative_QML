@@ -204,6 +204,7 @@ def evaluate_rule(rule: AcceptanceRule, run: Optional[Run]) -> RuleStatus:
 
 
 def format_statuses(statuses: Iterable[RuleStatus], week_ending: str) -> str:
+    status_list = list(statuses)
     lines = ["# Weekly Status Snapshot", "", f"- **Week Ending**: {week_ending}"]
     lines.append("- **Report Generated**: " + dt.datetime.utcnow().isoformat() + "Z")
     lines.append("- **Data Source**: MLflow + workspace registers")
@@ -211,7 +212,7 @@ def format_statuses(statuses: Iterable[RuleStatus], week_ending: str) -> str:
     lines.append("## Acceptance Coverage")
     lines.append("| Milestone | Task | Status | Latest Value | MLflow Run | Notes |")
     lines.append("| --- | --- | --- | --- | --- | --- |")
-    for status in statuses:
+    for status in status_list:
         run_link = status.run_id or "n/a"
         latest = status.latest_value or "n/a"
         note = status.notes or ""
@@ -220,7 +221,10 @@ def format_statuses(statuses: Iterable[RuleStatus], week_ending: str) -> str:
         )
     lines.append("")
     lines.append("## Outstanding Items")
-    lines.append("- Review failed or missing entries and schedule remediation with owning agents.")
+    if any(status.status != "pass" for status in status_list):
+        lines.append("- Review failed or missing entries and schedule remediation with owning agents.")
+    else:
+        lines.append("- No failed or missing acceptance entries in the current snapshot.")
     return "\n".join(lines)
 
 

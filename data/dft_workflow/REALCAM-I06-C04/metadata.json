@@ -1,0 +1,35 @@
+{
+  "request_id": "REALCAM-I06-C04",
+  "source_dataset": "qgan_conditioned_candidates",
+  "timestamp_utc": "2025-10-26T01:14:34.690921Z",
+  "candidate_id": "QGAN-049",
+  "composition": "Zr0.42 Ga0.28 Nd0.10 Cu0.20",
+  "phase": "other",
+  "calculation": "scf",
+  "verbosity": "low",
+  "kpoint_grid": [
+    4,
+    4,
+    4
+  ],
+  "encut": 550,
+  "smearing": {
+    "scheme": "mv",
+    "sigma": 0.15
+  },
+  "electrons": {
+    "mixing_beta": 0.3,
+    "conv_thr": 1e-06,
+    "electron_maxstep": 200
+  },
+  "target_properties": [
+    "exp_density_g_cm3",
+    "formation_energy_eV"
+  ],
+  "predicted_properties": {
+    "predicted_density_g_cm3": 7.848,
+    "target_density_g_cm3": 7.559
+  },
+  "iteration_index": 6,
+  "notes": "T5R.4 reconstructed artefact for candidate QGAN-049"
+}

@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "entries": [
+    {
+      "path": "README.md",
+      "sha256": "bc77ec0286baa3cb6b37ff0c514d668a1d6b49db60bfd51cf1d0bf0e27ddb0ad",
+      "size_bytes": 365
+    },
+    {
+      "path": "conference_poster.md",
+      "sha256": "5c0ef40f9f6f07a8ea29e9409071fc25adf036f2f869073811d323cd4b615454",
+      "size_bytes": 1031
+    },
+    {
+      "path": "figures/fig_hardware_cost_fidelity.png",
+      "sha256": "720d5323decfcf9688b56d97ebbf1937b65bda8a39b029cfeaf0c5d268350741",
+      "size_bytes": 87162
+    },
+    {
+      "path": "figures/fig_m7_benchmark_summary.png",
+      "sha256": "95b0f8f874d70ab991dc17bad857b61cb2451a9e8cdd4120f974c468419b0e3f",
+      "size_bytes": 47079
+    },
+    {
+      "path": "figures/fig_real_dft_kpi.png",
+      "sha256": "cf8b76e577bf599b4f91a6cf6f0aee466e600aa6a4c46c84ba8ded5e9a51c7c7",
+      "size_bytes": 35562
+    }
+  ]
+}

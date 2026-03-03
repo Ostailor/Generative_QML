@@ -3,9 +3,9 @@
    verbosity        = 'low'
    tstress          = .true.
    tprnfor          = .true.
-   outdir           = '/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0003/qe_tmp/base'
-   prefix           = 'queue-0003'
-   pseudo_dir       = '/Users/omtailor/qe/pseudos/SSSP_PBE'
+   outdir           = '/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0001/qe_tmp/base'
+   prefix           = 'queue-0001'
+   pseudo_dir       = '/Users/omtailor/Downloads/qe-7.4.1/pseudo'
 /
 &SYSTEM
    ecutwfc          = 38.219281152
@@ -32,10 +32,10 @@
 &RISM
 /
 ATOMIC_SPECIES
-Al 26.9815385 Al.pbe-n-kjpaw_psl.1.0.0.UPF
-Co 58.933194 Pm.paw.z_15.atompaw.wentzcovitch.v1.2.upf
-Fe 55.845 Fe.pbe-spn-kjpaw_psl.0.2.1.UPF
-Ni 58.6934 ni_pbe_v1.4.uspp.F.UPF
+Al 26.9815385 Al.upf
+Co 58.933194 Co.upf
+Fe 55.845 Fe.upf
+Ni 58.6934 Ni.upf
 
 K_POINTS automatic
 4 4 4  0 0 0

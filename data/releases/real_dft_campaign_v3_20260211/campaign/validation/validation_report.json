@@ -1,0 +1,427 @@
+{
+  "timestamp_utc": "2026-02-11T03:45:25.613298Z",
+  "formulas": [
+    {
+      "formula": "Al0.25 Co0.25 Fe0.25 Ni0.25",
+      "normalized_formula": "Al0.25Co0.25Fe0.25Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I01-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C01/results.json",
+          "timestamp_utc": "2026-02-11T03:37:08.538600Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.8907903957346175,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.8907903957346175
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.339736895653,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.339736895653
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.20 Co0.30 Fe0.25 Ni0.25",
+      "normalized_formula": "Al0.20Co0.30Fe0.25Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I01-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C02/results.json",
+          "timestamp_utc": "2026-02-11T03:37:14.025045Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.863409771645612,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.863409771645612
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.253186429319,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.253186429319
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.30 Co0.20 Fe0.25 Ni0.25",
+      "normalized_formula": "Al0.30Co0.20Fe0.25Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I01-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C03/results.json",
+          "timestamp_utc": "2026-02-11T03:36:54.735268Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.826902272860256,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.826902272860256
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.469033520816,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.469033520816
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.25 Co0.20 Fe0.30 Ni0.25",
+      "normalized_formula": "Al0.25Co0.20Fe0.30Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I01-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C04/results.json",
+          "timestamp_utc": "2026-02-11T03:37:10.596569Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.808648523467585,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.808648523467585
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.393664722326,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.393664722326
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.25 Co0.25 Fe0.30 Ni0.20",
+      "normalized_formula": "Al0.25Co0.25Fe0.30Ni0.20",
+      "requests": [
+        {
+          "request_id": "FAST4X-I02-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C01/results.json",
+          "timestamp_utc": "2026-02-11T03:40:55.565157Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.836029147556601,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.836029147556601
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.47854995401,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.47854995401
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.20 Co0.25 Fe0.25 Ni0.30",
+      "normalized_formula": "Al0.20Co0.25Fe0.25Ni0.30",
+      "requests": [
+        {
+          "request_id": "FAST4X-I02-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C02/results.json",
+          "timestamp_utc": "2026-02-11T03:41:16.065351Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.87253664634195,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.87253664634195
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.282264480104,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.282264480104
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.30 Co0.25 Fe0.20 Ni0.25",
+      "normalized_formula": "Al0.30Co0.25Fe0.20Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I02-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C03/results.json",
+          "timestamp_utc": "2026-02-11T03:40:30.645162Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.817775398163922,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.817775398163922
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.442693037291,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.442693037291
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.25 Co0.30 Fe0.20 Ni0.25",
+      "normalized_formula": "Al0.25Co0.30Fe0.20Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I02-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C04/results.json",
+          "timestamp_utc": "2026-02-11T03:40:55.998822Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.881663521038278,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.881663521038278
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.3111234112193,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.3111234112193
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.25 Co0.25 Fe0.20 Ni0.30",
+      "normalized_formula": "Al0.25Co0.25Fe0.20Ni0.30",
+      "requests": [
+        {
+          "request_id": "FAST4X-I03-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C01/results.json",
+          "timestamp_utc": "2026-02-11T03:44:43.341152Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.854282896949274,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.854282896949274
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.5527490031363,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.5527490031363
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.22 Co0.28 Fe0.25 Ni0.25",
+      "normalized_formula": "Al0.22Co0.28Fe0.25Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I03-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C02/results.json",
+          "timestamp_utc": "2026-02-11T03:44:32.353037Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.845156022252936,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.845156022252936
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.5064093429673,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.5064093429673
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.28 Co0.22 Fe0.25 Ni0.25",
+      "normalized_formula": "Al0.28Co0.22Fe0.25Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I03-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C03/results.json",
+          "timestamp_utc": "2026-02-11T03:44:42.372611Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.836029147556601,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.836029147556601
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.4989875400615,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.4989875400615
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.25 Co0.22 Fe0.28 Ni0.25",
+      "normalized_formula": "Al0.25Co0.22Fe0.28Ni0.25",
+      "requests": [
+        {
+          "request_id": "FAST4X-I03-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C04/results.json",
+          "timestamp_utc": "2026-02-11T03:44:33.135979Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.826902272860256,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.826902272860256
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3991.450467091561,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -3991.450467091561
+          ]
+        }
+      },
+      "missing_reference": true
+    }
+  ],
+  "max_relative_gap": null,
+  "referenced_formulas": 0,
+  "missing_reference_count": 12,
+  "status": "review",
+  "campaign": {
+    "campaign_id": "t5r4-20260211-fasttrack-221-mw4",
+    "campaign_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4",
+    "request_source": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/candidate_library.csv",
+    "request_count": 12
+  },
+  "mlflow_run": {
+    "run_id": "a5a2f4a6d89249ebb983432d899b5341",
+    "experiment_id": "757249286354127205"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "request_id": "REALCAM-I01-C02",
+  "source_dataset": "qgan_conditioned_candidates",
+  "timestamp_utc": "2025-10-25T17:48:31.431098Z",
+  "candidate_id": "QGAN-029",
+  "composition": "Mg0.37 W0.19 Mn0.08 Cr0.19 Y0.08 Co0.08",
+  "phase": "BCC",
+  "calculation": "scf",
+  "verbosity": "low",
+  "kpoint_grid": [
+    4,
+    4,
+    4
+  ],
+  "encut": 550,
+  "smearing": {
+    "scheme": "mv",
+    "sigma": 0.15
+  },
+  "electrons": {
+    "mixing_beta": 0.3,
+    "conv_thr": 1e-06,
+    "electron_maxstep": 200
+  },
+  "target_properties": [
+    "exp_density_g_cm3",
+    "formation_energy_eV"
+  ],
+  "predicted_properties": {
+    "predicted_density_g_cm3": 7.396,
+    "target_density_g_cm3": 7.495
+  },
+  "iteration_index": 1,
+  "notes": "T5R.4 reconstructed artefact for candidate QGAN-029"
+}

@@ -1,0 +1,73 @@
+{
+  "timestamp_utc": "2026-02-11T03:09:12.656062Z",
+  "formulas": [
+    {
+      "formula": "Al0.25Co1Fe1Ni1",
+      "normalized_formula": "Al0.25Co1Fe1Ni1",
+      "requests": [
+        {
+          "request_id": "BENCH-RELAX-0001",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/BENCH-RELAX-0001/results.json",
+          "timestamp_utc": "2025-10-01T22:00:52.236463Z"
+        },
+        {
+          "request_id": "QAL-0001",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QAL-0001/results.json",
+          "timestamp_utc": "2026-02-11T02:51:06.672101Z"
+        },
+        {
+          "request_id": "QUEUE-0001",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0001/results.json",
+          "timestamp_utc": "2026-02-11T03:01:36.975876Z"
+        },
+        {
+          "request_id": "QUEUE-0002",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0002/results.json",
+          "timestamp_utc": "2026-02-11T03:05:19.639510Z"
+        },
+        {
+          "request_id": "QUEUE-0003",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/QUEUE-0003/results.json",
+          "timestamp_utc": "2026-02-11T03:09:01.250110Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 7.631922550068916,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": 7.9,
+          "relative_gap": 0.03393385442165624,
+          "values": [
+            7.631922550068916,
+            7.631922550068916,
+            7.631922550068916,
+            7.631922550068916,
+            7.631922550068916
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -3429.7568967487505,
+          "std": 1264.6222260870966,
+          "ci95": 2478.659563130709,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -1167.5318860384652,
+            -3995.313149426321,
+            -3995.313149426321,
+            -3995.313149426321,
+            -3995.313149426321
+          ]
+        }
+      },
+      "missing_reference": false
+    }
+  ],
+  "max_relative_gap": 0.03393385442165624,
+  "status": "pass",
+  "mlflow_run": {
+    "run_id": "5e7e02f0ad8d4c1c95e30ed8ed55389c",
+    "experiment_id": "757249286354127205"
+  }
+}

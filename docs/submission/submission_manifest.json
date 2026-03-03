@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "timestamp_utc": "2026-02-11T03:47:00Z",
+  "package": {
+    "paper": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/conference_paper.md",
+    "paper_arxiv_tex": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/arxiv/main.tex",
+    "paper_arxiv_bib": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/arxiv/references.bib",
+    "outline": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/outline.md",
+    "review_log": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/internal_review_log.md",
+    "appendix": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/appendix_reproducibility.md",
+    "poster": "/Users/omtailor/Quanutum_MS_Pipeline/docs/poster/conference_poster.md",
+    "preprint": "/Users/omtailor/Quanutum_MS_Pipeline/docs/preprint/README.md",
+    "figures_dir": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures"
+  },
+  "evidence": {
+    "m5_real_campaign_id": "t5r4-20260211-fasttrack-221-mw4",
+    "m5_real_campaign_summary": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/closed_loop_summary.json",
+    "m5_real_release": "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v3_20260211"
+  },
+  "claims_policy": {
+    "real_only_headline_claims": true,
+    "simulated_results_position": "ablation_appendix_only"
+  }
+}

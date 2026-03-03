@@ -1,66 +1,39 @@
 {
-  "final_rmse": 1.495754026687708,
-  "iterations": 10,
+  "final_rmse": 1.5625313007571937,
+  "iterations": 3,
   "history": [
     {
       "iteration": 0,
-      "rmse": 2.1021836715405233,
-      "random_mean_std": 1.9407944493897333,
-      "uncertainty_max_std": 1.94079476474459
+      "rmse": 1.4091491361015662,
+      "random_mean_std": 0.04712923616170883,
+      "uncertainty_max_std": 0.8524677157402039,
+      "pool_evaluated": 1000
     },
     {
       "iteration": 1,
-      "rmse": 1.891579422376798,
-      "random_mean_std": 2.2618943599246997,
-      "uncertainty_max_std": 2.2618945592728155
+      "rmse": 1.7395416507565629,
+      "random_mean_std": 0.02847609855234623,
+      "uncertainty_max_std": 0.2294488400220871,
+      "pool_evaluated": 1000
     },
     {
       "iteration": 2,
-      "rmse": 1.8505306208543513,
-      "random_mean_std": 2.076515154652499,
-      "uncertainty_max_std": 2.076515412713179
-    },
-    {
-      "iteration": 3,
-      "rmse": 1.7941560996079566,
-      "random_mean_std": 2.0881181965761533,
-      "uncertainty_max_std": 2.088118450684631
-    },
-    {
-      "iteration": 4,
-      "rmse": 1.862630546995664,
-      "random_mean_std": 2.1781536972854485,
-      "uncertainty_max_std": 2.178153924959298
-    },
-    {
-      "iteration": 5,
-      "rmse": 1.6309534473736518,
-      "random_mean_std": 2.1213017403504364,
-      "uncertainty_max_std": 2.1213038441940233
-    },
-    {
-      "iteration": 6,
-      "rmse": 1.9032162699101007,
-      "random_mean_std": 2.0741958156553886,
-      "uncertainty_max_std": 2.0741980706934044
-    },
-    {
-      "iteration": 7,
-      "rmse": 1.8249551490962468,
-      "random_mean_std": 1.999314109428786,
-      "uncertainty_max_std": 1.9993192690653832
-    },
-    {
-      "iteration": 8,
-      "rmse": 1.4888832426564178,
-      "random_mean_std": 1.4856285611801723,
-      "uncertainty_max_std": 1.4856285629443573
-    },
-    {
-      "iteration": 9,
-      "rmse": 1.495754026687708,
-      "random_mean_std": 1.4650896814922625,
-      "uncertainty_max_std": 1.4650896821662585
+      "rmse": 1.5625313007571937,
+      "random_mean_std": 0.02332666516304016,
+      "uncertainty_max_std": 0.1426052749156952,
+      "pool_evaluated": 1000
     }
-  ]
+  ],
+  "runtime_profile": {
+    "pool_subsample": 1000,
+    "optimizer": "none",
+    "optimizer_effective": "none",
+    "max_eval_size": 96,
+    "accelerator_requested": "cpu",
+    "accelerator_effective": "cpu",
+    "accelerator_reason": "forced_cpu",
+    "engine_requested": "backend",
+    "engine_effective": "backend",
+    "float32": true
+  }
 }

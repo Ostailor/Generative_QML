@@ -1,0 +1,36 @@
+{
+  "task": "T6.5",
+  "milestone": "M6",
+  "currency": "USD",
+  "totals": {
+    "hardware_runs": 27,
+    "total_cost_usd": 189.3265,
+    "mean_fidelity": 0.9579,
+    "mean_latency_s": 96.7554
+  },
+  "by_backend": [
+    {
+      "backend_id": "quantinuum_h1_adapter",
+      "estimated_cost_usd": 90.3019,
+      "avg_fidelity": 0.9666,
+      "avg_latency_s": 121.9225
+    },
+    {
+      "backend_id": "ionq_harmony_adapter",
+      "estimated_cost_usd": 69.1331,
+      "avg_fidelity": 0.9505,
+      "avg_latency_s": 97.3662
+    },
+    {
+      "backend_id": "ibm_perth_adapter",
+      "estimated_cost_usd": 29.8914,
+      "avg_fidelity": 0.9565,
+      "avg_latency_s": 70.9776
+    }
+  ],
+  "budget_decision": {
+    "approved": true,
+    "recommended_primary_backend": "ibm_perth_adapter",
+    "recommended_validation_backend": "quantinuum_h1_adapter"
+  }
+}

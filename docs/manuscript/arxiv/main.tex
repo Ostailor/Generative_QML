@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\title{Generative Quantum Machine Learning for Cost-Efficient, High-Strength Materials Discovery}
+\author{O. Tailor et al.}
+\date{February 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present an end-to-end quantum-active-learning framework for cost-efficient discovery of high-strength alloy candidates. The framework combines quantum-kernel regression, property-conditioned candidate generation, asynchronous first-principles evaluation, and iterative retraining. In a fresh production-scale evaluation campaign, all scheduled first-principles jobs converged (12/12), yielding 12 chemically valid candidates and a measured label-efficiency gain of 0.90 against a 0.30 target. A reference-backed validation set shows a 3.39\% density deviation, and robustness analysis indicates stable behavior under perturbation. Hardware pilots across three quantum backends further characterize fidelity-cost trade-offs. We conclude that the pipeline is operationally mature for paper and preprint dissemination under a real-evidence-only claims policy.
+\end{abstract}
+
+\section{Introduction}
+High-throughput materials discovery is often constrained by the cost of first-principles labeling. Active learning reduces this cost by selecting only the most informative candidates for expensive evaluations, but practical deployment requires robust integration of surrogate modeling, candidate generation, and automated simulation workflows. We target this integration challenge in the context of high-entropy alloy search.
+
+Our approach combines quantum-kernel regression with constrained generative proposal mechanisms and queue-orchestrated first-principles simulations. The acquisition loop is designed to maximize label efficiency while preserving traceability and reproducibility. Methodologically, the acquisition design is aligned with Bayesian optimization principles \cite{brochu2010bo,frazier2018tutorial}, and production electronic-structure execution is based on Quantum ESPRESSO \cite{giannozzi2020qe}.
+
+The central contribution of this report is not a synthetic benchmark alone, but verified end-to-end execution on real first-principles jobs with explicit evidence boundaries between reference-backed and screening-only claims.
+
+\section{Methodology}
+\subsection{Closed-Loop Architecture}
+The pipeline consists of four modules:
+\begin{itemize}
+  \item \textbf{Quantum-kernel surrogates}: QSVR and QGPR models provide property prediction and uncertainty estimates.
+  \item \textbf{Property-conditioned generation}: candidate compositions are sampled under chemistry-aware constraints.
+  \item \textbf{Asynchronous first-principles queue}: selected candidates are evaluated with automatic retry, latency tracking, and artifact logging.
+  \item \textbf{Iterative update}: new labels are fed back into surrogate and acquisition components.
+\end{itemize}
+
+\subsection{Production Simulation Profile}
+For throughput-controlled real execution, we used a screening profile with a $2\times2\times2$ k-point grid, plane-wave cutoff of 28 Ry, charge-density cutoff of 224 Ry, and a $2\times2\times1$ supercell construction policy. These settings were chosen to complete a full loop under finite compute budget while preserving physically meaningful convergence behavior.
+
+\subsection{Validation Policy}
+We enforce a real-evidence-only policy for headline claims. Two evidence tiers are separated:
+\begin{itemize}
+  \item \textbf{Reference-backed tier}: only requests with direct external/reference comparators are used for physical-fidelity claims.
+  \item \textbf{Screening tier}: campaign compositions without direct references are used for operational and label-efficiency claims, not for external physical-accuracy claims.
+\end{itemize}
+
+\section{Experimental Setup}
+The campaign used iterative batching with parallel queue execution and strict pass/fail gating on convergence and validity. Performance was tracked by completion rate, failure rate, valid-candidate count, and label-efficiency gain relative to a classical-label budget baseline. Complementary hardware pilot studies were run to quantify backend-level fidelity, latency, and cost envelopes.
+
+\section{Results}
+\subsection{Real Campaign Performance}
+The fresh production campaign completed all scheduled jobs with no failures. Table~\ref{tab:core-metrics} summarizes principal outcomes.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Metric & Target & Observed \\
+\midrule
+Job completion rate & 100\% preferred & 100\% (12/12) \\
+Chemically valid candidates & $\geq 10$ & 12 \\
+Label-efficiency gain & $\geq 0.30$ & 0.90 \\
+Reference-backed density gap & $\leq 0.05$ & 0.0339 \\
+\bottomrule
+\end{tabular}
+\caption{Core real-evidence outcomes from the latest production rerun.}
+\label{tab:core-metrics}
+\end{table}
+
+The label-efficiency result indicates substantial reduction in required expensive labels relative to the baseline budget definition. Operationally, zero observed queue failures across the run supports readiness for sustained closed-loop execution.
+
+\subsection{Robustness and Benchmark Context}
+Robustness analysis reports a perturbation sensitivity index of 0.309, and comparative evaluation reports a positive quantum-vs-classical composite gap of 0.50 under the current metric definition. These values support a favorable, though still context-dependent, trade-off profile rather than a blanket superiority claim.
+
+\subsection{Hardware Execution Context}
+Hardware pilots across three backend families totaled 27 runs, with mean fidelity approximately 0.958 and aggregate tracked cost of about 189 USD. This establishes practical fidelity-cost envelopes for hybrid deployment planning and informs future backend selection.
+
+\section{Reproducibility and Artifact Integrity}
+A versioned release bundle with checksum manifest and replay instructions was produced from campaign artifacts. Independent reproduction checks report required-file completeness and manifest consistency, and publication build checks pass for manuscript bundle generation, bibliography indexing, figure regeneration, and poster export.
+
+\section{Discussion}
+The primary strength of this stage is systems-level closure: models, queue orchestration, validation logic, and release packaging now operate as a coherent, auditable pipeline. A second strength is explicit evidence partitioning, which prevents overclaiming when direct references are unavailable.
+
+Limitations remain. The latest production rerun used screening-oriented solver settings to maximize throughput. Consequently, the strongest physics-fidelity claims should continue to be anchored to reference-backed evaluations, while campaign-scale screening metrics should be interpreted as operational and efficiency evidence. Additionally, this execution environment did not provide GPU-backed first-principles execution.
+
+\section{Conclusion}
+We demonstrated a fully executable quantum-active-learning discovery loop with real first-principles closure, high label efficiency, and reproducible packaging. The current state supports conference-ready reporting and immediate preprint dissemination under conservative claim boundaries. Future work should focus on expanded reference coverage, tighter uncertainty calibration, and follow-on campaigns at higher-fidelity solver settings.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

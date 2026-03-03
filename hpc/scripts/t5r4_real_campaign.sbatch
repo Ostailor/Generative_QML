@@ -36,10 +36,11 @@ CAMPAIGN_ID=t5r4-${SLURM_JOB_ID:-$(date +%Y%m%dT%H%M%S)}
 
 python scripts/hpc/run_real_dft_campaign.py \
   --candidate-csv data/qml/qgan_conditioned_candidates.csv \
-  --iterations 4 \
+  --iterations 10 \
   --top-k 4 \
   --max-workers ${NTASKS} \
   --max-retries 2 \
+  --job-class scf_screen \
   --request-prefix REALCAM \
   --classical-label-budget 120 \
   --campaign-id "${CAMPAIGN_ID}" \

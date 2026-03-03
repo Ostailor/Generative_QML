@@ -1,0 +1,835 @@
+{
+  "timestamp_utc": "2026-03-02T20:17:31.841499Z",
+  "formulas": [
+    {
+      "formula": "Nb0.39 Al0.39 Nd0.21",
+      "normalized_formula": "Nb0.39Al0.39Nd0.21",
+      "requests": [
+        {
+          "request_id": "REALCAM-I01-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I01-C01/results.json",
+          "timestamp_utc": "2025-10-25T19:37:02.204079Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.281672566472626,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.281672566472626
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -4722.724689614045,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -4722.724689614045
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Mg0.37 W0.19 Mn0.08 Cr0.19 Y0.08 Co0.08",
+      "normalized_formula": "Mg0.37W0.19Mn0.08Cr0.19Y0.08Co0.08",
+      "requests": [
+        {
+          "request_id": "REALCAM-I01-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I01-C02/results.json",
+          "timestamp_utc": "2025-10-25T17:48:31.394266Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 5.294692547777796,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            5.294692547777796
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -4722.724689614045,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -4722.724689614045
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Y0.06 Hf0.06 Si0.06 Zn0.10 Sn0.19 Ti0.06 Mo0.06 Ga0.34 V0.06",
+      "normalized_formula": "Y0.06Hf0.06Si0.06Zn0.10Sn0.19Ti0.06Mo0.06Ga0.34V0.06",
+      "requests": [
+        {
+          "request_id": "REALCAM-I01-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I01-C03/results.json",
+          "timestamp_utc": "2025-10-25T17:01:41.410413Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 7.02846972816967,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            7.02846972816967
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -4722.724689614045,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -4722.724689614045
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Cr0.08 V0.08 B0.08 Zn0.38 Nd0.39",
+      "normalized_formula": "Cr0.08V0.08B0.08Zn0.38Nd0.39",
+      "requests": [
+        {
+          "request_id": "REALCAM-I01-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I01-C04/results.json",
+          "timestamp_utc": "2025-10-25T18:43:12.747898Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 9.625229132421309,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            9.625229132421309
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -4722.724689614045,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -4722.724689614045
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Mn0.10 Hf0.49 Y0.10 Ti0.30",
+      "normalized_formula": "Mn0.10Hf0.49Y0.10Ti0.30",
+      "requests": [
+        {
+          "request_id": "REALCAM-I02-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I02-C01/results.json",
+          "timestamp_utc": "2025-10-25T20:29:01.306079Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 15.323584909478319,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            15.323584909478319
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -1679.1244429663857,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -1679.1244429663857
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Ta0.08 Ca0.23 Pd0.09 W0.08 Sn0.08 Ga0.08 Si0.38",
+      "normalized_formula": "Ta0.08Ca0.23Pd0.09W0.08Sn0.08Ga0.08Si0.38",
+      "requests": [
+        {
+          "request_id": "REALCAM-I02-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I02-C02/results.json",
+          "timestamp_utc": "2025-10-25T19:50:29.292667Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.514003672149683,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.514003672149683
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -1679.1244429663857,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -1679.1244429663857
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "W0.26 V0.31 Co0.43",
+      "normalized_formula": "W0.26V0.31Co0.43",
+      "requests": [
+        {
+          "request_id": "REALCAM-I02-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I02-C03/results.json",
+          "timestamp_utc": "2025-10-25T20:04:02.412760Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 12.675829036631011,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            12.675829036631011
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -1679.1244429663857,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -1679.1244429663857
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Re0.43 Co0.12 Ti0.46",
+      "normalized_formula": "Re0.43Co0.12Ti0.46",
+      "requests": [
+        {
+          "request_id": "REALCAM-I02-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I02-C04/results.json",
+          "timestamp_utc": "2025-10-25T20:15:45.125249Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 21.100962763644365,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            21.100962763644365
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -1679.1244429663857,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -1679.1244429663857
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "C0.07 Ni0.17 Li0.07 Mo0.07 B0.37 Ta0.17 Cu0.07",
+      "normalized_formula": "C0.07Ni0.17Li0.07Mo0.07B0.37Ta0.17Cu0.07",
+      "requests": [
+        {
+          "request_id": "REALCAM-I03-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I03-C01/results.json",
+          "timestamp_utc": "2025-10-25T21:19:39.954817Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 10.27658028194065,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            10.27658028194065
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2962.4586425449043,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2962.4586425449043
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Y0.07 Nb0.07 Ta0.08 Ni0.10 Fe0.26 Ga0.07 Zr0.12 Ti0.15 Mg0.07",
+      "normalized_formula": "Y0.07Nb0.07Ta0.08Ni0.10Fe0.26Ga0.07Zr0.12Ti0.15Mg0.07",
+      "requests": [
+        {
+          "request_id": "REALCAM-I03-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I03-C02/results.json",
+          "timestamp_utc": "2025-10-25T21:03:25.032696Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 12.031907049793894,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            12.031907049793894
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2962.4586425449043,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2962.4586425449043
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Mn0.41 Mg0.09 Ag0.41 Cu0.09",
+      "normalized_formula": "Mn0.41Mg0.09Ag0.41Cu0.09",
+      "requests": [
+        {
+          "request_id": "REALCAM-I03-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I03-C03/results.json",
+          "timestamp_utc": "2025-10-25T20:47:57.475209Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 7.826873295665849,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            7.826873295665849
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2962.4586425449043,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2962.4586425449043
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Ca0.08 Sc0.35 Mn0.21 Ga0.36",
+      "normalized_formula": "Ca0.08Sc0.35Mn0.21Ga0.36",
+      "requests": [
+        {
+          "request_id": "REALCAM-I03-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I03-C04/results.json",
+          "timestamp_utc": "2025-10-25T21:40:47.014186Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 3.5503063151688576,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            3.5503063151688576
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2962.4586425449043,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2962.4586425449043
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Mn0.13 Sn0.08 Ca0.14 C0.14 Y0.10 Nd0.14 Pd0.18 Co0.09",
+      "normalized_formula": "Mn0.13Sn0.08Ca0.14C0.14Y0.10Nd0.14Pd0.18Co0.09",
+      "requests": [
+        {
+          "request_id": "REALCAM-I04-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I04-C01/results.json",
+          "timestamp_utc": "2025-10-25T21:49:21.739134Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 5.057092454646321,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            5.057092454646321
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2706.030616540252,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2706.030616540252
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "B0.27 Ni0.12 W0.45 Mo0.15",
+      "normalized_formula": "B0.27Ni0.12W0.45Mo0.15",
+      "requests": [
+        {
+          "request_id": "REALCAM-I04-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I04-C02/results.json",
+          "timestamp_utc": "2025-10-25T22:16:49.133808Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 6.505076319763996,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            6.505076319763996
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2706.030616540252,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2706.030616540252
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Hf0.28 Ga0.35 Ag0.36",
+      "normalized_formula": "Hf0.28Ga0.35Ag0.36",
+      "requests": [
+        {
+          "request_id": "REALCAM-I04-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I04-C03/results.json",
+          "timestamp_utc": "2025-10-25T22:27:44.212834Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 12.298629833659271,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            12.298629833659271
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2706.030616540252,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2706.030616540252
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.09 Sn0.08 Co0.34 Nb0.11 Mg0.14 Zr0.25",
+      "normalized_formula": "Al0.09Sn0.08Co0.34Nb0.11Mg0.14Zr0.25",
+      "requests": [
+        {
+          "request_id": "REALCAM-I04-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I04-C04/results.json",
+          "timestamp_utc": "2025-10-25T22:02:56.327880Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 8.53428270413507,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            8.53428270413507
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2706.030616540252,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2706.030616540252
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Ag0.37 Re0.36 Hf0.27",
+      "normalized_formula": "Ag0.37Re0.36Hf0.27",
+      "requests": [
+        {
+          "request_id": "REALCAM-I05-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I05-C01/results.json",
+          "timestamp_utc": "2025-10-25T22:41:28.945043Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 10.167112796611567,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            10.167112796611567
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2853.849431012615,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2853.849431012615
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Mg0.09 C0.37 Cu0.37 Sn0.08 B0.08",
+      "normalized_formula": "Mg0.09C0.37Cu0.37Sn0.08B0.08",
+      "requests": [
+        {
+          "request_id": "REALCAM-I05-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I05-C02/results.json",
+          "timestamp_utc": "2025-10-25T23:21:56.867719Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 3.9731531857701925,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            3.9731531857701925
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2853.849431012615,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2853.849431012615
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Al0.08 C0.10 Nb0.10 Mo0.10 Co0.38 Mg0.24",
+      "normalized_formula": "Al0.08C0.10Nb0.10Mo0.10Co0.38Mg0.24",
+      "requests": [
+        {
+          "request_id": "REALCAM-I05-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I05-C03/results.json",
+          "timestamp_utc": "2025-10-25T22:54:43.576596Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 4.1923461752759374,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            4.1923461752759374
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2853.849431012615,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2853.849431012615
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Y0.19 Cr0.31 V0.50",
+      "normalized_formula": "Y0.19Cr0.31V0.50",
+      "requests": [
+        {
+          "request_id": "REALCAM-I05-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I05-C04/results.json",
+          "timestamp_utc": "2025-10-25T23:10:04.973697Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 4.558051791348431,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            4.558051791348431
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2853.849431012615,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2853.849431012615
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Cr0.08 V0.07 Ga0.19 Hf0.07 Zr0.11 W0.07 Ta0.08 Pd0.26 Li0.07",
+      "normalized_formula": "Cr0.08V0.07Ga0.19Hf0.07Zr0.11W0.07Ta0.08Pd0.26Li0.07",
+      "requests": [
+        {
+          "request_id": "REALCAM-I06-C01",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I06-C01/results.json",
+          "timestamp_utc": "2025-10-25T23:57:36.146217Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 13.96395190573056,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            13.96395190573056
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2908.0833853287695,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2908.0833853287695
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Li0.40 Sn0.09 Mn0.12 Re0.40",
+      "normalized_formula": "Li0.40Sn0.09Mn0.12Re0.40",
+      "requests": [
+        {
+          "request_id": "REALCAM-I06-C02",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I06-C02/results.json",
+          "timestamp_utc": "2025-10-26T00:19:39.989261Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 12.202533446575503,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            12.202533446575503
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2908.0833853287695,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2908.0833853287695
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Mn0.23 Ni0.35 Pd0.07 Ag0.07 V0.07 Ti0.21",
+      "normalized_formula": "Mn0.23Ni0.35Pd0.07Ag0.07V0.07Ti0.21",
+      "requests": [
+        {
+          "request_id": "REALCAM-I06-C03",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I06-C03/results.json",
+          "timestamp_utc": "2025-10-26T00:45:11.960849Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 8.37339782694558,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            8.37339782694558
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2908.0833853287695,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2908.0833853287695
+          ]
+        }
+      },
+      "missing_reference": true
+    },
+    {
+      "formula": "Zr0.42 Ga0.28 Nd0.10 Cu0.20",
+      "normalized_formula": "Zr0.42Ga0.28Nd0.10Cu0.20",
+      "requests": [
+        {
+          "request_id": "REALCAM-I06-C04",
+          "result_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/REALCAM-I06-C04/results.json",
+          "timestamp_utc": "2025-10-26T01:14:34.683406Z"
+        }
+      ],
+      "properties": {
+        "density_g_cm3": {
+          "mean": 12.118365567371994,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            12.118365567371994
+          ]
+        },
+        "formation_energy_eV_per_atom": {
+          "mean": -2908.0833853287695,
+          "std": 0.0,
+          "ci95": 0.0,
+          "reference": null,
+          "relative_gap": null,
+          "values": [
+            -2908.0833853287695
+          ]
+        }
+      },
+      "missing_reference": true
+    }
+  ],
+  "max_relative_gap": null,
+  "referenced_formulas": 0,
+  "missing_reference_count": 24,
+  "status": "review",
+  "campaign": {
+    "campaign_id": "t5r4-14539888",
+    "campaign_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888",
+    "request_source": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-14539888/candidate_library.csv",
+    "request_count": 24
+  },
+  "mlflow_run": {
+    "run_id": "16fff77eadbb46e89c98b0893906d83f",
+    "experiment_id": "757249286354127205"
+  }
+}

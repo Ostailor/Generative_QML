@@ -1,11 +1,19 @@
 {
-  "rmse_classical": 1.3026588597016495,
-  "mae_classical": 0.9173979520226131,
-  "rmse_quantum": 1.302637478510085,
-  "mae_quantum": 0.9174068093159129,
-  "relative_gap": -1.6413500284703462e-05,
+  "rmse_classical": 1.381353578185562,
+  "mae_classical": 0.9662237717385537,
+  "rmse_quantum": 1.381276630899077,
+  "mae_quantum": 0.9662323429407997,
+  "relative_gap": -5.5704265511852664e-05,
   "features": [
     "formation_energy_per_atom_eV",
     "energy_above_hull_eV"
-  ]
+  ],
+  "runtime_profile": {
+    "max_train": 3000,
+    "max_test": 1000,
+    "float32": true,
+    "accelerator_requested": "cpu",
+    "accelerator_effective": "cpu",
+    "accelerator_reason": "forced_cpu"
+  }
 }

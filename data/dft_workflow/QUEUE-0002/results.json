@@ -1,12 +1,46 @@
 {
+  "schema_version": "2.0.0",
   "request_id": "QUEUE-0002",
   "status": "completed",
-  "timestamp_utc": "2025-10-23T01:06:09.405066Z",
-  "total_energy_eV": -4667.326313956945,
-  "formation_energy_eV": -1166.8315784892363,
+  "timestamp_utc": "2026-02-11T03:05:19.639510Z",
+  "engine": {
+    "name": "quantum_espresso",
+    "command": "/Users/omtailor/Downloads/qe-7.4.1/build/bin/pw.x",
+    "mode": "scf"
+  },
+  "dft_settings_hash": "8f5c4425e5ee2cc9d8659b558996fade0b9ae86b8fae2c5c8b4a8967bd36aa4e",
+  "evidence_tier": "production_dft",
+  "total_energy_eV": -15981.252597705285,
+  "formation_energy_eV": -3995.313149426321,
   "max_force_eV_A": 0.0,
+  "forces_eV_A": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
   "properties": {
     "exp_density_g_cm3": 7.631922550068916
+  },
+  "uncertainty": {
+    "formation_energy_eV": 0.0,
+    "exp_density_g_cm3": 0.02
   },
   "metadata": {
     "request_id": "QUEUE-0002",
@@ -19,6 +53,98 @@
       "exp_density_g_cm3"
     ],
     "notes": "Initial HEA candidate generated from QAL loop iteration 1 | queue smoke test 2"
+  },
+  "stress": {
+    "voigt_eVA3": [
+      0.08547955581745376,
+      0.0882413739239737,
+      0.08241382754030278,
+      -0.008895110976052287,
+      -0.009492831583547131,
+      0.006018523167632405
+    ],
+    "voigt_kbar": [
+      136.95334588709304,
+      141.37826628826141,
+      132.04150771571628,
+      -14.251538845252442,
+      -15.209192828351055,
+      9.642737110923798
+    ],
+    "pressure_kbar": -136.79103996369022
+  },
+  "final_structure": {
+    "lattice_vectors_ang": [
+      [
+        4.978031739553295,
+        0.0,
+        0.0
+      ],
+      [
+        2.489015869776647,
+        4.311101947298394,
+        0.0
+      ],
+      [
+        1.2445079348883235,
+        0.7185169912163989,
+        2.0322729475474826
+      ]
+    ],
+    "atomic_symbols": [
+      "Al",
+      "Co",
+      "Fe",
+      "Ni"
+    ],
+    "positions_cartesian_ang": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        1.2445079348883235,
+        2.155550973649197,
+        0.0
+      ],
+      [
+        2.4890158697766473,
+        0.0,
+        0.0
+      ],
+      [
+        3.733523804664971,
+        2.155550973649197,
+        0.0
+      ]
+    ],
+    "positions_fractional": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.5,
+        0.0
+      ],
+      [
+        0.5,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        0.5,
+        0.0
+      ]
+    ],
+    "volume_ang3": 43.614208
+  },
+  "artefacts": {
+    "relaxed_structure_cif": "relaxed_structure.cif"
   },
   "strain_results": []
 }

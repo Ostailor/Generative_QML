@@ -1,0 +1,103 @@
+{
+  "by_backend_model": [
+    {
+      "backend_id": "quantinuum_h1_adapter",
+      "model_type": "qgma",
+      "runs": 3,
+      "mean_metric": 0.8698755926655451,
+      "mean_fidelity": 0.9700334724957945,
+      "mean_latency_s": 125.7613156703839,
+      "total_cost_usd": 30.00925674532913
+    },
+    {
+      "backend_id": "ionq_harmony_adapter",
+      "model_type": "qgma",
+      "runs": 3,
+      "mean_metric": 0.8655233757265517,
+      "mean_fidelity": 0.9537126589745687,
+      "mean_latency_s": 94.53768447197461,
+      "total_cost_usd": 22.910885801356326
+    },
+    {
+      "backend_id": "ibm_perth_adapter",
+      "model_type": "qgma",
+      "runs": 3,
+      "mean_metric": 0.8653531023588824,
+      "mean_fidelity": 0.9530741338458091,
+      "mean_latency_s": 72.73665683294344,
+      "total_cost_usd": 9.786767751755576
+    },
+    {
+      "backend_id": "ibm_perth_adapter",
+      "model_type": "qgpr",
+      "runs": 3,
+      "mean_metric": 1.4509605726434867,
+      "mean_fidelity": 0.9746341891220606,
+      "mean_latency_s": 69.7171333823737,
+      "total_cost_usd": 10.077163885467339
+    },
+    {
+      "backend_id": "quantinuum_h1_adapter",
+      "model_type": "qgpr",
+      "runs": 3,
+      "mean_metric": 1.4363589496802478,
+      "mean_fidelity": 0.9570500869280405,
+      "mean_latency_s": 117.5721513134019,
+      "total_cost_usd": 29.6754757393576
+    },
+    {
+      "backend_id": "ionq_harmony_adapter",
+      "model_type": "qgpr",
+      "runs": 3,
+      "mean_metric": 1.4707314728267231,
+      "mean_fidelity": 0.950886966996939,
+      "mean_latency_s": 96.45360118233869,
+      "total_cost_usd": 23.21312952595876
+    },
+    {
+      "backend_id": "quantinuum_h1_adapter",
+      "model_type": "qsvr",
+      "runs": 3,
+      "mean_metric": 1.3177654156628176,
+      "mean_fidelity": 0.9727751340565027,
+      "mean_latency_s": 122.43395825939415,
+      "total_cost_usd": 30.617217251131187
+    },
+    {
+      "backend_id": "ionq_harmony_adapter",
+      "model_type": "qsvr",
+      "runs": 3,
+      "mean_metric": 1.2816144839341141,
+      "mean_fidelity": 0.9468210174289552,
+      "mean_latency_s": 101.10734892204955,
+      "total_cost_usd": 23.009100721184623
+    },
+    {
+      "backend_id": "ibm_perth_adapter",
+      "model_type": "qsvr",
+      "runs": 3,
+      "mean_metric": 1.277953868022079,
+      "mean_fidelity": 0.9417888099036772,
+      "mean_latency_s": 70.47899827483987,
+      "total_cost_usd": 10.02748414964949
+    }
+  ],
+  "transpilation": {
+    "qsvr_transpiled_models": 1,
+    "qgpr_transpiled_models": 1,
+    "qgma_transpiled_models": 1,
+    "mitigation_profile": "readout-symmetrization + ZNE"
+  },
+  "totals": {
+    "hardware_runs": 27,
+    "distinct_backends": 3,
+    "distinct_model_types": 3,
+    "total_cost_usd": 189.32648157119002,
+    "mean_fidelity": 0.9578640521947053,
+    "mean_latency_s": 96.75542758996664
+  },
+  "mlflow_run": {
+    "run_id": "b044acd3c591414f9b6512e406562899",
+    "experiment_id": "502405892744322531"
+  }
+}

@@ -1,0 +1,2 @@
+real_label_efficiency_gain,qsvr_rmse_gain,dft_delta_vs_classical_rmse,qgpr_coverage,novelty_gap,sensitivity_index,hardware_mean_fidelity,quantum_vs_classical_gap
+0.9,-6.86932276390273e-05,-0.0382156151278954,0.035,0.2264000752915899,0.039025751745155185,0.9578640521947053,0.6000000000000001

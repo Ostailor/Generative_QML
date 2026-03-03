@@ -19,6 +19,10 @@ Map the end-to-end work program required to deliver a conference-ready manuscrip
 
 *Timelines are indicative for sequencing; adjust dynamically via PDA governance.
 
+> **Status Update (2026-02-11)**: `M6–M9` implementation artefacts, acceptance metrics, manuscript/poster/preprint package, and reproducibility bundle have been generated in-repo under `docs/` + `data/` + `scripts/`.  
+> See `docs/hardware/`, `docs/benchmarking/`, `docs/reproducibility/`, `docs/manuscript/`, `docs/poster/`, and `docs/submission/` for closure artefacts.
+> **M5-real Re-Run (2026-02-11)**: Fresh real DFT closure executed in-session with campaign `t5r4-20260211-fasttrack-221-mw4` (`12/12` completed, `12` valid, `label_efficiency_gain = 0.90`). Updated release package at `data/releases/real_dft_campaign_v3_20260211/`.
+
 ---
 
 ## M0 — Program Alignment & Literature Reconnaissance
@@ -85,6 +89,7 @@ Map the end-to-end work program required to deliver a conference-ready manuscrip
 | T5R.3 | BRA & MDIA | Validate physical fidelity of production DFT outputs versus literature references; quantify uncertainty propagation for downstream models. | T5R.2 outputs, T1.4 constraints | Validation report, uncertainty budget, MLflow metrics. | Benchmark property deviation <=5% and uncertainty bounds stored for each candidate (`bra.dft_validation_gap <= 0.05`). | T5R.2 |
 | T5R.4 | ALOA, QKAA & QGMA | Re-run active-learning + generative loop with real DFT backend to produce publication-grade datasets and metrics. | T5R.2 pipeline, T5.3 generative updates | Closed-loop campaign log, candidate library, label-efficiency analysis. | >=10 chemically valid candidates confirmed by real DFT; label-efficiency >=30% verified with real data (`aloa.real_label_efficiency_gain`). | T5R.3 |
 | T5R.5 | RKMA | Refresh release packages, provenance records, and reproducibility scripts incorporating production DFT artefacts. | T5R.4 artefacts, T5.5 package | Updated release bundle, provenance graph update, reproduction runbook. | Reproduction script replays real DFT campaign using cached outputs; provenance audit passes (`rkma.real_dft_release_docs >= 1`). | T5R.4 |
+> **Update (2025-10-27)**: T5R.4 completed via campaign `t5r4-14539888`; artefacts in `data/dft_workflow/campaigns/t5r4-14539888` with validation notebook `workspace/entries/lab_notebooks/2025-10-27_T5R4_real_campaign.md`.
 
 ## M6 — Hardware Execution & Cost Management
 | Task ID | Owner (Agent) | Description & Key Activities | Required Inputs | Deliverables | Acceptance Criteria | Dependencies |

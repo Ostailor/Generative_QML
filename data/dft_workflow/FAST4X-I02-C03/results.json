@@ -1,0 +1,183 @@
+{
+  "schema_version": "2.0.0",
+  "request_id": "FAST4X-I02-C03",
+  "status": "completed",
+  "timestamp_utc": "2026-02-11T03:40:30.645162Z",
+  "engine": {
+    "name": "quantum_espresso",
+    "command": "/Users/omtailor/Downloads/qe-7.4.1/build/bin/pw.x",
+    "mode": "scf"
+  },
+  "dft_settings_hash": "7603eba8430d51934ec8b3617003e4cc7e914253b71e8d184b07eb93181e572f",
+  "evidence_tier": "pilot_dft",
+  "total_energy_eV": -15965.770772149164,
+  "formation_energy_eV": -3991.442693037291,
+  "max_force_eV_A": 0.0,
+  "forces_eV_A": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "properties": {
+    "exp_density_g_cm3": 6.817775398163922
+  },
+  "uncertainty": {
+    "formation_energy_eV": 0.0,
+    "exp_density_g_cm3": 0.02
+  },
+  "metadata": {
+    "request_id": "FAST4X-I02-C03",
+    "source_dataset": "qgan_conditioned_candidates",
+    "timestamp_utc": "2026-02-11T03:37:14.158386Z",
+    "candidate_id": "FAST-007",
+    "composition": "Al0.30 Co0.25 Fe0.20 Ni0.25",
+    "phase": "FCC",
+    "job_class": "scf_screen",
+    "calculation": "scf",
+    "verbosity": "low",
+    "kpoint_grid": [
+      2,
+      2,
+      2
+    ],
+    "encut": 550,
+    "smearing": {
+      "scheme": "mv",
+      "sigma": 0.15
+    },
+    "electrons": {
+      "mixing_beta": 0.3,
+      "conv_thr": 1e-06,
+      "electron_maxstep": 200
+    },
+    "target_properties": [
+      "exp_density_g_cm3",
+      "formation_energy_eV"
+    ],
+    "predicted_properties": {
+      "predicted_density_g_cm3": 7.47,
+      "target_density_g_cm3": 7.5
+    },
+    "iteration_index": 2,
+    "notes": "T5R.4 production handoff for candidate FAST-007",
+    "qe_overrides": {
+      "k_grid": [
+        2,
+        2,
+        2
+      ],
+      "ecutwfc_ry": 28.0,
+      "ecutrho_ry": 224.0
+    }
+  },
+  "stress": {
+    "voigt_eVA3": [
+      1.7420424791006843,
+      1.772708943448346,
+      1.6985034449879266,
+      -0.026847846826047166,
+      -0.04122435876484019,
+      -0.018984745009479064
+    ],
+    "voigt_kbar": [
+      2791.059732455589,
+      2840.1928246760094,
+      2721.302509907915,
+      -43.014992503512254,
+      -66.0487038204985,
+      -30.41691460603683
+    ],
+    "pressure_kbar": -2784.1850223465044
+  },
+  "final_structure": {
+    "lattice_vectors_ang": [
+      [
+        5.168780419304991,
+        0.0,
+        0.0
+      ],
+      [
+        2.5843902096524958,
+        4.476295149701705,
+        0.0
+      ],
+      [
+        1.2921951048262479,
+        0.7460491916169508,
+        2.110145769964351
+      ]
+    ],
+    "atomic_symbols": [
+      "Al",
+      "Co",
+      "Fe",
+      "Ni"
+    ],
+    "positions_cartesian_ang": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        1.2921951048262479,
+        2.2381475748508524,
+        0.0
+      ],
+      [
+        2.5843902096524953,
+        0.0,
+        0.0
+      ],
+      [
+        3.876585314478743,
+        2.2381475748508524,
+        0.0
+      ]
+    ],
+    "positions_fractional": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.5,
+        0.0
+      ],
+      [
+        0.5,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        0.5,
+        0.0
+      ]
+    ],
+    "volume_ang3": 48.82241465863452
+  },
+  "artefacts": {
+    "relaxed_structure_cif": "relaxed_structure.cif"
+  },
+  "strain_results": []
+}

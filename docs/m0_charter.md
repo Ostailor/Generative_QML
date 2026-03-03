@@ -80,7 +80,6 @@ Gate reviews are chaired by PDA with participation from relevant agent leads. Ea
 ## 9. Approvals
 - **Prepared by**: PDA (Program Director Agent)
 - **Reviewed by**: RKMA, QKAA, QGMA, ALOA, MDIA, DPQA, QHSOA, BRA
-- **Approval Date**: _TBD_
+- **Approval Date**: 2025-09-15
 
 Sign-off requires acknowledgement from all agent leads recorded via workspace decision log entry referencing this charter.
-

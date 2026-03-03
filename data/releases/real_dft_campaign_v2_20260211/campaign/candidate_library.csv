@@ -1,0 +1,13 @@
+iteration,request_id,candidate_id,composition,phase,status,latency_s,formation_energy_eV,density_g_cm3,max_force_eV_A,valid_flag,result_path
+1,FAST4X-I01-C03,FAST-003,Al0.30 Co0.20 Fe0.25 Ni0.25,FCC,completed,177.31471345899627,-3991.469033520816,6.826902272860256,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C03/results.json
+1,FAST4X-I01-C01,FAST-001,Al0.25 Co0.25 Fe0.25 Ni0.25,FCC,completed,191.11803470784798,-3991.339736895653,6.8907903957346175,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C01/results.json
+1,FAST4X-I01-C04,FAST-004,Al0.25 Co0.20 Fe0.30 Ni0.25,FCC,completed,193.17567820940167,-3991.393664722326,6.808648523467585,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C04/results.json
+1,FAST4X-I01-C02,FAST-002,Al0.20 Co0.30 Fe0.25 Ni0.25,FCC,completed,196.604548541829,-3991.253186429319,6.863409771645612,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I01-C02/results.json
+2,FAST4X-I02-C03,FAST-007,Al0.30 Co0.25 Fe0.20 Ni0.25,FCC,completed,196.4766219588928,-3991.442693037291,6.817775398163922,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C03/results.json
+2,FAST4X-I02-C01,FAST-005,Al0.25 Co0.25 Fe0.30 Ni0.20,FCC,completed,221.39684995776042,-3991.47854995401,6.836029147556601,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C01/results.json
+2,FAST4X-I02-C04,FAST-008,Al0.25 Co0.30 Fe0.20 Ni0.25,FCC,completed,221.82977291708812,-3991.3111234112193,6.881663521038278,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C04/results.json
+2,FAST4X-I02-C02,FAST-006,Al0.20 Co0.25 Fe0.25 Ni0.30,FCC,completed,241.89682149980217,-3991.282264480104,6.87253664634195,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C02/results.json
+3,FAST4X-I03-C02,FAST-010,Al0.22 Co0.28 Fe0.25 Ni0.25,FCC,completed,196.23884887481108,-3991.5064093429673,6.845156022252936,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C02/results.json
+3,FAST4X-I03-C04,FAST-012,Al0.25 Co0.22 Fe0.28 Ni0.25,FCC,completed,197.02141191624105,-3991.450467091561,6.826902272860256,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C04/results.json
+3,FAST4X-I03-C03,FAST-011,Al0.28 Co0.22 Fe0.25 Ni0.25,FCC,completed,206.2583329579793,-3991.4989875400615,6.836029147556601,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C03/results.json
+3,FAST4X-I03-C01,FAST-009,Al0.25 Co0.25 Fe0.20 Ni0.30,FCC,completed,207.22692216699943,-3991.5527490031363,6.854282896949274,0.0,1,/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I03-C01/results.json

@@ -21,6 +21,7 @@ REFERENCE_DATASET = DATA_DIR / "processed" / "hea_features.parquet"
 DEFAULT_REPORT_PATH = DFT_RESULTS_DIR / "validation" / "validation_report.json"
 DEFAULT_EXPERIMENT = "dft_validation"
 DEFAULT_TRACKING_URI = str((BASE_DIR / "mlruns").resolve())
+DEFAULT_CAMPAIGN_ROOT = DFT_RESULTS_DIR / "campaigns"
 
 
 def _load_reference_dataset(path: Path) -> pd.DataFrame:
@@ -44,6 +45,43 @@ def _load_result(request_id: str) -> Dict:
         data = json.load(handle)
     data["_result_path"] = str(result_path)
     return data
+
+
+def _discover_requests_from_campaign(
+    campaign_id: str,
+    campaign_root: Path,
+) -> tuple[List[str], Dict[str, object]]:
+    campaign_dir = campaign_root / campaign_id
+    if not campaign_dir.exists():
+        raise FileNotFoundError(f"Campaign directory not found: {campaign_dir}")
+
+    metadata: Dict[str, object] = {"campaign_id": campaign_id, "campaign_dir": str(campaign_dir)}
+    request_ids: List[str] = []
+
+    candidate_library = campaign_dir / "candidate_library.csv"
+    if candidate_library.exists():
+        df = pd.read_csv(candidate_library)
+        if "request_id" in df.columns:
+            request_ids.extend(df["request_id"].dropna().astype(str).tolist())
+            metadata["request_source"] = str(candidate_library)
+
+    if not request_ids:
+        manifest_paths = sorted(campaign_dir.glob("iteration_*_manifest.csv"))
+        for path in manifest_paths:
+            df = pd.read_csv(path)
+            if "request_id" in df.columns:
+                request_ids.extend(df["request_id"].dropna().astype(str).tolist())
+        if manifest_paths:
+            metadata["request_source"] = [str(path) for path in manifest_paths]
+
+    deduped = sorted(dict.fromkeys(request_ids))
+    if not deduped:
+        raise ValueError(
+            f"Unable to discover request IDs for campaign '{campaign_id}'. "
+            "Expected candidate_library.csv or iteration_*_manifest.csv."
+        )
+    metadata["request_count"] = len(deduped)
+    return deduped, metadata
 
 
 @dataclass
@@ -138,7 +176,9 @@ def _build_summary_payload(grouped: Dict[str, Dict]) -> Dict:
         "formulas": [],
     }
 
-    max_gap = 0.0
+    max_gap: Optional[float] = None
+    referenced_formulas = 0
+    missing_reference_count = 0
     for formula_key, payload in grouped.items():
         entry = {
             "formula": payload["formula"],
@@ -146,6 +186,7 @@ def _build_summary_payload(grouped: Dict[str, Dict]) -> Dict:
             "requests": payload["requests"],
             "properties": {},
         }
+        formula_has_reference = False
         for prop_name, stats in payload["properties"].items():
             prop_entry = {
                 "mean": stats.mean,
@@ -156,13 +197,25 @@ def _build_summary_payload(grouped: Dict[str, Dict]) -> Dict:
                 "values": stats.values,
             }
             entry["properties"][prop_name] = prop_entry
+            if stats.reference is not None:
+                formula_has_reference = True
             if stats.relative_gap is not None:
-                max_gap = max(max_gap, stats.relative_gap)
+                max_gap = stats.relative_gap if max_gap is None else max(max_gap, stats.relative_gap)
         entry["missing_reference"] = payload.get("missing_reference", False)
+        if entry["missing_reference"]:
+            missing_reference_count += 1
+        if formula_has_reference:
+            referenced_formulas += 1
         summary["formulas"].append(entry)
 
-    summary["max_relative_gap"] = max_gap if grouped else None
-    summary["status"] = "pass" if max_gap is not None and max_gap <= 0.05 else "review"
+    summary["max_relative_gap"] = max_gap
+    summary["referenced_formulas"] = referenced_formulas
+    summary["missing_reference_count"] = missing_reference_count
+    summary["status"] = (
+        "pass"
+        if (max_gap is not None and max_gap <= 0.05 and referenced_formulas > 0)
+        else "review"
+    )
     return summary
 
 
@@ -197,8 +250,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--requests",
         nargs="+",
-        required=True,
+        default=None,
         help="DFT request identifiers to include in the validation.",
+    )
+    parser.add_argument(
+        "--campaign-id",
+        default=None,
+        help="Campaign identifier under data/dft_workflow/campaigns used to discover request IDs.",
+    )
+    parser.add_argument(
+        "--campaign-root",
+        type=Path,
+        default=DEFAULT_CAMPAIGN_ROOT,
+        help=f"Root directory containing campaign folders (default: {DEFAULT_CAMPAIGN_ROOT}).",
     )
     parser.add_argument(
         "--reference-dataset",
@@ -227,16 +291,34 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    reference_df = _load_reference_dataset(args.reference_dataset)
-    grouped = _aggregate_by_formula(args.requests, reference_df)
-    summary = _build_summary_payload(grouped)
+    discovered_meta: Dict[str, object] = {}
+    request_ids: List[str] = list(args.requests or [])
+    if args.campaign_id:
+        discovered_ids, discovered_meta = _discover_requests_from_campaign(
+            args.campaign_id, args.campaign_root
+        )
+        request_ids.extend(discovered_ids)
 
-    args.report_path.parent.mkdir(parents=True, exist_ok=True)
-    args.report_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    request_ids = sorted(dict.fromkeys(request_ids))
+    if not request_ids:
+        raise SystemExit("Provide at least one request via --requests or supply --campaign-id.")
+
+    report_path = args.report_path
+    if args.campaign_id and report_path == DEFAULT_REPORT_PATH:
+        report_path = args.campaign_root / args.campaign_id / "validation" / "validation_report.json"
+
+    reference_df = _load_reference_dataset(args.reference_dataset)
+    grouped = _aggregate_by_formula(request_ids, reference_df)
+    summary = _build_summary_payload(grouped)
+    if discovered_meta:
+        summary["campaign"] = discovered_meta
+
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
     run_info = _log_to_mlflow(summary, args.tracking_uri, args.experiment)
     summary["mlflow_run"] = run_info
-    args.report_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    report_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(json.dumps(summary, indent=2))
 
 

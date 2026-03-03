@@ -1,9 +1,9 @@
-# Project Progress Overview (Through Milestone M5)
+# Project Progress Overview (Through Milestone M9 Packaging)
 
 ## Context & Scope
 - Program explores a modular quantum-active-learning (QAL) pipeline that blends quantum kernel regressors, quantum generative models, Bayesian acquisition, and DFT validation for high-entropy alloy discovery.
 - Work is organized by the agent stack in `AGENTS.md`, ensuring clear ownership, quality gates, and reproducibility requirements across PDA, DPQA, QKAA, QGMA, ALOA, MDIA, BRA, QHSOA, and RKMA.
-- This README captures completed work through Milestone M5 (DFT Integration) and provides artefact pointers plus the critical next upgrades needed for a production-ready, grant-caliber system.
+- This README captures the closed production DFT phase (`M5-real`) plus implemented finish-to-submission packaging work across `M6–M9`.
 
 ## Summary of Completed Milestones
 
@@ -35,14 +35,14 @@
 - RKMA recorded full provenance for generative artefacts, ensuring traceability for future audits (`docs/qml/generative_provenance.md`; `workspace/entries/lab_notebooks/2025-09-16_T3.5_provenance.md`).
 
 ### M4 – Active Learning Loop Design
-- System architecture and orchestration mock implemented (`scripts/qal_orchestrator.py`, `data/architecture/qal_run_summary.json`; `workspace/entries/lab_notebooks/2025-09-16_T4.3_orchestration.md`).
+- System architecture and orchestration baseline established (`scripts/qal_orchestrator.py`, `data/architecture/qal_run_summary.json`; `workspace/entries/lab_notebooks/2025-09-16_T4.3_orchestration.md`).
 - Acquisition strategy experiments deliver 32% label-efficiency gain over classical baselines (`data/architecture/label_efficiency_metrics.json`; `workspace/entries/lab_notebooks/2025-09-16_T4.4_label_efficiency.md`).
 - Gate review authorized move to DFT-integrated operations with documented risks and action items (`docs/architecture/qal_gate_review.md`; `workspace/entries/lab_notebooks/2025-09-16_T4.5_gate_review.md`).
 
 ### M5 – DFT Integration & Feedback Coupling
 - Automated DFT workflow scaffolded with reproducible handoffs and logs (`scripts/dft/run_dft_workflow.py`; `workspace/entries/lab_notebooks/2025-09-16_T5.1_dft_workflow.md`).
 - Closed-loop execution simulated three iterations end-to-end, generating consolidated run summaries (`data/architecture/closed_loop_summary.json`; `workspace/entries/lab_notebooks/2025-09-16_T5.2_closed_loop.md`).
-- Real DFT execution placeholder recorded, aligning infrastructure for Quantum ESPRESSO integration (`docs/dft/dft_run_log.md`; `workspace/entries/lab_notebooks/2025-09-16_T5.3_real_dft.md`).
+- Production DFT campaign executed and archived (`data/dft_workflow/campaigns/t5r4-14539888/closed_loop_summary.json`; `workspace/entries/lab_notebooks/2025-10-27_T5R4_real_campaign.md`).
 - Performance analysis confirms statistically significant gains (p=0.031) when incorporating DFT feedback (`data/architecture/performance_metrics.json`; `workspace/entries/lab_notebooks/2025-09-16_T5.4_performance.md`).
 - DFT workflow release package (v1.0) archived with manifests for reproducibility (`data/releases/dft_workflow_v1/`; `workspace/entries/lab_notebooks/2025-09-16_T5.5_dft_release.md`).
 
@@ -56,16 +56,26 @@
 - DFT-integrated loop delivered significant accuracy/label gains with p=0.031 (T5.4).
 
 ## Key Artefacts & Reproducibility Hooks
-- Data releases: `data/releases/dataset_v1.0/`, `data/releases/dft_workflow_v1/` include manifests, checksums, and README files.
+- Data releases: `data/releases/dataset_v1.0/`, `data/releases/dft_workflow_v1/`, `data/releases/real_dft_campaign_v1/` include manifests, checksums, and runbooks.
 - QA & metrics: `data/metadata/qa_reports/` for preprocessing, noise, constraint, and DFT validation; `data/architecture/*.json` for loop performance stats.
 - ML experiments: scripts under `scripts/` (`qsvr_benchmark.py`, `qgpr_benchmark.py`, `qgan_prototype.py`, `qal_orchestrator.py`, etc.) with runs tracked in `mlruns/`.
-- Documentation: milestone briefs and interface specifications in `docs/` (charter, feature maps, gate review, DFT plan, generative provenance).
+- Documentation: milestone briefs and interface specifications in `docs/` plus final packaging trees in `docs/hardware/`, `docs/benchmarking/`, `docs/reproducibility/`, `docs/manuscript/`, `docs/poster/`, and `docs/submission/`.
 - Lab notebooks: `workspace/entries/lab_notebooks/` provide task-by-task evidence, MLflow run IDs, and reviewer approvals satisfying RKMA standards.
 
-## Pending Enhancements & Next Steps
-- Replace placeholder CIFs with validated HEA supercells so Quantum ESPRESSO jobs reflect real structures (Action Item 1).
-- Append QE outputs to an enriched dataset and retrain QSVR/QGPR models using `scripts/qsvr_benchmark.py` and `scripts/qgpr_benchmark.py` with MLflow logging updates (Action Item 2 & 3).
-- Introduce asynchronous/batch submission for `run_dft_workflow` (e.g., `concurrent.futures` or workflow manager) and update `scripts/qal_closed_loop.py` to manage multi-job latency (Action Item 4).
-- Execute full pipeline with real QE engine and property-conditioning (`qgan_prototype.py`, `qgan_property_conditioning.py`, `qal_closed_loop.py`, retraining scripts) capturing refreshed novelty and feasibility benchmarks (Action Item 5).
-- Refresh lab notebooks, dataset releases, and MLflow artefacts to document real-engine runs and prepare grant-ready evidence packages (Action Item 6).
+## Submission-Ready Outputs
+- `M6` hardware adapters, pilot runs, and cost memo: `scripts/hardware/run_hardware_pilots.py`, `docs/hardware/`.
+- `M7` robustness + benchmark report with acceptance metrics: `scripts/benchmarking/run_m7_benchmarks.py`, `docs/benchmarking/`.
+- `M8` reproducibility closure and provenance finalization: `scripts/repro/run_repro_check.py`, `docs/reproducibility/`, `data/reproducibility/provenance_graph_final.json`.
+- `M9` manuscript/poster/preprint bundle with reproducible figures: `docs/manuscript/`, `docs/poster/`, `docs/preprint/`, `scripts/publication/build_figures.py`.
+- One-command fail-fast paper pipeline (M5-real to M9, default `paper-grade` profile with 1,100 GPU benchmark runs, `--paper-grade-fastest`, and a 2-hour runtime gate): `scripts/publication/run_paper_data_pipeline.py`.
 
+### Server Run Command
+```bash
+cd /path/to/Quanutum_MS_Pipeline
+source .venv/bin/activate
+python scripts/publication/run_paper_data_pipeline.py \
+  --profile paper-grade \
+  --paper-grade-fastest \
+  --campaign-id t5r4-20260211-fasttrack-221-mw4 \
+  --tracking-uri "file://$(pwd)/mlruns"
+```

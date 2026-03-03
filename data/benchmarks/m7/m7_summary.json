@@ -1,0 +1,25 @@
+{
+  "timestamp_utc": "2026-03-02T21:05:37.143453Z",
+  "inputs": {
+    "campaign_summary": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/closed_loop_summary.json",
+    "campaign_library": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/candidate_library.csv",
+    "classical_al": "/Users/omtailor/Quanutum_MS_Pipeline/data/qml/classical_al_metrics.json",
+    "qsvr_metrics": "/Users/omtailor/Quanutum_MS_Pipeline/data/qml/qsvr_metrics.json",
+    "qgpr_metrics": "/Users/omtailor/Quanutum_MS_Pipeline/data/qml/qgpr_metrics.json",
+    "hardware_summary": "/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/hardware_summary.json"
+  },
+  "metrics": {
+    "real_label_efficiency_gain": 0.9,
+    "qsvr_rmse_gain": -6.86932276390273e-05,
+    "dft_delta_vs_classical_rmse": -0.0382156151278954,
+    "qgpr_coverage": 0.035,
+    "novelty_gap": 0.2264000752915899,
+    "sensitivity_index": 0.039025751745155185,
+    "hardware_mean_fidelity": 0.9578640521947053,
+    "quantum_vs_classical_gap": 0.6000000000000001
+  },
+  "headline_policy": {
+    "real_only_headline_claims": true,
+    "simulated_results_position": "ablation_appendix_only"
+  }
+}

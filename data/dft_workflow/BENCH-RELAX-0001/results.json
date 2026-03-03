@@ -38,5 +38,17 @@
       "electron_maxstep": 500
     },
     "notes": "Benchmark profile for full variable-cell relaxation used in downstream HEA validation."
+  },
+  "schema_version": "2.0.0",
+  "engine": {
+    "name": "quantum_espresso",
+    "command": "pw.x",
+    "mode": "vc-relax"
+  },
+  "dft_settings_hash": "d60c0d2932c2cb5baa926cde67bab454c901ed29556d6a44271f271e10a73b16",
+  "evidence_tier": "production_dft",
+  "uncertainty": {
+    "formation_energy_eV": 0.0,
+    "exp_density_g_cm3": 0.02
   }
 }

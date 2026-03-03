@@ -1,5 +1,8 @@
 # Venue Target Brief — Quantum Materials Dissemination Plan
 
+> **Status Update (2026-02-11)**: The deadline values below are retained as historical references from the original planning cycle.  
+> Current strategy is to prepare an immediate preprint and retarget the next eligible conference CFP cycle with the conference+poster package.
+
 ## Primary Target (Conference)
 - **Venue**: IEEE Quantum Computing and Engineering Conference (QCE) — Quantum Materials & Chemistry Track
 - **Submission Deadline**: 2026-01-10 (Full Paper)
@@ -50,4 +53,3 @@
 - RKMA to assemble template bundle under `docs/templates/`.
 - BRA to tailor evaluation plots to meet each venue’s figure requirements.
 - QHSOA to prepare hardware compliance statement for submission packages.
-

@@ -1,0 +1,55 @@
+{
+  "campaign_id": "t5r4-20260211-fasttrack-221-mw4",
+  "job_class": "scf_screen",
+  "calculation_mode": "scf",
+  "timestamp_utc": "2026-02-11T03:44:43.384324Z",
+  "iterations_planned": 3,
+  "iterations_executed": 3,
+  "classical_label_budget": 120,
+  "quantum_label_budget": 12,
+  "label_efficiency_gain": 0.9,
+  "total_jobs": 12,
+  "completed_jobs": 12,
+  "failed_jobs": 0,
+  "valid_candidates": 12,
+  "max_force_threshold": 0.05,
+  "iteration_summaries": [
+    {
+      "iteration": 1,
+      "request_ids": [
+        "FAST4X-I01-C01",
+        "FAST4X-I01-C02",
+        "FAST4X-I01-C03",
+        "FAST4X-I01-C04"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_01/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_01/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 2,
+      "request_ids": [
+        "FAST4X-I02-C01",
+        "FAST4X-I02-C02",
+        "FAST4X-I02-C03",
+        "FAST4X-I02-C04"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_02/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_02/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 3,
+      "request_ids": [
+        "FAST4X-I03-C01",
+        "FAST4X-I03-C02",
+        "FAST4X-I03-C03",
+        "FAST4X-I03-C04"
+      ],
+      "queue_summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_03/queue_monitoring/summary.json",
+      "queue_log_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_03/queue_monitoring/jobs.jsonl"
+    }
+  ],
+  "mlflow_run": {
+    "run_id": "c05c96f0e7f641cc9170ea8598711acc",
+    "experiment_id": "968183626604800577"
+  }
+}

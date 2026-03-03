@@ -1,0 +1,35 @@
+{
+  "request_id": "REALCAM-I02-C02",
+  "source_dataset": "qgan_conditioned_candidates",
+  "timestamp_utc": "2025-10-25T19:50:29.345522Z",
+  "candidate_id": "QGAN-078",
+  "composition": "Ta0.08 Ca0.23 Pd0.09 W0.08 Sn0.08 Ga0.08 Si0.38",
+  "phase": "BCC",
+  "calculation": "scf",
+  "verbosity": "low",
+  "kpoint_grid": [
+    4,
+    4,
+    4
+  ],
+  "encut": 550,
+  "smearing": {
+    "scheme": "mv",
+    "sigma": 0.15
+  },
+  "electrons": {
+    "mixing_beta": 0.3,
+    "conv_thr": 1e-06,
+    "electron_maxstep": 200
+  },
+  "target_properties": [
+    "exp_density_g_cm3",
+    "formation_energy_eV"
+  ],
+  "predicted_properties": {
+    "predicted_density_g_cm3": 6.491,
+    "target_density_g_cm3": 6.382
+  },
+  "iteration_index": 2,
+  "notes": "T5R.4 reconstructed artefact for candidate QGAN-078"
+}

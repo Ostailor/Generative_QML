@@ -1,16 +1,42 @@
+# OS/editor noise
+.DS_Store
+
 # Python artifacts
 __pycache__/
 *.py[cod]
 *.so
 *.egg-info/
-.env    
+.env
 .venv/
 
-# MLflow artifacts (tracked separately)
-tracking/mlflow/mlruns/
-tracking/mlflow/mlflow.db
-
-# Data downloads (retain raw placeholders but exclude real dumps if large)
+# Runtime/log temp files
 *.tmp
 *.log
-*.dat
+*.pid
+espresso.err
+espresso.pwo
+espresso.pwi
+input_tmp.in
+
+# Local MLflow stores and run artifacts
+mlruns/
+tracking/mlflow/
+
+# Heavy DFT working data and queue scratch (regenerable)
+data/dft_handoff/input/
+data/dft_handoff/output/
+data/dft_workflow/queue_runs/
+data/dft_workflow/**/qe_tmp/
+data/dft_workflow/**/*.save/
+data/dft_workflow/**/wfc*.dat
+data/dft_workflow/**/charge-density.dat
+data/dft_workflow/**/data-file-schema.xml
+data/dft_workflow/**/paw.txt
+data/dft_workflow/**/espresso.pwo
+data/dft_workflow/**/espresso.err
+
+# Benchmark/output caches (regenerable)
+data/benchmarks/paper_grade/
+
+# Build/export outputs
+docs/submission/build/

@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+
+\bibitem{brochu2010bo}
+Eric Brochu, Vlad~M Cora, and Nando de~Freitas.
+\newblock A tutorial on bayesian optimization of expensive cost functions.
+\newblock {\em arXiv preprint arXiv:1012.2599}, 2010.
+
+\bibitem{frazier2018tutorial}
+Peter~I. Frazier.
+\newblock A tutorial on bayesian optimization.
+\newblock {\em arXiv preprint arXiv:1807.02811}, 2018.
+
+\bibitem{giannozzi2020qe}
+Paolo Giannozzi et~al.
+\newblock Quantum espresso toward the exascale.
+\newblock {\em The Journal of Chemical Physics}, 152(15):154105, 2020.
+
+\end{thebibliography}

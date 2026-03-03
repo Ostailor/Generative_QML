@@ -420,5 +420,17 @@
       "max_force_eV_A": 0.0,
       "output_subdir": "strain_5_negative/qe_tmp"
     }
-  ]
+  ],
+  "schema_version": "2.0.0",
+  "engine": {
+    "name": "quantum_espresso",
+    "command": "pw.x",
+    "mode": "scf"
+  },
+  "dft_settings_hash": "23e1fcc1085cf01c4c5b582ac60e10c17975d16cda7a9f42357bac2c1fbe290c",
+  "evidence_tier": "production_dft",
+  "uncertainty": {
+    "formation_energy_eV": 0.0,
+    "exp_density_g_cm3": 0.02
+  }
 }

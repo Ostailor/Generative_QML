@@ -1,0 +1,72 @@
+[
+  {
+    "path": "README.md",
+    "sha256": "850323cd657ae33d0a41cb85f6ac40856954edab86f5d3475eca217cd3ac54d6",
+    "size_bytes": 696
+  },
+  {
+    "path": "campaign/candidate_library.csv",
+    "sha256": "51500c9b6fb05fde37f938915129e913a5967fbdc9c42b108f05da5013aa2f13",
+    "size_bytes": 2696
+  },
+  {
+    "path": "campaign/closed_loop_summary.json",
+    "sha256": "03d844fa424e5c678f91974f7038294ad5b04339f76392ec64d423ea95517da1",
+    "size_bytes": 2094
+  },
+  {
+    "path": "campaign/iteration_01/queue_monitoring/jobs.jsonl",
+    "sha256": "473704d4a09fc38099cee204d6e1fe68ba34cced7325fb60299c86272c56682f",
+    "size_bytes": 2055
+  },
+  {
+    "path": "campaign/iteration_01/queue_monitoring/summary.json",
+    "sha256": "2b6f74f9001866d872a4c0041b4b1bd5de8ecc067f4daf0ed780e987c2911006",
+    "size_bytes": 3243
+  },
+  {
+    "path": "campaign/iteration_01_manifest.csv",
+    "sha256": "4946093eb70cc7dd4558b6835906cb9e0943e3ecba3da28e0caf2e8279a14979",
+    "size_bytes": 284
+  },
+  {
+    "path": "campaign/iteration_02/queue_monitoring/jobs.jsonl",
+    "sha256": "1f7d6883bccebf2bc90b7ce620e045d6363f6f33e79d82ed2814aac306866144",
+    "size_bytes": 2058
+  },
+  {
+    "path": "campaign/iteration_02/queue_monitoring/summary.json",
+    "sha256": "3f3116c61580cac0e626ae9f1a9ab9d22cfe4f7e183cda6f521f111a5a868a1e",
+    "size_bytes": 3248
+  },
+  {
+    "path": "campaign/iteration_02_manifest.csv",
+    "sha256": "17ef375d8d45f18bb86f2a201d701903cfba9757170959ceaf9d58cbf885b809",
+    "size_bytes": 284
+  },
+  {
+    "path": "campaign/iteration_03/queue_monitoring/jobs.jsonl",
+    "sha256": "be488667f031277776839619f1325ee559b8f34b8e0634dd5220195b4fd47431",
+    "size_bytes": 2061
+  },
+  {
+    "path": "campaign/iteration_03/queue_monitoring/summary.json",
+    "sha256": "f3f65cc2b41ec4e84cf7d317e08a1b0304ad3ab3ae446ceb36dae71f49375745",
+    "size_bytes": 3250
+  },
+  {
+    "path": "campaign/iteration_03_manifest.csv",
+    "sha256": "2d5067847d13dcb7f5fbb135bc07d197b892b2852fa227353c789c9d46bd952a",
+    "size_bytes": 284
+  },
+  {
+    "path": "release_info.json",
+    "sha256": "4f0adc5f5230a511604ba7a3feef655d66ca83178ee656d9f63e31b2b5b4cea8",
+    "size_bytes": 605
+  },
+  {
+    "path": "reproduction_runbook.md",
+    "sha256": "235d854a965958657853480fcf85b601962670606ec407ff294dc6d7e29422c5",
+    "size_bytes": 1050
+  }
+]

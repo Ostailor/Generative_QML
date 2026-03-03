@@ -1,0 +1,93 @@
+{
+  "run_id": "dft-queue-20260211T033714",
+  "started_at": "2026-02-11T03:37:14.159622Z",
+  "completed_at": "2026-02-11T03:41:16.066476Z",
+  "total_jobs": 4,
+  "completed_jobs": 4,
+  "failed_jobs": 0,
+  "latency": {
+    "avg": 220.40001658338588,
+    "min": 196.4766219588928,
+    "max": 241.89682149980217,
+    "p95": 238.88676421239506
+  },
+  "jobs": [
+    {
+      "request_id": "FAST4X-I02-C03",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2026-02-11T03:37:14.160044Z",
+      "completed_at": "2026-02-11T03:40:30.645676Z",
+      "latency_s": 196.4766219588928,
+      "latest_attempt_latency_s": 196.47648533433676,
+      "errors": [],
+      "output_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C03",
+      "result_snapshot": {
+        "total_energy_eV": -15965.770772149164,
+        "formation_energy_eV": -3991.442693037291,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 0
+    },
+    {
+      "request_id": "FAST4X-I02-C01",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2026-02-11T03:37:14.159776Z",
+      "completed_at": "2026-02-11T03:40:55.565706Z",
+      "latency_s": 221.39684995776042,
+      "latest_attempt_latency_s": 221.39677858306095,
+      "errors": [],
+      "output_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C01",
+      "result_snapshot": {
+        "total_energy_eV": -15965.91419981604,
+        "formation_energy_eV": -3991.47854995401,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 1
+    },
+    {
+      "request_id": "FAST4X-I02-C04",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2026-02-11T03:37:14.160305Z",
+      "completed_at": "2026-02-11T03:40:55.999159Z",
+      "latency_s": 221.82977291708812,
+      "latest_attempt_latency_s": 221.82976237498224,
+      "errors": [],
+      "output_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C04",
+      "result_snapshot": {
+        "total_energy_eV": -15965.244493644877,
+        "formation_energy_eV": -3991.3111234112193,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 2
+    },
+    {
+      "request_id": "FAST4X-I02-C02",
+      "status": "completed",
+      "attempts": 1,
+      "started_at": "2026-02-11T03:37:14.159832Z",
+      "completed_at": "2026-02-11T03:41:16.065790Z",
+      "latency_s": 241.89682149980217,
+      "latest_attempt_latency_s": 241.89659033436328,
+      "errors": [],
+      "output_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/FAST4X-I02-C02",
+      "result_snapshot": {
+        "total_energy_eV": -15965.129057920416,
+        "formation_energy_eV": -3991.282264480104,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 3
+    }
+  ],
+  "artefacts": {
+    "jobs_log": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_02/queue_monitoring/jobs.jsonl",
+    "summary_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/iteration_02/queue_monitoring/summary.json"
+  },
+  "mlflow_run": true
+}

@@ -5,13 +5,13 @@
       "job_label": "scf_screen",
       "runs_planned": 200,
       "safety_factor": 1.5,
-      "per_run_bytes": 17825908.0,
-      "per_run_gib": 0.016601670533418655,
-      "total_bytes": 5347772400.0,
-      "total_gib": 4.980501160025597,
-      "per_run_wall_time_s": 13.33977020799648,
-      "per_run_cpu_time_s": 13.087568,
-      "estimated_wall_time_hours": 1.11164751733304
+      "per_run_bytes": 37614682.0,
+      "per_run_gib": 0.0350314024835825,
+      "total_bytes": 11284404600.0,
+      "total_gib": 10.509420745074749,
+      "per_run_wall_time_s": 190.95893099997193,
+      "per_run_cpu_time_s": 780.4979539999999,
+      "estimated_wall_time_hours": 15.91324424999766
     },
     {
       "request_id": "BENCH-RELAX-0001",
@@ -41,8 +41,8 @@
     }
   ],
   "totals": {
-    "storage_bytes": 45387732081.6,
-    "storage_gib": 42.27061949819326,
-    "wall_time_hours": 32.48798702975242
+    "storage_bytes": 51324364281.6,
+    "storage_gib": 47.799539083242415,
+    "wall_time_hours": 47.28958376241704
   }
 }

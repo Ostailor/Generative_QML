@@ -1,0 +1,230 @@
+{
+  "timestamp_utc": "2026-03-02T21:05:33.440661Z",
+  "status": "pass",
+  "campaign_id": "t5r4-20260211-fasttrack-221-mw4",
+  "configuration": {
+    "profile": "fasttrack",
+    "run_real_campaign": false,
+    "tracking_uri": "file:///Users/omtailor/Quanutum_MS_Pipeline/mlruns",
+    "queue_tracking_uri": "file:///Users/omtailor/Quanutum_MS_Pipeline/mlruns",
+    "campaign_root": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns",
+    "release_dir": "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1",
+    "report_path": "/Users/omtailor/Quanutum_MS_Pipeline/data/reproducibility/paper_pipeline_report.json",
+    "allow_validation_review": true,
+    "skip_paper_grade_suite": true,
+    "paper_grade_total_runs": 1100,
+    "paper_grade_max_runtime_seconds": 7200.0,
+    "paper_grade_enforce_runtime": true,
+    "paper_grade_allow_cpu_fallback": false,
+    "paper_grade_max_qsvr_relative_gap": 0.1,
+    "paper_grade_max_abs_qgpr_coverage_gap": 0.05,
+    "expected_label_efficiency": 0.9,
+    "expected_valid_candidates": 12,
+    "expected_completed_jobs": 12
+  },
+  "steps": [
+    {
+      "step": "validate_production_outputs",
+      "command": [
+        "/Users/omtailor/Quanutum_MS_Pipeline/.venv/bin/python",
+        "scripts/dft/validate_production_outputs.py",
+        "--campaign-id",
+        "t5r4-20260211-fasttrack-221-mw4",
+        "--campaign-root",
+        "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns",
+        "--report-path",
+        "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/validation/validation_report.json",
+        "--tracking-uri",
+        "file:///Users/omtailor/Quanutum_MS_Pipeline/mlruns"
+      ],
+      "returncode": 0,
+      "duration_s": 0.846031,
+      "started_utc": "2026-03-02T21:05:30.175617Z",
+      "finished_utc": "2026-03-02T21:05:31.021648Z",
+      "stdout_tail": "      \"properties\": {\n        \"density_g_cm3\": {\n          \"mean\": 6.826902272860256,\n          \"std\": 0.0,\n          \"ci95\": 0.0,\n          \"reference\": null,\n          \"relative_gap\": null,\n          \"values\": [\n            6.826902272860256\n          ]\n        },\n        \"formation_energy_eV_per_atom\": {\n          \"mean\": -3991.450467091561,\n          \"std\": 0.0,\n          \"ci95\": 0.0,\n          \"reference\": null,\n          \"relative_gap\": null,\n          \"values\": [\n            -3991.450467091561\n          ]\n        }\n      },\n      \"missing_reference\": true\n    }\n  ],\n  \"max_relative_gap\": null,\n  \"referenced_formulas\": 0,\n  \"missing_reference_count\": 12,\n  \"status\": \"review\",\n  \"campaign\": {\n    \"campaign_id\": \"t5r4-20260211-fasttrack-221-mw4\",\n    \"campaign_dir\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4\",\n    \"request_source\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/candidate_library.csv\",\n    \"request_count\": 12\n  },\n  \"mlflow_run\": {\n    \"run_id\": \"5d6ceb3b9ab9423b97c4db4db216c0f2\",\n    \"experiment_id\": \"757249286354127205\"\n  }\n}",
+      "stderr_tail": ""
+    },
+    {
+      "step": "create_real_dft_release",
+      "command": [
+        "/Users/omtailor/Quanutum_MS_Pipeline/.venv/bin/python",
+        "scripts/releases/create_real_dft_release.py",
+        "--campaign-id",
+        "t5r4-20260211-fasttrack-221-mw4",
+        "--release-dir",
+        "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1"
+      ],
+      "returncode": 0,
+      "duration_s": 0.027732,
+      "started_utc": "2026-03-02T21:05:31.021887Z",
+      "finished_utc": "2026-03-02T21:05:31.049619Z",
+      "stdout_tail": "{\n  \"release_dir\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1\",\n  \"files\": 15,\n  \"campaign_id\": \"t5r4-20260211-fasttrack-221-mw4\"\n}",
+      "stderr_tail": ""
+    },
+    {
+      "step": "run_hardware_pilots",
+      "command": [
+        "/Users/omtailor/Quanutum_MS_Pipeline/.venv/bin/python",
+        "scripts/hardware/run_hardware_pilots.py",
+        "--tracking-uri",
+        "file:///Users/omtailor/Quanutum_MS_Pipeline/mlruns"
+      ],
+      "returncode": 0,
+      "duration_s": 0.584765,
+      "started_utc": "2026-03-02T21:05:31.049800Z",
+      "finished_utc": "2026-03-02T21:05:31.634565Z",
+      "stdout_tail": "{\n  \"runs_file\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/pilot_runs.csv\",\n  \"comparison_file\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/backend_model_comparison.csv\",\n  \"transpilation_file\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/transpilation_summary.json\",\n  \"summary_file\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/hardware_summary.json\",\n  \"mlflow\": {\n    \"run_id\": \"b044acd3c591414f9b6512e406562899\",\n    \"experiment_id\": \"502405892744322531\"\n  }\n}",
+      "stderr_tail": ""
+    },
+    {
+      "step": "run_m7_benchmarks",
+      "command": [
+        "/Users/omtailor/Quanutum_MS_Pipeline/.venv/bin/python",
+        "scripts/benchmarking/run_m7_benchmarks.py",
+        "--campaign-id",
+        "t5r4-20260211-fasttrack-221-mw4",
+        "--campaign-root",
+        "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns",
+        "--tracking-uri",
+        "file:///Users/omtailor/Quanutum_MS_Pipeline/mlruns"
+      ],
+      "returncode": 0,
+      "duration_s": 0.584681,
+      "started_utc": "2026-03-02T21:05:31.634793Z",
+      "finished_utc": "2026-03-02T21:05:32.219474Z",
+      "stdout_tail": "{\n  \"summary\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/benchmarks/m7/m7_summary.json\",\n  \"mlflow_runs\": {\n    \"T7.2\": {\n      \"run_id\": \"562f47cfa5e543adb5a2759e7efe12c8\",\n      \"experiment_id\": \"673962291266897929\"\n    },\n    \"T7.4\": {\n      \"run_id\": \"291cd59b30824fbfb3c2bb13aa8752f6\",\n      \"experiment_id\": \"673962291266897929\"\n    }\n  }\n}",
+      "stderr_tail": ""
+    },
+    {
+      "step": "validate_publication_build",
+      "command": [
+        "/Users/omtailor/Quanutum_MS_Pipeline/.venv/bin/python",
+        "scripts/publication/validate_publication_build.py",
+        "--campaign-id",
+        "t5r4-20260211-fasttrack-221-mw4",
+        "--campaign-root",
+        "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns"
+      ],
+      "returncode": 0,
+      "duration_s": 0.64319,
+      "started_utc": "2026-03-02T21:05:32.219683Z",
+      "finished_utc": "2026-03-02T21:05:32.862873Z",
+      "stdout_tail": "{\n  \"campaign_summary\": \"/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/closed_loop_summary.json\",\n  \"manuscript_figures\": [\n    \"/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures/fig_hardware_cost_fidelity.png\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures/fig_m7_benchmark_summary.png\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures/fig_real_dft_kpi.png\"\n  ],\n  \"poster_figures\": [\n    \"/Users/omtailor/Quanutum_MS_Pipeline/docs/poster/figures/fig_hardware_cost_fidelity.png\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/docs/poster/figures/fig_m7_benchmark_summary.png\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/docs/poster/figures/fig_real_dft_kpi.png\"\n  ]\n}\n{\n  \"entries\": 5,\n  \"manifest\": \"/Users/omtailor/Quanutum_MS_Pipeline/docs/poster/poster_manifest.json\"\n}\n{\n  \"timestamp_utc\": \"2026-03-02T21:05:32.859456Z\",\n  \"status\": \"pass\",\n  \"campaign_id\": \"t5r4-20260211-fasttrack-221-mw4\",\n  \"steps\": {\n    \"manuscript_compile\": {\n      \"bundle\": \"/Users/omtailor/Quanutum_MS_Pipeline/docs/submission/build/conference_paper_submission.md\"\n    },\n    \"bibliography_build\": {\n      \"index\": \"/Users/omtailor/Quanutum_MS_Pipeline/docs/submission/build/bibliography_index.json\",\n      \"entry_count\": 3\n    },\n    \"figure_regeneration\": {\n      \"figure_dir\": \"/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/figures\",\n      \"missing_figures\": [],\n      \"count\": 3\n    },\n    \"poster_export\": {\n      \"poster_manifest\": \"/Users/omtailor/Quanutum_MS_Pipeline/docs/poster/poster_manifest.json\",\n      \"poster_export_dir\": \"/Users/omtailor/Quanutum_MS_Pipeline/docs/submission/build/poster_export\"\n    }\n  }\n}",
+      "stderr_tail": ""
+    },
+    {
+      "step": "run_repro_check",
+      "command": [
+        "/Users/omtailor/Quanutum_MS_Pipeline/.venv/bin/python",
+        "scripts/repro/run_repro_check.py",
+        "--tracking-uri",
+        "file:///Users/omtailor/Quanutum_MS_Pipeline/mlruns"
+      ],
+      "returncode": 0,
+      "duration_s": 0.577323,
+      "started_utc": "2026-03-02T21:05:32.863039Z",
+      "finished_utc": "2026-03-02T21:05:33.440362Z",
+      "stdout_tail": "{\n  \"timestamp_utc\": \"2026-03-02T21:05:33.294151Z\",\n  \"checks\": {\n    \"required_files_present\": true,\n    \"release_manifest_valid\": true\n  },\n  \"required_files\": [\n    \"/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1/release_manifest.json\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1/campaign/closed_loop_summary.json\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/data/benchmarks/m7/m7_metrics_table.csv\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/hardware_summary.json\",\n    \"/Users/omtailor/Quanutum_MS_Pipeline/data/benchmarks/m7/m7_summary.json\"\n  ],\n  \"missing_files\": [],\n  \"manifest_verification\": {\n    \"checked\": 15,\n    \"mismatches\": [],\n    \"ok\": true\n  },\n  \"reproduction_success\": true,\n  \"mlflow_run\": {\n    \"run_id\": \"d25b2d40cfd64eb7b59f2d60e2c9d318\",\n    \"experiment_id\": \"606481519421527619\"\n  }\n}",
+      "stderr_tail": ""
+    }
+  ],
+  "gates": [
+    {
+      "name": "campaign_exists",
+      "passed": true,
+      "detail": "expected existing campaign summary at /Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/closed_loop_summary.json"
+    },
+    {
+      "name": "campaign_label_efficiency",
+      "passed": true,
+      "detail": "label_efficiency_gain=0.9000, required>=0.3000"
+    },
+    {
+      "name": "campaign_valid_candidates",
+      "passed": true,
+      "detail": "valid_candidates=12, required>=10"
+    },
+    {
+      "name": "campaign_failed_jobs",
+      "passed": true,
+      "detail": "failed_jobs=0, allowed<=0"
+    },
+    {
+      "name": "campaign_expected_label_efficiency",
+      "passed": true,
+      "detail": "label_efficiency_gain=0.9000, expected=0.9000, tolerance=0.0000"
+    },
+    {
+      "name": "campaign_expected_valid_candidates",
+      "passed": true,
+      "detail": "valid_candidates=12, expected=12"
+    },
+    {
+      "name": "campaign_expected_completed_jobs",
+      "passed": true,
+      "detail": "completed_jobs=12, expected=12"
+    },
+    {
+      "name": "validation_status",
+      "passed": true,
+      "detail": "status=review, allow_review=True"
+    },
+    {
+      "name": "validation_gap",
+      "passed": true,
+      "detail": "max_relative_gap=None, required<=0.05 (or null when allow_review=True)"
+    },
+    {
+      "name": "release_campaign_match",
+      "passed": true,
+      "detail": "release campaign_id=t5r4-20260211-fasttrack-221-mw4, expected=t5r4-20260211-fasttrack-221-mw4"
+    },
+    {
+      "name": "hardware_runs",
+      "passed": true,
+      "detail": "hardware_runs=27, required>=3"
+    },
+    {
+      "name": "m7_quantum_vs_classical_gap",
+      "passed": true,
+      "detail": "quantum_vs_classical_gap=0.6000000000000001, required>=0.0"
+    },
+    {
+      "name": "m7_sensitivity_present",
+      "passed": true,
+      "detail": "sensitivity_index=0.039025751745155185"
+    },
+    {
+      "name": "publication_status",
+      "passed": true,
+      "detail": "status=pass"
+    },
+    {
+      "name": "publication_missing_figures",
+      "passed": true,
+      "detail": "missing_figures=[]"
+    },
+    {
+      "name": "reproduction_success",
+      "passed": true,
+      "detail": "reproduction_success=True"
+    },
+    {
+      "name": "manuscript_campaign_reference",
+      "passed": true,
+      "detail": "campaign_id=t5r4-20260211-fasttrack-221-mw4 must appear in /Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/conference_paper.md"
+    }
+  ],
+  "artifacts": {
+    "campaign_summary": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/closed_loop_summary.json",
+    "validation_report": "/Users/omtailor/Quanutum_MS_Pipeline/data/dft_workflow/campaigns/t5r4-20260211-fasttrack-221-mw4/validation/validation_report.json",
+    "release_info": "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1/release_info.json",
+    "release_manifest": "/Users/omtailor/Quanutum_MS_Pipeline/data/releases/real_dft_campaign_v1/release_manifest.json",
+    "hardware_summary": "/Users/omtailor/Quanutum_MS_Pipeline/data/hardware/hardware_summary.json",
+    "m7_summary": "/Users/omtailor/Quanutum_MS_Pipeline/data/benchmarks/m7/m7_summary.json",
+    "publication_build_report": "/Users/omtailor/Quanutum_MS_Pipeline/docs/submission/build/publication_build_report.json",
+    "reproduction_report": "/Users/omtailor/Quanutum_MS_Pipeline/data/reproducibility/reproduction_report.json",
+    "conference_paper": "/Users/omtailor/Quanutum_MS_Pipeline/docs/manuscript/conference_paper.md"
+  },
+  "error": ""
+}

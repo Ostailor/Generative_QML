@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import os
 import shutil
@@ -18,7 +19,7 @@ import mlflow
 import numpy as np
 
 try:
-    from ase.io import read
+    from ase.io import read, write
     from ase.calculators.espresso import Espresso, EspressoProfile
 except ImportError as exc:
     raise SystemExit(
@@ -42,10 +43,41 @@ PW_COMMAND = os.environ.get("QE_PW_COMMAND", "pw.x")
 
 AMU_TO_G = 1.66053906660
 EV_TO_RY = 0.0734986176
+ANGSTROM_TO_BOHR = 1.8897259886
+EV_A3_TO_KBAR = 1602.1766208
 
 
 def _log(message: str) -> None:
     print(f"[run_dft_workflow] {message}", flush=True)
+
+
+def _compute_settings_hash(input_path: Path) -> str:
+    sha = hashlib.sha256()
+    hash_candidates = [
+        input_path / "metadata.json",
+        input_path / "structure.cif",
+        input_path / "pseudopotentials.csv",
+        input_path / "vasp_settings.json",
+    ]
+    for path in hash_candidates:
+        if not path.exists():
+            continue
+        sha.update(path.name.encode("utf-8"))
+        sha.update(b"\n")
+        sha.update(path.read_bytes())
+    return sha.hexdigest()
+
+
+def _infer_evidence_tier(request_id: str, metadata: Dict[str, Any]) -> str:
+    rid = request_id.upper()
+    if rid.startswith("REALCAM") or rid.startswith("BENCH") or rid.startswith("QUEUE"):
+        return "production_dft"
+    if rid.startswith("SMOKE"):
+        return "smoke_test"
+    source = str(metadata.get("source_dataset", "")).lower()
+    if "qgan" in source or "hea" in source:
+        return "pilot_dft"
+    return "simulation"
 
 
 def _select_pseudopotentials(elements: np.ndarray) -> Dict[str, str]:
@@ -91,31 +123,47 @@ def _apply_strain(atoms, strain_matrix: np.ndarray):
 def _run_single_calculation(atoms, calc_kwargs: dict, outdir: Path, prefix: str) -> dict:
     run_kwargs = copy.deepcopy(calc_kwargs)
     outdir.mkdir(parents=True, exist_ok=True)
+    # Isolate each QE invocation in its own calculator directory so parallel queue
+    # jobs do not race on shared espresso.pwi/espresso.pwo files.
+    run_kwargs["directory"] = str(outdir)
     run_kwargs["outdir"] = str(outdir)
     run_kwargs["prefix"] = prefix
     _log(f"Launching pw.x for prefix '{prefix}' in {outdir}")
 
     atoms.calc = Espresso(**run_kwargs)
     energy = float(atoms.get_potential_energy())
-    stress_voigt = atoms.get_stress(voigt=True).tolist()
-    max_force = float(np.abs(atoms.get_forces()).max())
+    stress_voigt = atoms.get_stress(voigt=True)
+    forces = atoms.get_forces()
+    max_force = float(np.linalg.norm(forces, axis=1).max()) if forces.size else 0.0
 
     return {
         "total_energy_eV": energy,
-        "stress_voigt": stress_voigt,
+        "stress_voigt": stress_voigt.tolist(),
         "max_force_eV_A": max_force,
     }
 
 
-def run_workflow(request_id: str) -> dict:
+def run_workflow(request_id: str, resume: bool = False) -> dict:
     input_path = INPUT_DIR / request_id
     output_path = OUTPUT_DIR / request_id
-    if output_path.exists():
-        shutil.rmtree(output_path)
-    output_path.mkdir(parents=True, exist_ok=True)
+    result_cache = output_path / "results.json"
+
+    if resume and result_cache.exists():
+        _log(f"Using cached results for '{request_id}' (resume enabled)")
+        return json.loads(result_cache.read_text())
+
+    if resume and output_path.exists():
+        _log(f"Resuming workflow for '{request_id}' using existing output at {output_path}")
+    else:
+        if output_path.exists():
+            shutil.rmtree(output_path)
+        output_path.mkdir(parents=True, exist_ok=True)
 
     _log(f"Starting workflow for request '{request_id}'")
     metadata = json.loads((input_path / "metadata.json").read_text())
+    settings_hash = _compute_settings_hash(input_path)
+    evidence_tier = _infer_evidence_tier(request_id, metadata)
+    overrides = metadata.get("qe_overrides") or {}
     structure_file = input_path / "structure.cif"
     if not structure_file.exists():
         raise FileNotFoundError(
@@ -128,8 +176,18 @@ def run_workflow(request_id: str) -> dict:
     pseudopotentials = _select_pseudopotentials(unique_elements)
 
     encut_eV = metadata.get("encut", 520)
-    ecutwfc = encut_eV * EV_TO_RY
-    ecutrho = metadata.get("ecutrho", 8 * ecutwfc)
+    ecutwfc_override = overrides.get("ecutwfc_ry")
+    if ecutwfc_override is not None:
+        ecutwfc = float(ecutwfc_override)
+        encut_eV = ecutwfc / EV_TO_RY
+    else:
+        ecutwfc = encut_eV * EV_TO_RY
+
+    ecutrho_override = overrides.get("ecutrho_ry")
+    if ecutrho_override is not None:
+        ecutrho = float(ecutrho_override)
+    else:
+        ecutrho = metadata.get("ecutrho", 8 * ecutwfc)
 
     smearing_cfg = metadata.get("smearing", {})
     sigma_eV = smearing_cfg.get("sigma", 0.2)
@@ -139,8 +197,10 @@ def run_workflow(request_id: str) -> dict:
 
     profile = EspressoProfile(command=PW_COMMAND, pseudo_dir=str(PSEUDO_DIR))
 
+    k_grid = overrides.get("k_grid", metadata.get("kpoint_grid", [4, 4, 4]))
+
     calc_kwargs = {
-        "kpts": tuple(metadata.get("kpoint_grid", [4, 4, 4])),
+        "kpts": tuple(k_grid),
         "occupations": "smearing",
         "smearing": smearing_cfg.get("scheme", "mv"),
         "degauss": degauss_ry,
@@ -169,6 +229,28 @@ def run_workflow(request_id: str) -> dict:
         },
     }
 
+    relaxation_cfg = metadata.get("relaxation") or {}
+    ions_section: Dict[str, float | str] = {}
+    cell_section: Dict[str, float | str] = {}
+    if relaxation_cfg:
+        ion_dynamics = relaxation_cfg.get("ion_dynamics")
+        if ion_dynamics:
+            ions_section["ion_dynamics"] = ion_dynamics
+        cell_dynamics = relaxation_cfg.get("cell_dynamics")
+        if cell_dynamics:
+            cell_section["cell_dynamics"] = cell_dynamics
+        press_thr = relaxation_cfg.get("pressure_threshold_kbar")
+        if press_thr is not None:
+            cell_section["press_conv_thr"] = float(press_thr)
+        max_steps = relaxation_cfg.get("max_steps")
+        if max_steps is not None:
+            calc_kwargs["input_data"]["control"]["nstep"] = int(max_steps)
+
+    if ions_section:
+        calc_kwargs["input_data"]["ions"] = ions_section
+    if cell_section:
+        calc_kwargs["input_data"]["cell"] = cell_section
+
     _log("Running base calculation")
     base_result = _run_single_calculation(
         atoms,
@@ -181,24 +263,65 @@ def run_workflow(request_id: str) -> dict:
     volume = atoms.get_volume()
     mass = atoms.get_masses().sum()
     density = (mass * AMU_TO_G) / volume
+    forces = atoms.get_forces()
+    max_force_val = float(np.linalg.norm(forces, axis=1).max()) if forces.size else 0.0
+    stress_voigt = atoms.get_stress(voigt=True)
+    stress_voigt_list = stress_voigt.tolist()
+    stress_voigt_kbar = (stress_voigt * EV_A3_TO_KBAR).tolist()
+    pressure_kbar = float(-np.mean(stress_voigt[:3]) * EV_A3_TO_KBAR)
+
+    final_structure_path = output_path / "relaxed_structure.cif"
+    write(final_structure_path, atoms, format="cif")
 
     results = {
+        "schema_version": "2.0.0",
         "request_id": request_id,
         "status": "completed",
         "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+        "engine": {
+            "name": "quantum_espresso",
+            "command": PW_COMMAND,
+            "mode": metadata.get("calculation", "scf"),
+        },
+        "dft_settings_hash": settings_hash,
+        "evidence_tier": evidence_tier,
         "total_energy_eV": base_result["total_energy_eV"],
         "formation_energy_eV": base_result["total_energy_eV"] / len(atoms),
-        "max_force_eV_A": base_result["max_force_eV_A"],
+        "max_force_eV_A": max_force_val,
+        "forces_eV_A": forces.tolist(),
         "properties": {
             "exp_density_g_cm3": density,
         },
+        "uncertainty": {
+            "formation_energy_eV": 0.0,
+            "exp_density_g_cm3": 0.02,
+        },
         "metadata": metadata,
+        "stress": {
+            "voigt_eVA3": stress_voigt_list,
+            "voigt_kbar": stress_voigt_kbar,
+            "pressure_kbar": pressure_kbar,
+        },
+        "final_structure": {
+            "lattice_vectors_ang": atoms.get_cell().tolist(),
+            "atomic_symbols": atoms.get_chemical_symbols(),
+            "positions_cartesian_ang": atoms.get_positions().tolist(),
+            "positions_fractional": atoms.get_scaled_positions().tolist(),
+            "volume_ang3": volume,
+        },
+        "artefacts": {
+            "relaxed_structure_cif": str(final_structure_path.relative_to(output_path)),
+        },
         "strain_results": [],
     }
 
     stress_cfg = metadata.get("stress_analysis")
     if stress_cfg:
         _log("Stress analysis enabled; preparing strain calculations")
+        if resume and (output_path / 'strain_results.json').exists():
+            _log('Using existing strain results and skipping strain reruns.')
+            results["strain_results"] = json.loads((output_path / 'strain_results.json').read_text())
+            return results
         amplitude = float(stress_cfg.get("strain_amplitude", 0.003))
         max_directions = int(stress_cfg.get("strain_directions", 6))
         strain_matrices = _build_strain_matrices(amplitude)[:max_directions]
@@ -234,6 +357,9 @@ def run_workflow(request_id: str) -> dict:
                     }
                 )
         _log("Completed stress analysis calculations")
+        (output_path / "strain_results.json").write_text(
+            json.dumps(results["strain_results"], indent=2), encoding="utf-8"
+        )
     else:
         _log("No stress analysis configured; skipping strain calculations")
 
@@ -281,6 +407,8 @@ def run_queue(
     experiment: str = DEFAULT_QUEUE_EXPERIMENT,
     run_name: Optional[str] = None,
     monitor_dir: Optional[Path] = None,
+    resume: bool = False,
+    max_wall_seconds: Optional[int] = None,
 ) -> Dict[str, Any]:
     if not request_ids:
         raise ValueError("No request IDs supplied for queue execution.")
@@ -301,16 +429,66 @@ def run_queue(
     job_records: List[Dict[str, Any]] = []
 
     def _worker(request_id: str) -> Dict[str, Any]:
+        def _snapshot(result_dict: Dict[str, Any]) -> Dict[str, Any]:
+            return {
+                "total_energy_eV": result_dict.get("total_energy_eV"),
+                "formation_energy_eV": result_dict.get("formation_energy_eV"),
+                "max_force_eV_A": result_dict.get("max_force_eV_A"),
+                "strain_evaluations": len(result_dict.get("strain_results", [])),
+            }
+
         attempt = 0
         errors: List[Dict[str, Any]] = []
         job_start_wall = time.monotonic()
         job_started_at = datetime.utcnow().isoformat() + "Z"
+        cached_result_path = OUTPUT_DIR / request_id / "results.json"
+
+        if resume and cached_result_path.exists():
+            _log(f"Queue job '{request_id}': using cached results (resume enabled)")
+            cached_result = json.loads(cached_result_path.read_text())
+            completed_at = datetime.utcnow().isoformat() + "Z"
+            return {
+                "request_id": request_id,
+                "status": "completed",
+                "attempts": 0,
+                "started_at": job_started_at,
+                "completed_at": completed_at,
+                "latency_s": 0.0,
+                "latest_attempt_latency_s": 0.0,
+                "errors": errors,
+                "output_dir": str((OUTPUT_DIR / request_id).resolve()),
+                "result_snapshot": _snapshot(cached_result),
+            }
+
         while True:
+            if max_wall_seconds is not None and (time.monotonic() - job_start_wall) > max_wall_seconds:
+                _log(
+                    f"Queue job '{request_id}' exceeded wall time limit of {max_wall_seconds}s; marking as failed"
+                )
+                total_latency = time.monotonic() - job_start_wall
+                timeout_record = {
+                    "attempt": attempt,
+                    "error": "TimeoutError",
+                    "traceback": "Exceeded max wall time",
+                    "failed_at": datetime.utcnow().isoformat() + "Z",
+                    "attempt_latency_s": total_latency,
+                }
+                errors.append(timeout_record)
+                return {
+                    "request_id": request_id,
+                    "status": "failed",
+                    "attempts": attempt,
+                    "started_at": job_started_at,
+                    "completed_at": datetime.utcnow().isoformat() + "Z",
+                    "latency_s": total_latency,
+                    "errors": errors,
+                }
+
             attempt += 1
             _log(f"Queue job '{request_id}': starting attempt {attempt}")
             attempt_start = time.monotonic()
             try:
-                result = run_workflow(request_id)
+                result = run_workflow(request_id, resume=resume)
                 total_latency = time.monotonic() - job_start_wall
                 attempt_latency = time.monotonic() - attempt_start
                 completed_at = datetime.utcnow().isoformat() + "Z"
@@ -318,7 +496,7 @@ def run_queue(
                     f"Queue job '{request_id}' completed in {total_latency:.2f}s "
                     f"after {attempt} attempt(s)"
                 )
-                summary = {
+                return {
                     "request_id": request_id,
                     "status": "completed",
                     "attempts": attempt,
@@ -328,14 +506,8 @@ def run_queue(
                     "latest_attempt_latency_s": attempt_latency,
                     "errors": errors,
                     "output_dir": str((OUTPUT_DIR / request_id).resolve()),
-                    "result_snapshot": {
-                        "total_energy_eV": result["total_energy_eV"],
-                        "formation_energy_eV": result["formation_energy_eV"],
-                        "max_force_eV_A": result["max_force_eV_A"],
-                        "strain_evaluations": len(result["strain_results"]),
-                    },
+                    "result_snapshot": _snapshot(result),
                 }
-                return summary
             except Exception as exc:  # noqa: BLE001
                 attempt_latency = time.monotonic() - attempt_start
                 error_record = {
@@ -352,7 +524,7 @@ def run_queue(
                 errors.append(error_record)
                 if attempt > max_retries:
                     total_latency = time.monotonic() - job_start_wall
-                    failure_summary = {
+                    return {
                         "request_id": request_id,
                         "status": "failed",
                         "attempts": attempt,
@@ -361,7 +533,6 @@ def run_queue(
                         "latency_s": total_latency,
                         "errors": errors,
                     }
-                    return failure_summary
                 backoff = min(10.0, 1.5 * attempt)
                 time.sleep(backoff)
 
