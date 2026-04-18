@@ -1,0 +1,5 @@
+iteration,request_id,candidate_id,composition,phase
+11,SCF-I11-C01,QGAN-105,Mg0.19 Cr0.15 Ti0.66,FCC
+11,SCF-I11-C02,QGAN-110,Ca0.32 Ni0.55 Y0.13,FCC
+11,SCF-I11-C03,QGAN-132,Li0.11 Y0.47 Ni0.42,other
+11,SCF-I11-C04,QGAN-118,Ca0.19 Nd0.15 Fe0.66,other

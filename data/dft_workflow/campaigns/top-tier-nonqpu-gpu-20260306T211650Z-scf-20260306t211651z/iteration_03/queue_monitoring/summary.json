@@ -1,0 +1,93 @@
+{
+  "run_id": "dft-queue-20260324T010745",
+  "started_at": "2026-03-24T01:07:45.497697Z",
+  "completed_at": "2026-03-24T01:07:45.498335Z",
+  "total_jobs": 4,
+  "completed_jobs": 4,
+  "failed_jobs": 0,
+  "latency": {
+    "avg": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "p95": 0.0
+  },
+  "jobs": [
+    {
+      "request_id": "SCF-I03-C01",
+      "status": "completed",
+      "attempts": 0,
+      "started_at": "2026-03-24T01:07:45.497767Z",
+      "completed_at": "2026-03-24T01:07:45.497844Z",
+      "latency_s": 0.0,
+      "latest_attempt_latency_s": 0.0,
+      "errors": [],
+      "output_dir": "/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C01",
+      "result_snapshot": {
+        "total_energy_eV": -37807.73426880843,
+        "formation_energy_eV": -4725.966783601054,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 0
+    },
+    {
+      "request_id": "SCF-I03-C02",
+      "status": "completed",
+      "attempts": 0,
+      "started_at": "2026-03-24T01:07:45.497884Z",
+      "completed_at": "2026-03-24T01:07:45.497972Z",
+      "latency_s": 0.0,
+      "latest_attempt_latency_s": 0.0,
+      "errors": [],
+      "output_dir": "/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C02",
+      "result_snapshot": {
+        "total_energy_eV": -39053.69457144035,
+        "formation_energy_eV": -4881.7118214300435,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 1
+    },
+    {
+      "request_id": "SCF-I03-C03",
+      "status": "completed",
+      "attempts": 0,
+      "started_at": "2026-03-24T01:07:45.498007Z",
+      "completed_at": "2026-03-24T01:07:45.498081Z",
+      "latency_s": 0.0,
+      "latest_attempt_latency_s": 0.0,
+      "errors": [],
+      "output_dir": "/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C03",
+      "result_snapshot": {
+        "total_energy_eV": -35595.277711275674,
+        "formation_energy_eV": -4449.409713909459,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 2
+    },
+    {
+      "request_id": "SCF-I03-C04",
+      "status": "completed",
+      "attempts": 0,
+      "started_at": "2026-03-24T01:07:45.498115Z",
+      "completed_at": "2026-03-24T01:07:45.498184Z",
+      "latency_s": 0.0,
+      "latest_attempt_latency_s": 0.0,
+      "errors": [],
+      "output_dir": "/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C04",
+      "result_snapshot": {
+        "total_energy_eV": -26982.655728634454,
+        "formation_energy_eV": -3372.8319660793068,
+        "max_force_eV_A": 0.0,
+        "strain_evaluations": 0
+      },
+      "queue_index": 3
+    }
+  ],
+  "artefacts": {
+    "jobs_log": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z/iteration_03/queue_monitoring/jobs.jsonl",
+    "summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z/iteration_03/queue_monitoring/summary.json"
+  },
+  "mlflow_run": true
+}

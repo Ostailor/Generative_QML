@@ -161,9 +161,25 @@ def _aggregate_by_formula(
         # Add reference values if available
         if formula_key in reference_df.index:
             ref_row = reference_df.loc[formula_key]
-            ref_density = ref_row.get("calc_density_g_cm3")
-            if pd.notnull(ref_density):
-                record["properties"]["density_g_cm3"].reference = float(ref_density)
+            if isinstance(ref_row, pd.DataFrame):
+                ref_density_series = pd.to_numeric(
+                    ref_row.get("calc_density_g_cm3"),
+                    errors="coerce",
+                ).dropna()
+                ref_density = (
+                    float(ref_density_series.mean())
+                    if not ref_density_series.empty
+                    else None
+                )
+            else:
+                ref_density_raw = ref_row.get("calc_density_g_cm3")
+                ref_density = (
+                    float(ref_density_raw)
+                    if pd.notnull(ref_density_raw)
+                    else None
+                )
+            if ref_density is not None:
+                record["properties"]["density_g_cm3"].reference = ref_density
         else:
             record.setdefault("missing_reference", True)
     return grouped

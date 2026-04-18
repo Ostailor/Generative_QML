@@ -1,0 +1,98 @@
+{
+  "timestamp_utc": "2026-04-18T20:40:46.823288Z",
+  "started_utc": "2026-04-18T20:40:46.500889Z",
+  "status": "pass",
+  "error": "",
+  "configuration": {
+    "tracking_uri": "file:///home/om/Projects/Generative_QML/mlruns_server_fresh",
+    "queue_tracking_uri": "file:///home/om/Projects/Generative_QML/mlruns_server_fresh",
+    "campaign_root": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns",
+    "report_path": "/home/om/Projects/Generative_QML/data/reproducibility/top_tier_non_qpu_report.json",
+    "seed": 20260303,
+    "campaign_prefix": "top-tier-nonqpu",
+    "resume": false,
+    "stages": [
+      "release"
+    ],
+    "accepted_failed_request_ids": [
+      "vc_relax:VCRLX-I01-C04"
+    ],
+    "discovery_campaign_id": "top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z",
+    "vc_campaign_id": "top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z",
+    "elastic_campaign_id": "top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z",
+    "reference_campaign_id": null
+  },
+  "preflight": {
+    "selected_stages": "release",
+    "gpu_mode": "gpu",
+    "gpu_reason": "cuda_devices=1",
+    "gpu_backend_smoke": "skipped",
+    "existing_discovery_campaign": "top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z",
+    "existing_discovery_summary": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z/closed_loop_summary.json",
+    "existing_vc_relax_campaign": "top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z",
+    "existing_vc_relax_summary": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/closed_loop_summary.json",
+    "existing_elastic_eval_campaign": "top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z",
+    "existing_elastic_eval_summary": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/closed_loop_summary.json"
+  },
+  "campaigns": {
+    "discovery": "top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z",
+    "vc_relax": "top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z",
+    "elastic_eval": "top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z"
+  },
+  "artifacts": {
+    "release_discovery": "/home/om/Projects/Generative_QML/data/releases/top_tier_non_qpu/top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z",
+    "release_vc_relax": "/home/om/Projects/Generative_QML/data/releases/top_tier_non_qpu/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z",
+    "release_elastic_eval": "/home/om/Projects/Generative_QML/data/releases/top_tier_non_qpu/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z"
+  },
+  "gate_decisions": {},
+  "steps": [
+    {
+      "name": "09_release_discovery",
+      "command": [
+        "/home/om/Projects/Generative_QML/.venv/bin/python",
+        "scripts/releases/create_real_dft_release.py",
+        "--campaign-id",
+        "top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z",
+        "--release-dir",
+        "/home/om/Projects/Generative_QML/data/releases/top_tier_non_qpu/top-tier-nonqpu-gpu-20260306T211650Z-scf-20260306t211651z"
+      ],
+      "returncode": 0,
+      "duration_s": 0.130094,
+      "started_utc": "2026-04-18T20:40:46.602689Z",
+      "finished_utc": "2026-04-18T20:40:46.732783Z",
+      "log_path": "/home/om/Projects/Generative_QML/logs/top_tier_non_qpu_20260418T204046Z/steps/09_release_discovery.log"
+    },
+    {
+      "name": "09_release_vc_relax",
+      "command": [
+        "/home/om/Projects/Generative_QML/.venv/bin/python",
+        "scripts/releases/create_real_dft_release.py",
+        "--campaign-id",
+        "top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z",
+        "--release-dir",
+        "/home/om/Projects/Generative_QML/data/releases/top_tier_non_qpu/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z"
+      ],
+      "returncode": 0,
+      "duration_s": 0.019518,
+      "started_utc": "2026-04-18T20:40:46.732950Z",
+      "finished_utc": "2026-04-18T20:40:46.752468Z",
+      "log_path": "/home/om/Projects/Generative_QML/logs/top_tier_non_qpu_20260418T204046Z/steps/09_release_vc_relax.log"
+    },
+    {
+      "name": "09_release_elastic_eval",
+      "command": [
+        "/home/om/Projects/Generative_QML/.venv/bin/python",
+        "scripts/releases/create_real_dft_release.py",
+        "--campaign-id",
+        "top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z",
+        "--release-dir",
+        "/home/om/Projects/Generative_QML/data/releases/top_tier_non_qpu/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z"
+      ],
+      "returncode": 0,
+      "duration_s": 0.07064,
+      "started_utc": "2026-04-18T20:40:46.752557Z",
+      "finished_utc": "2026-04-18T20:40:46.823197Z",
+      "log_path": "/home/om/Projects/Generative_QML/logs/top_tier_non_qpu_20260418T204046Z/steps/09_release_elastic_eval.log"
+    }
+  ]
+}

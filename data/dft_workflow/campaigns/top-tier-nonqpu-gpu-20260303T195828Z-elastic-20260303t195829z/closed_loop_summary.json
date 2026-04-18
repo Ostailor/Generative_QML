@@ -1,0 +1,66 @@
+{
+  "campaign_id": "top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z",
+  "job_class": "elastic_eval",
+  "calculation_mode": "scf",
+  "timestamp_utc": "2026-03-04T22:00:16.689381Z",
+  "iterations_planned": 4,
+  "iterations_executed": 4,
+  "classical_label_budget": 200,
+  "quantum_label_budget": 16,
+  "label_efficiency_gain": 0.92,
+  "total_jobs": 16,
+  "completed_jobs": 16,
+  "failed_jobs": 0,
+  "valid_candidates": 16,
+  "max_force_threshold": 0.08,
+  "iteration_summaries": [
+    {
+      "iteration": 1,
+      "request_ids": [
+        "ELAST-I01-C01",
+        "ELAST-I01-C02",
+        "ELAST-I01-C03",
+        "ELAST-I01-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_01/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_01/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 2,
+      "request_ids": [
+        "ELAST-I02-C01",
+        "ELAST-I02-C02",
+        "ELAST-I02-C03",
+        "ELAST-I02-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_02/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_02/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 3,
+      "request_ids": [
+        "ELAST-I03-C01",
+        "ELAST-I03-C02",
+        "ELAST-I03-C03",
+        "ELAST-I03-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_03/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_03/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 4,
+      "request_ids": [
+        "ELAST-I04-C01",
+        "ELAST-I04-C02",
+        "ELAST-I04-C03",
+        "ELAST-I04-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_04/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-elastic-20260303t195829z/iteration_04/queue_monitoring/jobs.jsonl"
+    }
+  ],
+  "mlflow_run": {
+    "run_id": "2e03845b14e740b3b807ce71443b17e2",
+    "experiment_id": "537309091092666076"
+  }
+}

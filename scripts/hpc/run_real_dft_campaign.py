@@ -15,9 +15,9 @@ and metrics are pushed to MLflow.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
-import random
 import re
 import shutil
 import sys
@@ -28,8 +28,9 @@ from typing import Any, Dict, List, Sequence, Tuple
 import mlflow
 import numpy as np
 import pandas as pd
+from ase import Atoms
 from ase.build import bulk
-from ase.io import write
+from ase.io import read, write
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = BASE_DIR / "data"
@@ -38,6 +39,138 @@ CAMPAIGN_ROOT = DATA_DIR / "dft_workflow" / "campaigns"
 
 sys.path.insert(0, str(BASE_DIR / "scripts"))
 from dft.run_dft_workflow import run_queue  # noqa: E402
+
+
+def _log(message: str) -> None:
+    print(f"[run_real_dft_campaign] {message}", flush=True)
+
+
+def _compute_handoff_signature(metadata: Dict[str, Any]) -> str:
+    return hashlib.sha256(
+        json.dumps(metadata, sort_keys=True, separators=(",", ":"), allow_nan=True).encode("utf-8")
+    ).hexdigest()
+
+
+def _compute_source_result_signature(source_result_path: Path) -> str:
+    sha = hashlib.sha256()
+    sha.update(source_result_path.read_bytes())
+
+    try:
+        payload = json.loads(source_result_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return sha.hexdigest()
+
+    artefacts = payload.get("artefacts") or {}
+    relaxed_relpath = artefacts.get("relaxed_structure_cif")
+    if isinstance(relaxed_relpath, str) and relaxed_relpath.strip():
+        relaxed_path = source_result_path.parent / relaxed_relpath
+        if relaxed_path.exists():
+            sha.update(relaxed_path.read_bytes())
+
+    return sha.hexdigest()
+
+
+def _build_handoff_metadata(
+    *,
+    candidate: pd.Series,
+    request_id: str,
+    job_class: str,
+    iteration_index: int,
+    calculation: str,
+    relaxation: Dict[str, float | int | str | None],
+    stress_analysis: Dict[str, float | int] | None,
+    custom_k_grid: Sequence[int] | None,
+    custom_cutoffs: Tuple[float, float] | None,
+    random_state: int,
+    base_lattice_constant: float,
+    supercell: Tuple[int, int, int],
+    source_result_path: Path | None,
+) -> Dict[str, Any]:
+    overrides: Dict[str, Any] = {}
+    if custom_k_grid is not None:
+        overrides["k_grid"] = [int(v) for v in custom_k_grid]
+    if custom_cutoffs is not None:
+        overrides["ecutwfc_ry"] = float(custom_cutoffs[0])
+        overrides["ecutrho_ry"] = float(custom_cutoffs[1])
+
+    metadata: Dict[str, Any] = {
+        "request_id": request_id,
+        "source_dataset": "qgan_conditioned_candidates",
+        "candidate_id": candidate["candidate_id"],
+        "composition": candidate["composition"],
+        "phase": candidate.get("phase"),
+        "job_class": job_class,
+        "calculation": calculation,
+        "verbosity": "low",
+        "kpoint_grid": overrides.get("k_grid", [4, 4, 4]),
+        "encut": 550,
+        "smearing": {
+            "scheme": "mv",
+            "sigma": 0.20,
+        },
+        "electrons": {
+            "mixing_mode": "local-TF",
+            "mixing_beta": 0.15,
+            "mixing_ndim": 12,
+            "conv_thr": 1e-6,
+            "electron_maxstep": 400,
+            "diagonalization": "cg",
+            "startingwfc": "atomic+random",
+            "startingpot": "atomic",
+            "diago_full_acc": True,
+        },
+        "target_properties": ["exp_density_g_cm3", "formation_energy_eV"],
+        "predicted_properties": {
+            "predicted_density_g_cm3": float(candidate.get("predicted_density_g_cm3", np.nan)),
+            "target_density_g_cm3": float(candidate.get("target_density_g_cm3", np.nan)),
+        },
+        "iteration_index": iteration_index,
+        "structure_generation": {
+            "random_state": int(random_state),
+            "base_lattice_constant": float(base_lattice_constant),
+            "supercell": [int(v) for v in supercell],
+        },
+    }
+    if source_result_path is not None:
+        metadata["source_result_path"] = str(source_result_path)
+        metadata["source_result_signature"] = _compute_source_result_signature(source_result_path)
+    if overrides:
+        metadata["qe_overrides"] = overrides
+    if relaxation:
+        metadata["relaxation"] = relaxation
+    if stress_analysis:
+        metadata["stress_analysis"] = stress_analysis
+
+    metadata["handoff_signature"] = _compute_handoff_signature(metadata)
+    metadata["timestamp_utc"] = datetime.utcnow().isoformat() + "Z"
+    metadata["notes"] = f"T5R.4 production handoff for candidate {candidate['candidate_id']}"
+    return metadata
+
+
+def _handoff_package_is_valid(
+    handoff_dir: Path,
+    *,
+    expected_signature: str | None = None,
+) -> bool:
+    metadata_path = handoff_dir / "metadata.json"
+    structure_path = handoff_dir / "structure.cif"
+    required_paths = (metadata_path, structure_path)
+
+    for path in required_paths:
+        if not path.exists() or path.stat().st_size == 0:
+            return False
+
+    try:
+        payload = json.loads(metadata_path.read_text())
+    except (json.JSONDecodeError, OSError):
+        return False
+
+    if not (isinstance(payload, dict) and bool(payload.get("request_id")) and bool(payload.get("composition"))):
+        return False
+    if expected_signature is not None and payload.get("handoff_signature") != expected_signature:
+        return False
+    return True
+
 
 JOB_CLASS_PROFILES: Dict[str, Dict[str, Any]] = {
     "scf_screen": {
@@ -140,6 +273,39 @@ def build_atoms(
     return atoms
 
 
+def _load_relaxed_structure_from_result(result_path: Path) -> Atoms | None:
+    if not result_path.exists():
+        return None
+
+    try:
+        payload = json.loads(result_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+
+    artefacts = payload.get("artefacts") or {}
+    relaxed_relpath = artefacts.get("relaxed_structure_cif")
+    if isinstance(relaxed_relpath, str) and relaxed_relpath.strip():
+        relaxed_path = result_path.parent / relaxed_relpath
+        if relaxed_path.exists() and relaxed_path.stat().st_size > 0:
+            try:
+                return read(relaxed_path)
+            except Exception:  # noqa: BLE001
+                pass
+
+    final_structure = payload.get("final_structure") or {}
+    symbols = final_structure.get("atomic_symbols")
+    positions = final_structure.get("positions_cartesian_ang")
+    cell = final_structure.get("lattice_vectors_ang")
+    if symbols and positions and cell:
+        return Atoms(
+            symbols=list(symbols),
+            positions=np.array(positions, dtype=float),
+            cell=np.array(cell, dtype=float),
+            pbc=True,
+        )
+    return None
+
+
 def write_handoff_package(
     candidate: pd.Series,
     *,
@@ -157,20 +323,42 @@ def write_handoff_package(
     custom_cutoffs: Tuple[float, float] | None = None,
 ) -> Path:
     """Create metadata + CIF handoff package for a candidate."""
-    rng = np.random.default_rng(random_state)
-    fractions = parse_composition(candidate["composition"])
-    density = float(candidate.get("predicted_density_g_cm3", np.nan))
-    if math.isnan(density) or density <= 0:
-        lattice_constant = base_lattice_constant
-    else:
-        lattice_constant = base_lattice_constant * (7.5 / density) ** (1 / 3)
-    atoms = build_atoms(
-        fractions,
-        phase=candidate.get("phase", "fcc"),
-        lattice_constant=lattice_constant,
-        supercell=supercell,
-        rng=rng,
+    source_result_path_raw = candidate.get("source_result_path")
+    source_result_path = None
+    if pd.notna(source_result_path_raw):
+        source_result_path = Path(str(source_result_path_raw))
+
+    require_source_structure = job_class == "elastic_eval"
+    if require_source_structure and source_result_path is None:
+        raise ValueError(
+            f"elastic_eval handoff for '{request_id}' requires source_result_path from vc_relax."
+        )
+
+    atoms = (
+        _load_relaxed_structure_from_result(source_result_path)
+        if source_result_path is not None
+        else None
     )
+    if require_source_structure and atoms is None:
+        raise FileNotFoundError(
+            f"elastic_eval handoff for '{request_id}' could not load relaxed structure from "
+            f"{source_result_path}"
+        )
+    if atoms is None:
+        rng = np.random.default_rng(random_state)
+        fractions = parse_composition(candidate["composition"])
+        density = float(candidate.get("predicted_density_g_cm3", np.nan))
+        if math.isnan(density) or density <= 0:
+            lattice_constant = base_lattice_constant
+        else:
+            lattice_constant = base_lattice_constant * (7.5 / density) ** (1 / 3)
+        atoms = build_atoms(
+            fractions,
+            phase=candidate.get("phase", "fcc"),
+            lattice_constant=lattice_constant,
+            supercell=supercell,
+            rng=rng,
+        )
 
     handoff_dir = output_root / request_id
     if handoff_dir.exists():
@@ -180,49 +368,21 @@ def write_handoff_package(
     structure_path = handoff_dir / "structure.cif"
     write(structure_path, atoms, format="cif")
 
-    timestamp = datetime.utcnow().isoformat() + "Z"
-    overrides: Dict[str, Any] = {}
-    if custom_k_grid is not None:
-        overrides["k_grid"] = [int(v) for v in custom_k_grid]
-    if custom_cutoffs is not None:
-        overrides["ecutwfc_ry"] = float(custom_cutoffs[0])
-        overrides["ecutrho_ry"] = float(custom_cutoffs[1])
-
-    metadata = {
-        "request_id": request_id,
-        "source_dataset": "qgan_conditioned_candidates",
-        "timestamp_utc": timestamp,
-        "candidate_id": candidate["candidate_id"],
-        "composition": candidate["composition"],
-        "phase": candidate.get("phase"),
-        "job_class": job_class,
-        "calculation": calculation,
-        "verbosity": "low",
-        "kpoint_grid": overrides.get("k_grid", [4, 4, 4]),
-        "encut": 550,
-        "smearing": {
-            "scheme": "mv",
-            "sigma": 0.15,
-        },
-        "electrons": {
-            "mixing_beta": 0.3,
-            "conv_thr": 1e-6,
-            "electron_maxstep": 200,
-        },
-        "target_properties": ["exp_density_g_cm3", "formation_energy_eV"],
-        "predicted_properties": {
-            "predicted_density_g_cm3": float(candidate.get("predicted_density_g_cm3", np.nan)),
-            "target_density_g_cm3": float(candidate.get("target_density_g_cm3", np.nan)),
-        },
-        "iteration_index": iteration_index,
-        "notes": f"T5R.4 production handoff for candidate {candidate['candidate_id']}",
-    }
-    if overrides:
-        metadata["qe_overrides"] = overrides
-    if relaxation:
-        metadata["relaxation"] = relaxation
-    if stress_analysis:
-        metadata["stress_analysis"] = stress_analysis
+    metadata = _build_handoff_metadata(
+        candidate=candidate,
+        request_id=request_id,
+        job_class=job_class,
+        iteration_index=iteration_index,
+        calculation=calculation,
+        relaxation=relaxation,
+        stress_analysis=stress_analysis,
+        custom_k_grid=custom_k_grid,
+        custom_cutoffs=custom_cutoffs,
+        random_state=random_state,
+        base_lattice_constant=base_lattice_constant,
+        supercell=supercell,
+        source_result_path=source_result_path,
+    )
     (handoff_dir / "metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     return handoff_dir
 
@@ -250,6 +410,38 @@ def compute_label_efficiency(classical_budget: int, quantum_labels: int) -> floa
         raise ValueError("classical label budget must be positive")
     gain = (classical_budget - quantum_labels) / classical_budget
     return max(0.0, gain)
+
+
+def _candidate_passes_quality_gate(
+    *,
+    completed: bool,
+    result: Dict[str, Any],
+    max_force_threshold: float,
+    pressure_threshold_kbar: float | None,
+) -> bool:
+    if not completed:
+        return False
+
+    density = result.get("properties", {}).get("exp_density_g_cm3")
+    if density is None or math.isnan(float(density)):
+        return False
+
+    raw_max_force = result.get("max_force_eV_A")
+    if raw_max_force is None:
+        return False
+    max_force_val = float(raw_max_force)
+    if math.isnan(max_force_val) or max_force_val > max_force_threshold:
+        return False
+
+    if pressure_threshold_kbar is not None:
+        raw_pressure = result.get("stress", {}).get("pressure_kbar")
+        if raw_pressure is None:
+            return False
+        pressure_val = float(raw_pressure)
+        if math.isnan(pressure_val) or abs(pressure_val) > pressure_threshold_kbar:
+            return False
+
+    return True
 
 
 def log_campaign_to_mlflow(
@@ -397,7 +589,6 @@ def _resolve_profile(args: argparse.Namespace) -> Dict[str, Any]:
 
 def main() -> None:
     args = parse_args()
-    rng = np.random.default_rng(args.random_state)
     profile = _resolve_profile(args)
 
     candidate_df = pd.read_csv(args.candidate_csv)
@@ -420,6 +611,7 @@ def main() -> None:
     iteration_summaries: List[Dict] = []
 
     queue_tracking_uri = args.queue_tracking_uri or args.tracking_uri
+    pressure_threshold_kbar = profile["relaxation"].get("pressure_threshold_kbar")
 
     for iter_index, batch in enumerate(batches, start=1):
         if batch.empty:
@@ -429,10 +621,32 @@ def main() -> None:
         for offset, (_, candidate) in enumerate(batch.iterrows(), start=1):
             request_id = f"{args.request_prefix}-I{iter_index:02d}-C{offset:02d}"
             random_seed = args.random_state + iter_index * 100 + offset
-            handoff_path = args.handoff_root / request_id / "metadata.json"
-            if args.resume and handoff_path.exists():
-                _ = handoff_path  # reuse existing handoff
+            handoff_dir = args.handoff_root / request_id
+            expected_handoff_signature = _build_handoff_metadata(
+                candidate=candidate,
+                request_id=request_id,
+                job_class=args.job_class,
+                iteration_index=iter_index,
+                calculation=profile["calculation"],
+                relaxation=relaxation_config.copy(),
+                stress_analysis=profile["stress_analysis"],
+                custom_k_grid=args.k_grid,
+                custom_cutoffs=(args.ecutwfc, args.ecutrho),
+                random_state=random_seed,
+                base_lattice_constant=args.lattice_constant,
+                supercell=(int(args.supercell[0]), int(args.supercell[1]), int(args.supercell[2])),
+                source_result_path=Path(str(candidate["source_result_path"]))
+                if pd.notna(candidate.get("source_result_path"))
+                else None,
+            )["handoff_signature"]
+            if args.resume and _handoff_package_is_valid(
+                handoff_dir,
+                expected_signature=expected_handoff_signature,
+            ):
+                _log(f"Reusing valid handoff for '{request_id}' (resume enabled)")
             else:
+                if args.resume and handoff_dir.exists():
+                    _log(f"Regenerating invalid handoff for '{request_id}'")
                 write_handoff_package(
                     candidate,
                     request_id=request_id,
@@ -503,17 +717,15 @@ def main() -> None:
             candidate_info = manifest_df[manifest_df["request_id"] == job["request_id"]].iloc[0]
             density = result.get("properties", {}).get("exp_density_g_cm3")
             raw_max_force = result.get("max_force_eV_A")
-            if raw_max_force is None:
-                max_force_val = np.inf
-            else:
-                max_force_val = float(raw_max_force)
-                if math.isnan(max_force_val):
-                    max_force_val = np.inf
+            raw_pressure = result.get("stress", {}).get("pressure_kbar")
             formation = result.get("formation_energy_eV")
             valid_flag = int(
-                completed
-                and max_force_val <= profile["max_force_threshold"]
-                and not math.isnan(float(density or np.nan))
+                _candidate_passes_quality_gate(
+                    completed=completed,
+                    result=result,
+                    max_force_threshold=profile["max_force_threshold"],
+                    pressure_threshold_kbar=pressure_threshold_kbar,
+                )
             )
             candidate_record = {
                 "iteration": iter_index,
@@ -526,6 +738,7 @@ def main() -> None:
                 "formation_energy_eV": formation,
                 "density_g_cm3": density,
                 "max_force_eV_A": raw_max_force,
+                "pressure_kbar": raw_pressure,
                 "valid_flag": valid_flag,
                 "result_path": str(result_path) if result_path is not None else None,
             }

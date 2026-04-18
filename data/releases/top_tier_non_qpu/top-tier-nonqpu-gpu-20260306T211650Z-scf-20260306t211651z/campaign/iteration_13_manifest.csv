@@ -1,0 +1,5 @@
+iteration,request_id,candidate_id,composition,phase
+13,SCF-I13-C01,QGAN-020,B0.15 Hf0.08 Cr0.13 Li0.11 Mg0.15 Fe0.09 Ta0.21 Zn0.08,other
+13,SCF-I13-C02,QGAN-141,Ag0.26 Cu0.07 Mg0.09 Ca0.07 Zr0.07 V0.20 Ta0.18 Fe0.07,other
+13,SCF-I13-C03,QGAN-033,Sc0.22 Nd0.10 Ti0.10 B0.11 Cu0.07 Pd0.26 Zn0.07 Li0.07,other
+13,SCF-I13-C04,QGAN-144,Fe0.35 Mg0.46 Zn0.10 Li0.10,BCC

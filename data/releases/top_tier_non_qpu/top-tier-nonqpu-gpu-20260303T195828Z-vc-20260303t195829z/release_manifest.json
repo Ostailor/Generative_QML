@@ -1,0 +1,117 @@
+[
+  {
+    "path": "README.md",
+    "sha256": "23f080de9a144f3f3234d1cf86fa2b319f927bd34f8c645d44d654a936f25f08",
+    "size_bytes": 746
+  },
+  {
+    "path": "campaign/candidate_library.csv",
+    "sha256": "df228a0257315f6d13a67df0a7fd8e248ea0ab71ebb8713492035db56657fe6c",
+    "size_bytes": 5270
+  },
+  {
+    "path": "campaign/closed_loop_summary.json",
+    "sha256": "a9c204099b50e8e031a2820d10bb11d1599b7d0dabcfbe1f012e6697964f432c",
+    "size_bytes": 3880
+  },
+  {
+    "path": "campaign/iteration_01/queue_monitoring/jobs.jsonl",
+    "sha256": "133e3d5dfd4ab73752eafa360cc9c7db419cc3095e8e885b3fcf43992d8c39d2",
+    "size_bytes": 42828
+  },
+  {
+    "path": "campaign/iteration_01/queue_monitoring/summary.json",
+    "sha256": "e2de58fdbd085fde90cf339de4f286d3b839c2baef81fd64e6154f7ba5e5b634",
+    "size_bytes": 44893
+  },
+  {
+    "path": "campaign/iteration_01_manifest.csv",
+    "sha256": "f5de67a7797269008c545a07df53a6ab19cbacb40fec05ec16617d7aaafbd252",
+    "size_bytes": 310
+  },
+  {
+    "path": "campaign/iteration_02/queue_monitoring/jobs.jsonl",
+    "sha256": "aedb877d86727f6b1659d636ecffbd750189c4e25ce91463cbd8a6d68d056879",
+    "size_bytes": 42826
+  },
+  {
+    "path": "campaign/iteration_02/queue_monitoring/summary.json",
+    "sha256": "419fed5cbae781de4ba393ea8e180171525a38a262dbb552eab39f7a3cd17181",
+    "size_bytes": 44891
+  },
+  {
+    "path": "campaign/iteration_02_manifest.csv",
+    "sha256": "1836fbe983d42a97ef493f429701c73c50e616550e2065a2e901aaf1c2b494f6",
+    "size_bytes": 324
+  },
+  {
+    "path": "campaign/iteration_03/queue_monitoring/jobs.jsonl",
+    "sha256": "349639442fd4f69d1383b9bdc779cd5fdd34a703063e5d17f9f6cbae48b79111",
+    "size_bytes": 42831
+  },
+  {
+    "path": "campaign/iteration_03/queue_monitoring/summary.json",
+    "sha256": "f2405747f2c17ceb080e9a0aba985c9fb84e66ffe4628b617e085734664210b2",
+    "size_bytes": 44896
+  },
+  {
+    "path": "campaign/iteration_03_manifest.csv",
+    "sha256": "dd6f3644815eb0595fbd298342182fceee9bc9358052891de710027dbe3da942",
+    "size_bytes": 329
+  },
+  {
+    "path": "campaign/iteration_04/queue_monitoring/jobs.jsonl",
+    "sha256": "34847dbf05e4814c65621da54727b5bda9950ba022ce974ea2f4f545778dae30",
+    "size_bytes": 42833
+  },
+  {
+    "path": "campaign/iteration_04/queue_monitoring/summary.json",
+    "sha256": "ec8efc1e454e762f1b1800f34ea665fa8843a900b7aaaff4db9efc7ded457a1a",
+    "size_bytes": 44898
+  },
+  {
+    "path": "campaign/iteration_04_manifest.csv",
+    "sha256": "ba132219704ba1661e258d2a780bf8f440c972bf9f1ec0bfe95f1a845b9ec209",
+    "size_bytes": 322
+  },
+  {
+    "path": "campaign/iteration_05/queue_monitoring/jobs.jsonl",
+    "sha256": "d2213b11d1b6e57158efb694c85428ba2bd0b59dd79f9d3d518b0a09ed3d8a25",
+    "size_bytes": 42827
+  },
+  {
+    "path": "campaign/iteration_05/queue_monitoring/summary.json",
+    "sha256": "b6782072452b02a2215a86ef451c203f2b41b09f89e1457259e7323d265a6727",
+    "size_bytes": 44892
+  },
+  {
+    "path": "campaign/iteration_05_manifest.csv",
+    "sha256": "c95e44510be228b9b48f24c468800b857d7c3ed0cb088f8b6848def5b6c4fe81",
+    "size_bytes": 357
+  },
+  {
+    "path": "campaign/iteration_06/queue_monitoring/jobs.jsonl",
+    "sha256": "e1c7e27d52ee2c9150ca0b162121d35649a77b24a4f8c53f58ac0d4a3a552d95",
+    "size_bytes": 42829
+  },
+  {
+    "path": "campaign/iteration_06/queue_monitoring/summary.json",
+    "sha256": "afad98ca08850d77ac80595fdc0fe656d4f6155f77d041c83203adc8b58a9186",
+    "size_bytes": 44894
+  },
+  {
+    "path": "campaign/iteration_06_manifest.csv",
+    "sha256": "7b14e099301ab9d95d2b83e2e873e684be844ac7873bc7cf3aeac0eda1f84f10",
+    "size_bytes": 317
+  },
+  {
+    "path": "release_info.json",
+    "sha256": "677b27e0496b190461925c70ebb95ad2e660a4c5a29f6209eb01d040836e1917",
+    "size_bytes": 666
+  },
+  {
+    "path": "reproduction_runbook.md",
+    "sha256": "526068ce896496bb23af73dbc228d2adc8b5aef53569b1d1475b4df334ae79a7",
+    "size_bytes": 1086
+  }
+]

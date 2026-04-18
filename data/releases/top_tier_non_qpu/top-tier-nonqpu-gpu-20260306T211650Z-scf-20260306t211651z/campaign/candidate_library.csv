@@ -1,0 +1,61 @@
+iteration,request_id,candidate_id,composition,phase,status,latency_s,formation_energy_eV,density_g_cm3,max_force_eV_A,valid_flag,result_path
+1,SCF-I01-C01,QGAN-071,Nb0.39 Al0.39 Nd0.21,BCC,completed,0.0,-3389.077978010323,5.784141516117055,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I01-C01/results.json
+1,SCF-I01-C02,QGAN-029,Mg0.37 W0.19 Mn0.08 Cr0.19 Y0.08 Co0.08,BCC,completed,0.0,-4465.949116889439,5.929019991330706,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I01-C02/results.json
+1,SCF-I01-C03,QGAN-149,Y0.06 Hf0.06 Si0.06 Zn0.10 Sn0.19 Ti0.06 Mo0.06 Ga0.34 V0.06,BCC,completed,0.0,-4130.574274673184,7.0284697281696715,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I01-C03/results.json
+1,SCF-I01-C04,QGAN-028,Cr0.08 V0.08 B0.08 Zn0.38 Nd0.39,FCC,completed,18889.28181787394,-4874.901783256796,10.746060732981304,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I01-C04/results.json
+2,SCF-I02-C01,QGAN-023,Mn0.10 Hf0.49 Y0.10 Ti0.30,other,completed,0.0,-5623.330838542928,13.883945745331287,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I02-C01/results.json
+2,SCF-I02-C02,QGAN-078,Ta0.08 Ca0.23 Pd0.09 W0.08 Sn0.08 Ga0.08 Si0.38,BCC,completed,0.0,-4826.154886042578,6.514003672149683,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I02-C02/results.json
+2,SCF-I02-C03,QGAN-137,W0.26 V0.31 Co0.43,FCC,completed,0.0,-6528.517202569957,15.091702840772468,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I02-C03/results.json
+2,SCF-I02-C04,QGAN-013,Re0.43 Co0.12 Ti0.46,FCC,completed,0.0,-6277.062074824206,15.777856772149354,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I02-C04/results.json
+3,SCF-I03-C01,QGAN-073,C0.07 Ni0.17 Li0.07 Mo0.07 B0.37 Ta0.17 Cu0.07,FCC,completed,0.0,-4725.966783601054,10.27658028194065,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C01/results.json
+3,SCF-I03-C02,QGAN-000,Y0.07 Nb0.07 Ta0.08 Ni0.10 Fe0.26 Ga0.07 Zr0.12 Ti0.15 Mg0.07,other,completed,0.0,-4881.7118214300435,12.031907049793894,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C02/results.json
+3,SCF-I03-C03,QGAN-054,Mn0.41 Mg0.09 Ag0.41 Cu0.09,FCC,completed,0.0,-4449.409713909459,6.505995543722792,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C03/results.json
+3,SCF-I03-C04,QGAN-106,Ca0.08 Sc0.35 Mn0.21 Ga0.36,BCC,completed,0.0,-3372.8319660793068,3.841090579556189,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I03-C04/results.json
+4,SCF-I04-C01,QGAN-090,Mn0.13 Sn0.08 Ca0.14 C0.14 Y0.10 Nd0.14 Pd0.18 Co0.09,BCC,completed,8564.099936575862,-4218.31069311743,5.057092454646321,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I04-C01/results.json
+4,SCF-I04-C02,QGAN-146,B0.27 Ni0.12 W0.45 Mo0.15,BCC,completed,0.0,-2735.1242170489822,3.2467069913015214,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I04-C02/results.json
+4,SCF-I04-C03,QGAN-014,Hf0.28 Ga0.35 Ag0.36,BCC,completed,0.0,-5599.173915730251,9.882482355591932,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I04-C03/results.json
+4,SCF-I04-C04,QGAN-003,Al0.09 Sn0.08 Co0.34 Nb0.11 Mg0.14 Zr0.25,FCC,completed,0.0,-3887.499746158926,9.814533669182708,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I04-C04/results.json
+5,SCF-I05-C01,QGAN-092,Ag0.37 Re0.36 Hf0.27,BCC,completed,0.0,-9156.534044907152,11.684589581332242,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I05-C01/results.json
+5,SCF-I05-C02,QGAN-021,Mg0.09 C0.37 Cu0.37 Sn0.08 B0.08,BCC,completed,0.0,-2563.402604581902,2.9612229587553673,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I05-C02/results.json
+5,SCF-I05-C03,QGAN-082,Al0.08 C0.10 Nb0.10 Mo0.10 Co0.38 Mg0.24,BCC,completed,0.0,-3047.1311140988682,4.1923461752759374,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I05-C03/results.json
+5,SCF-I05-C04,QGAN-065,Y0.19 Cr0.31 V0.50,BCC,completed,0.0,-3143.3103719477426,3.904858975005536,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I05-C04/results.json
+6,SCF-I06-C01,QGAN-134,Cr0.08 V0.07 Ga0.19 Hf0.07 Zr0.11 W0.07 Ta0.08 Pd0.26 Li0.07,other,completed,0.0,-6365.18626761461,13.96395190573056,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I06-C01/results.json
+6,SCF-I06-C02,QGAN-041,Li0.40 Sn0.09 Mn0.12 Re0.40,FCC,completed,0.0,-3539.583678709873,8.4437087088951,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I06-C02/results.json
+6,SCF-I06-C03,QGAN-101,Mn0.23 Ni0.35 Pd0.07 Ag0.07 V0.07 Ti0.21,FCC,completed,0.0,-4585.628420901052,8.484423396742624,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I06-C03/results.json
+6,SCF-I06-C04,QGAN-049,Zr0.42 Ga0.28 Nd0.10 Cu0.20,other,completed,0.0,-5031.242255451382,11.844580105790174,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I06-C04/results.json
+7,SCF-I07-C01,QGAN-117,Cu0.07 Zr0.07 Zn0.07 C0.12 Sn0.07 Co0.25 Ca0.35,FCC,completed,0.0,-3871.6327017457356,9.242467821915186,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I07-C01/results.json
+7,SCF-I07-C02,QGAN-066,Ga0.08 Al0.19 Ni0.08 Re0.40 C0.11 Ag0.08 V0.08,BCC,completed,0.0,-4225.224809306649,6.094896077479494,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I07-C02/results.json
+7,SCF-I07-C03,QGAN-018,C0.13 Cu0.08 Nd0.15 Mn0.26 Cr0.09 B0.14 Li0.15,BCC,completed,30640.352745437995,-2751.3637741676316,3.2593978493163465,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I07-C03/results.json
+7,SCF-I07-C04,QGAN-079,Ga0.19 Al0.19 Y0.08 Li0.08 Zn0.37 Si0.09,BCC,completed,0.0,-2022.0894482886683,3.9037318383470874,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I07-C04/results.json
+8,SCF-I08-C01,QGAN-006,Zr0.26 Mo0.23 V0.33 C0.18,FCC,completed,0.0,-3817.8146471389673,10.857172664638776,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I08-C01/results.json
+8,SCF-I08-C02,QGAN-070,Zr0.07 Zn0.24 Pd0.21 Nd0.07 Sc0.19 Cu0.07 Ni0.08 Ta0.07,FCC,completed,0.0,-5782.923139801187,10.72426691082389,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I08-C02/results.json
+8,SCF-I08-C03,QGAN-128,Ag0.18 Hf0.14 B0.42 Al0.25,other,completed,0.0,-3116.4211715134165,8.917847502424637,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I08-C03/results.json
+8,SCF-I08-C04,QGAN-139,Si0.07 Mg0.08 Li0.07 Al0.12 Y0.38 Cr0.07 Sc0.07 V0.07 Ta0.07,FCC,completed,0.0,-1946.1250443413874,4.686390144000799,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I08-C04/results.json
+9,SCF-I09-C01,QGAN-143,Sc0.10 Cu0.52 Li0.10 Ag0.13 B0.15,other,completed,1990.264041315997,-2610.58988566668,4.532787656681433,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I09-C01/results.json
+9,SCF-I09-C02,QGAN-067,Nd0.23 W0.28 Co0.11 Mg0.19 Re0.18,other,completed,0.0,-6212.183401993663,16.466935922470675,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I09-C02/results.json
+9,SCF-I09-C03,QGAN-051,Pd0.07 Fe0.32 Nd0.07 B0.11 Ag0.36 Ca0.07,BCC,completed,0.0,-4358.317592283868,4.905087129112784,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I09-C03/results.json
+9,SCF-I09-C04,QGAN-031,Ti0.07 Mo0.07 Hf0.37 C0.07 W0.07 Sc0.07 Nb0.07 Li0.07 Ta0.17,FCC,completed,0.0,-5269.3388648492655,12.952125830389269,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I09-C04/results.json
+10,SCF-I10-C01,QGAN-007,Co0.13 Hf0.29 Zn0.58,other,completed,0.0,-5081.74009757932,13.011010764423618,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I10-C01/results.json
+10,SCF-I10-C02,QGAN-095,Nd0.07 V0.35 Pd0.19 W0.26 B0.07 Li0.07,FCC,completed,0.0,-6071.341790531853,15.299696675957819,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I10-C02/results.json
+10,SCF-I10-C03,QGAN-046,Ca0.43 Nb0.14 C0.43,BCC,completed,0.0,-1569.0328253444284,2.40511734214025,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I10-C03/results.json
+10,SCF-I10-C04,QGAN-027,Fe0.21 Pd0.21 B0.17 Mn0.20 Li0.13 Nd0.08,BCC,completed,0.0,-2920.6175811468165,3.823369173587252,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I10-C04/results.json
+11,SCF-I11-C01,QGAN-105,Mg0.19 Cr0.15 Ti0.66,FCC,completed,0.0,-2536.8757917181915,4.9834271639482495,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I11-C01/results.json
+11,SCF-I11-C02,QGAN-110,Ca0.32 Ni0.55 Y0.13,FCC,completed,0.0,-4332.752327241094,8.988626507282481,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I11-C02/results.json
+11,SCF-I11-C03,QGAN-132,Li0.11 Y0.47 Ni0.42,other,completed,0.0,-4386.320319723527,8.028241986134956,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I11-C03/results.json
+11,SCF-I11-C04,QGAN-118,Ca0.19 Nd0.15 Fe0.66,other,completed,0.0,-4166.7098608782635,8.6218932483519,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I11-C04/results.json
+12,SCF-I12-C01,QGAN-087,Co0.38 V0.20 Mo0.09 W0.08 Y0.09 Fe0.08 Ni0.08,BCC,completed,0.0,-5166.021795038183,5.612079156560646,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I12-C01/results.json
+12,SCF-I12-C02,QGAN-016,Mo0.08 Nd0.07 Y0.07 C0.27 Al0.26 Ca0.07 Co0.12 Hf0.07,BCC,completed,0.0,-4162.407038031994,5.449501915764483,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I12-C02/results.json
+12,SCF-I12-C03,QGAN-063,Mn0.07 Pd0.07 Sn0.32 Ti0.07 Li0.18 Cr0.21 V0.08,other,completed,0.0,-3075.2621014779925,7.35282158824927,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I12-C03/results.json
+12,SCF-I12-C04,QGAN-034,Ga0.08 Ni0.27 Mg0.27 Nb0.38,other,completed,0.0,-3790.466114718389,6.463368740925176,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I12-C04/results.json
+13,SCF-I13-C01,QGAN-020,B0.15 Hf0.08 Cr0.13 Li0.11 Mg0.15 Fe0.09 Ta0.21 Zn0.08,other,completed,0.0,-4102.021413767532,10.845089644771578,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I13-C01/results.json
+13,SCF-I13-C02,QGAN-141,Ag0.26 Cu0.07 Mg0.09 Ca0.07 Zr0.07 V0.20 Ta0.18 Fe0.07,other,completed,0.0,-4581.952740961628,9.55318104821035,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I13-C02/results.json
+13,SCF-I13-C03,QGAN-033,Sc0.22 Nd0.10 Ti0.10 B0.11 Cu0.07 Pd0.26 Zn0.07 Li0.07,other,completed,0.0,-3651.026855138619,8.327820553445921,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I13-C03/results.json
+13,SCF-I13-C04,QGAN-144,Fe0.35 Mg0.46 Zn0.10 Li0.10,BCC,completed,0.0,-1772.6677563735377,2.4009713392466336,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I13-C04/results.json
+14,SCF-I14-C01,QGAN-131,C0.12 B0.07 Y0.11 Si0.07 Al0.07 Fe0.07 Co0.23 Nb0.08 Pd0.19,FCC,completed,0.0,-2446.4445512378184,5.742586762552716,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I14-C01/results.json
+14,SCF-I14-C02,QGAN-072,Fe0.44 W0.09 C0.09 Ti0.26 Zn0.11,other,completed,0.0,-3795.6855028591813,7.479859919092427,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I14-C02/results.json
+14,SCF-I14-C03,QGAN-077,Pd0.10 Re0.10 Sc0.19 Fe0.50 Ta0.11,FCC,completed,0.0,-6760.218177762236,13.993805736173494,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I14-C03/results.json
+14,SCF-I14-C04,QGAN-121,Pd0.07 Y0.08 Li0.29 Nb0.16 Re0.07 V0.20 Fe0.07 Ca0.07,FCC,completed,0.0,-4447.314294202924,11.962485332852438,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I14-C04/results.json
+15,SCF-I15-C01,QGAN-024,Cr0.08 Ni0.29 Nb0.10 Fe0.26 Ag0.08 Sc0.20,BCC,completed,0.0,-4147.710146238426,5.183667194073131,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I15-C01/results.json
+15,SCF-I15-C02,QGAN-062,V0.07 Mg0.08 Li0.24 Mo0.13 Fe0.18 Ga0.07 Si0.15 Mn0.07,FCC,completed,0.0,-2848.0617858758615,7.27569790866438,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I15-C02/results.json
+15,SCF-I15-C03,QGAN-081,C0.12 Mn0.13 Ti0.17 Nb0.15 Mo0.36 Cr0.08,FCC,completed,0.0,-3370.680021185495,9.550579492484445,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I15-C03/results.json
+15,SCF-I15-C04,QGAN-053,Ti0.35 Nb0.30 Nd0.20 Cu0.15,FCC,completed,0.0,-3870.1413373793785,10.749958160556686,0.0,1,/home/om/Projects/Generative_QML/data/dft_workflow/SCF-I15-C04/results.json

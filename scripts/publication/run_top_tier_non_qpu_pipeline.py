@@ -29,12 +29,12 @@ import numpy as np
 import pandas as pd
 
 try:
-    from scripts.accel import detect_accelerator
+    from scripts.accel import detect_accelerator, rbf_kernel_backend
 except ModuleNotFoundError:  # pragma: no cover
     ROOT = Path(__file__).resolve().parents[2]
     if str(ROOT / "scripts") not in sys.path:
         sys.path.insert(0, str(ROOT / "scripts"))
-    from accel import detect_accelerator
+    from accel import detect_accelerator, rbf_kernel_backend
 
 try:
     from scripts.hpc.run_real_dft_campaign import build_atoms, parse_composition
@@ -52,6 +52,17 @@ DEFAULT_CAMPAIGN_ROOT = DATA_DIR / "dft_workflow" / "campaigns"
 DEFAULT_LOG_ROOT = BASE_DIR / "logs"
 
 AMU_TO_G = 1.66053906660
+ALL_STAGE_NAMES = (
+    "discovery",
+    "vc_relax",
+    "elastic_eval",
+    "reference",
+    "paper_grade",
+    "m7",
+    "release",
+)
+DFT_STAGE_NAMES = {"discovery", "vc_relax", "elastic_eval", "reference"}
+QUALITY_GATE_STAGE_NAMES = {"discovery", "vc_relax", "elastic_eval"}
 
 
 class PipelineError(RuntimeError):
@@ -110,6 +121,7 @@ def _run_step(
         assert proc.stdout is not None
         for line in proc.stdout:
             log_handle.write(line)
+            log_handle.flush()
         returncode = int(proc.wait())
 
     finished = datetime.now(timezone.utc)
@@ -168,24 +180,177 @@ def _resolve_command_executable(command: str) -> str | None:
     return shutil.which(executable)
 
 
-def _check_prereqs(require_gpu: bool) -> Dict[str, str]:
-    pseudo_dir = _resolve_qe_pseudo_dir()
-    if not pseudo_dir.exists():
-        raise PipelineError(
-            f"Pseudopotential directory not found: {pseudo_dir}. "
-            "Set QE_PSEUDO_DIR (or ESPRESSO_PSEUDO)."
+def _check_qe_command_smoke(qe_pw_cmd: str) -> str:
+    def _looks_like_qe_launch(output: str) -> bool:
+        text = output.lower()
+        return (
+            "program pwscf" in text
+            or "quantum espresso suite" in text
+            or "parallel version" in text
+            or "serial version" in text
         )
-    upf_count = len(list(pseudo_dir.glob("*.upf")))
-    if upf_count == 0:
-        raise PipelineError(f"No .upf pseudopotentials found in {pseudo_dir}.")
 
-    qe_pw_cmd = os.environ.get("QE_PW_COMMAND", "pw.x").strip()
-    qe_pw_executable = _resolve_command_executable(qe_pw_cmd)
-    if qe_pw_executable is None:
+    base_cmd = shlex.split(qe_pw_cmd)
+    probes = [
+        base_cmd + ["-h"],
+        base_cmd,
+    ]
+    failures: List[str] = []
+
+    for probe_cmd in probes:
+        try:
+            proc = subprocess.run(
+                probe_cmd,
+                cwd=str(BASE_DIR),
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+        except subprocess.TimeoutExpired as exc:  # pragma: no cover - environment-dependent
+            output = (exc.stdout or "") if isinstance(exc.stdout, str) else ""
+            if _looks_like_qe_launch(output):
+                return "ok"
+            failures.append(
+                f"{shlex.join(probe_cmd)} timed out after {exc.timeout} seconds"
+            )
+            continue
+        except Exception as exc:  # pragma: no cover - environment-dependent
+            failures.append(
+                f"{shlex.join(probe_cmd)} failed to launch: "
+                f"{exc.__class__.__name__}: {exc}"
+            )
+            continue
+
+        output = proc.stdout or ""
+        if proc.returncode == 0 and _looks_like_qe_launch(output):
+            return "ok"
+
+        lines = output.splitlines()
+        tail = "\n".join(lines[-20:]) if lines else "<no output>"
+        failures.append(
+            f"{shlex.join(probe_cmd)} exited {proc.returncode}. Tail:\n{tail}"
+        )
+
+    raise PipelineError(
+        f"QE command smoke test failed for '{qe_pw_cmd}'. Attempts:\n"
+        + "\n\n".join(failures)
+    )
+
+
+def _check_gpu_backend_smoke() -> str:
+    sample = np.asarray([[0.0, 1.0], [1.0, 0.0]], dtype=float)
+    try:
+        kernel = rbf_kernel_backend(sample, gamma=0.5, accelerator="gpu")
+    except Exception as exc:  # pragma: no cover - environment-dependent
         raise PipelineError(
-            f"QE_PW_COMMAND='{qe_pw_cmd}' is not executable. "
-            "Set QE_PW_COMMAND to a valid command (for example '/path/to/pw.x' "
-            "or 'mpirun -np 1 /path/to/pw.x')."
+            "GPU backend smoke test failed. "
+            "CuPy/CUDA is visible but not usable for kernel math. "
+            f"Root cause: {exc.__class__.__name__}: {exc}"
+        ) from exc
+
+    if kernel.shape != (2, 2) or not np.isfinite(kernel).all():
+        raise PipelineError(
+            "GPU backend smoke test returned an invalid kernel matrix."
+        )
+    return "ok"
+
+
+def _check_discovery_candidate_csv(path: Path, minimum_rows: int) -> Dict[str, str]:
+    if not path.exists():
+        raise PipelineError(f"Discovery candidate CSV missing: {path}")
+
+    candidate_df = pd.read_csv(path)
+    required = {"candidate_id", "composition", "property_compliant"}
+    missing = required - set(candidate_df.columns)
+    if missing:
+        raise PipelineError(
+            f"Discovery candidate CSV missing columns: {sorted(missing)}"
+        )
+
+    compliant_rows = int((candidate_df["property_compliant"] == 1).sum())
+    if compliant_rows < minimum_rows:
+        raise PipelineError(
+            f"Discovery candidate CSV has only {compliant_rows} property-compliant rows; "
+            f"need at least {minimum_rows}."
+        )
+    return {
+        "discovery_candidate_csv": str(path),
+        "discovery_candidate_rows": str(len(candidate_df)),
+        "discovery_property_compliant_rows": str(compliant_rows),
+    }
+
+
+def _check_reference_dataset() -> Dict[str, str]:
+    ref_path = DATA_DIR / "processed" / "hea_features.parquet"
+    if not ref_path.exists():
+        raise PipelineError(f"Reference parquet missing: {ref_path}")
+
+    ref_df = pd.read_parquet(ref_path, columns=["formula", "calc_density_g_cm3", "phase_label"])
+    required = {"formula", "calc_density_g_cm3", "phase_label"}
+    missing = required - set(ref_df.columns)
+    if missing:
+        raise PipelineError(
+            f"Reference parquet missing columns: {sorted(missing)}"
+        )
+
+    usable_rows = int(ref_df["calc_density_g_cm3"].notna().sum())
+    if usable_rows < 10:
+        raise PipelineError(
+            f"Reference parquet has only {usable_rows} rows with calc_density_g_cm3; need at least 10."
+        )
+
+    return {
+        "reference_parquet": str(ref_path),
+        "reference_rows_total": str(len(ref_df)),
+        "reference_rows_with_density": str(usable_rows),
+    }
+
+
+def _check_prereqs(require_gpu: bool, *, check_gpu_backend: bool) -> Dict[str, str]:
+    return _check_prereqs_for_modes(
+        require_gpu=require_gpu,
+        check_gpu_backend=check_gpu_backend,
+        check_qe=True,
+    )
+
+
+def _check_prereqs_for_modes(
+    require_gpu: bool,
+    *,
+    check_gpu_backend: bool,
+    check_qe: bool,
+) -> Dict[str, str]:
+    info: Dict[str, str] = {}
+    if check_qe:
+        pseudo_dir = _resolve_qe_pseudo_dir()
+        if not pseudo_dir.exists():
+            raise PipelineError(
+                f"Pseudopotential directory not found: {pseudo_dir}. "
+                "Set QE_PSEUDO_DIR (or ESPRESSO_PSEUDO)."
+            )
+        upf_count = len(list(pseudo_dir.glob("*.upf")))
+        if upf_count == 0:
+            raise PipelineError(f"No .upf pseudopotentials found in {pseudo_dir}.")
+
+        qe_pw_cmd = os.environ.get("QE_PW_COMMAND", "pw.x").strip()
+        qe_pw_executable = _resolve_command_executable(qe_pw_cmd)
+        if qe_pw_executable is None:
+            raise PipelineError(
+                f"QE_PW_COMMAND='{qe_pw_cmd}' is not executable. "
+                "Set QE_PW_COMMAND to a valid command (for example '/path/to/pw.x' "
+                "or 'mpirun -np 1 /path/to/pw.x')."
+            )
+        qe_smoke = _check_qe_command_smoke(qe_pw_cmd)
+        info.update(
+            {
+                "qe_pseudo_dir": str(pseudo_dir),
+                "qe_pw_command": qe_pw_cmd,
+                "qe_pw_executable": qe_pw_executable,
+                "qe_command_smoke": qe_smoke,
+            }
         )
 
     accel_mode, accel_reason = detect_accelerator("gpu")
@@ -193,14 +358,26 @@ def _check_prereqs(require_gpu: bool) -> Dict[str, str]:
         raise PipelineError(
             f"GPU required but unavailable for benchmark suite (reason: {accel_reason})."
         )
+    gpu_smoke = "skipped"
+    if check_gpu_backend and accel_mode == "gpu":
+        gpu_smoke = _check_gpu_backend_smoke()
 
-    return {
-        "qe_pseudo_dir": str(pseudo_dir),
-        "qe_pw_command": qe_pw_cmd,
-        "qe_pw_executable": qe_pw_executable,
-        "gpu_mode": accel_mode,
-        "gpu_reason": accel_reason,
-    }
+    info.update(
+        {
+            "gpu_mode": accel_mode,
+            "gpu_reason": accel_reason,
+            "gpu_backend_smoke": gpu_smoke,
+        }
+    )
+    return info
+
+
+def _check_prereqs(require_gpu: bool, *, check_gpu_backend: bool) -> Dict[str, str]:
+    return _check_prereqs_for_modes(
+        require_gpu=require_gpu,
+        check_gpu_backend=check_gpu_backend,
+        check_qe=True,
+    )
 
 
 def _campaign_command(
@@ -223,6 +400,7 @@ def _campaign_command(
     max_wall_seconds: int | None,
     campaign_root: Path,
     request_prefix: str,
+    resume: bool,
 ) -> List[str]:
     cmd = [
         sys.executable,
@@ -270,6 +448,8 @@ def _campaign_command(
         "--random-state",
         str(random_state),
     ]
+    if resume:
+        cmd.append("--resume")
     if max_wall_seconds is not None:
         cmd.extend(["--max-wall-seconds", str(max_wall_seconds)])
     return cmd
@@ -289,12 +469,290 @@ def _load_campaign_library(campaign_root: Path, campaign_id: str) -> pd.DataFram
     return pd.read_csv(path)
 
 
+def _normalize_stage_selection(
+    raw_tokens: Sequence[str] | None,
+    *,
+    skip_paper_grade_suite: bool,
+    skip_m7: bool,
+    skip_release: bool,
+) -> List[str]:
+    explicit_names: List[str] = []
+    include_all = raw_tokens is None
+
+    for token in raw_tokens or ():
+        parts = [part.strip() for part in str(token).split(",") if part.strip()]
+        for part in parts:
+            if part == "all":
+                include_all = True
+                continue
+            if part not in ALL_STAGE_NAMES:
+                raise ValueError(
+                    f"Unsupported stage '{part}'. Valid stages: {', '.join(ALL_STAGE_NAMES)}."
+                )
+            if part not in explicit_names:
+                explicit_names.append(part)
+
+    selected = list(ALL_STAGE_NAMES) if include_all else list(explicit_names)
+    if not selected:
+        raise ValueError("At least one stage must be selected.")
+
+    skip_map = {
+        "paper_grade": ("--skip-paper-grade-suite", skip_paper_grade_suite),
+        "m7": ("--skip-m7", skip_m7),
+        "release": ("--skip-release", skip_release),
+    }
+    for stage_name, (flag_name, should_skip) in skip_map.items():
+        if should_skip and stage_name in explicit_names:
+            raise ValueError(
+                f"Stage '{stage_name}' was explicitly selected but also disabled "
+                f"via {flag_name}"
+            )
+
+    return [stage for stage in selected if not skip_map.get(stage, ("", False))[1]]
+
+
+def _require_existing_campaign(
+    *,
+    stage_label: str,
+    campaign_id: str,
+    campaign_root: Path,
+) -> Path:
+    summary_path = campaign_root / campaign_id / "closed_loop_summary.json"
+    if not summary_path.exists():
+        raise PipelineError(
+            f"Existing {stage_label} campaign summary missing: {summary_path}"
+        )
+    return summary_path
+
+
+def _seed_existing_campaigns(
+    *,
+    args: argparse.Namespace,
+    selected_stage_set: set[str],
+    campaign_root: Path,
+    campaigns: Dict[str, str],
+) -> Dict[str, str]:
+    seeded: Dict[str, str] = {}
+    campaign_args = [
+        ("discovery_campaign_id", "discovery", "discovery"),
+        ("vc_campaign_id", "vc_relax", "vc_relax"),
+        ("elastic_campaign_id", "elastic_eval", "elastic_eval"),
+        ("reference_campaign_id", "reference_passed", "reference"),
+    ]
+
+    for attr_name, campaign_key, stage_name in campaign_args:
+        campaign_id = getattr(args, attr_name)
+        if not campaign_id:
+            continue
+        if stage_name in selected_stage_set:
+            raise PipelineError(
+                f"--{attr_name.replace('_', '-')} cannot be used when stage "
+                f"'{stage_name}' is selected to run."
+            )
+        summary_path = _require_existing_campaign(
+            stage_label=stage_name,
+            campaign_id=campaign_id,
+            campaign_root=campaign_root,
+        )
+        campaigns[campaign_key] = campaign_id
+        seeded[f"existing_{campaign_key}_campaign"] = campaign_id
+        seeded[f"existing_{campaign_key}_summary"] = str(summary_path)
+
+    return seeded
+
+
+def _validate_stage_dependencies(
+    *,
+    selected_stage_set: set[str],
+    campaign_root: Path,
+    campaigns: Dict[str, str],
+) -> None:
+    if "vc_relax" in selected_stage_set:
+        if "discovery" not in selected_stage_set and "discovery" not in campaigns:
+            raise PipelineError(
+                "Stage 'vc_relax' requires discovery outputs. "
+                "Run discovery too or supply --discovery-campaign-id."
+            )
+        if "discovery" not in selected_stage_set:
+            _load_campaign_library(campaign_root, campaigns["discovery"])
+
+    if "elastic_eval" in selected_stage_set:
+        if "vc_relax" not in selected_stage_set and "vc_relax" not in campaigns:
+            raise PipelineError(
+                "Stage 'elastic_eval' requires vc_relax outputs. "
+                "Run vc_relax too or supply --vc-campaign-id."
+            )
+        if "vc_relax" not in selected_stage_set:
+            _load_campaign_library(campaign_root, campaigns["vc_relax"])
+
+    if "m7" in selected_stage_set:
+        if "discovery" not in selected_stage_set and "discovery" not in campaigns:
+            raise PipelineError(
+                "Stage 'm7' requires a discovery campaign. "
+                "Run discovery too or supply --discovery-campaign-id."
+            )
+        if "discovery" not in selected_stage_set:
+            _load_campaign_summary(campaign_root, campaigns["discovery"])
+
+    if "release" in selected_stage_set:
+        available = set(campaigns)
+        if "discovery" in selected_stage_set:
+            available.add("discovery")
+        if "vc_relax" in selected_stage_set:
+            available.add("vc_relax")
+        if "elastic_eval" in selected_stage_set:
+            available.add("elastic_eval")
+        if "reference" in selected_stage_set:
+            available.add("reference_passed")
+        if not {"discovery", "vc_relax", "elastic_eval", "reference_passed"} & available:
+            raise PipelineError(
+                "Stage 'release' requires at least one campaign to package. "
+                "Select an upstream stage or supply an existing campaign id."
+            )
+
+
+def _enforce_campaign_quality_gate(label: str, summary: Dict[str, object]) -> None:
+    failed_jobs = int(summary.get("failed_jobs", 0))
+    valid_candidates = int(summary.get("valid_candidates", 0))
+    label_efficiency = float(summary.get("label_efficiency_gain", 0.0))
+
+    if failed_jobs > 0:
+        raise PipelineError(
+            f"Campaign '{label}' has failed_jobs={failed_jobs} (>0)."
+        )
+    if valid_candidates < 10:
+        raise PipelineError(
+            f"Campaign '{label}' has valid_candidates={valid_candidates} (<10)."
+        )
+    if label_efficiency < 0.30:
+        raise PipelineError(
+            f"Campaign '{label}' has label_efficiency_gain={label_efficiency} (<0.30)."
+        )
+
+
+def _infer_stage_from_request_id(request_id: str) -> str | None:
+    rid = str(request_id).strip().upper()
+    if rid.startswith("VCRLX-"):
+        return "vc_relax"
+    if rid.startswith("ELAST-"):
+        return "elastic_eval"
+    if rid.startswith("SCF-"):
+        return "discovery"
+    return None
+
+
+def _parse_accepted_failed_request_ids(
+    values: Sequence[str],
+) -> tuple[Dict[str, list[str]], list[str]]:
+    accepted_by_stage = {stage: [] for stage in QUALITY_GATE_STAGE_NAMES}
+    normalized: list[str] = []
+
+    for raw in values:
+        token = str(raw).strip()
+        if not token:
+            continue
+        if ":" in token:
+            stage_label, request_id = token.split(":", 1)
+            stage_label = stage_label.strip()
+            request_id = request_id.strip()
+            if stage_label not in QUALITY_GATE_STAGE_NAMES:
+                raise ValueError(
+                    f"Unsupported accepted-failure stage '{stage_label}'. "
+                    f"Valid stages: {', '.join(sorted(QUALITY_GATE_STAGE_NAMES))}."
+                )
+        else:
+            request_id = token
+            stage_label = _infer_stage_from_request_id(request_id)
+            if stage_label is None:
+                raise ValueError(
+                    "Could not infer stage for accepted failed request id "
+                    f"'{request_id}'. Use STAGE:REQUEST_ID syntax."
+                )
+        if request_id not in accepted_by_stage[stage_label]:
+            accepted_by_stage[stage_label].append(request_id)
+        normalized.append(f"{stage_label}:{request_id}")
+
+    return accepted_by_stage, normalized
+
+
+def _evaluate_campaign_quality_gate(
+    label: str,
+    summary: Dict[str, object],
+    *,
+    library: pd.DataFrame | None = None,
+    accepted_failed_request_ids: Sequence[str] = (),
+) -> Dict[str, object]:
+    failed_jobs = int(summary.get("failed_jobs", 0))
+    valid_candidates = int(summary.get("valid_candidates", 0))
+    label_efficiency = float(summary.get("label_efficiency_gain", 0.0))
+    accepted_ids = sorted({str(value).strip() for value in accepted_failed_request_ids if str(value).strip()})
+    result: Dict[str, object] = {
+        "label": label,
+        "accepted_failed_request_ids": accepted_ids,
+        "waived_failed_request_ids": [],
+        "unwaived_failed_request_ids": [],
+        "failed_jobs": failed_jobs,
+        "effective_failed_jobs": failed_jobs,
+    }
+
+    failed_request_ids: list[str] = []
+    if failed_jobs > 0:
+        if library is None:
+            raise PipelineError(
+                f"Campaign '{label}' has failed_jobs={failed_jobs} (>0) and no library was provided "
+                "to validate accepted-failure waivers."
+            )
+        required_cols = {"request_id", "status"}
+        missing = required_cols - set(library.columns)
+        if missing:
+            raise PipelineError(
+                f"Campaign '{label}' library missing columns required for waiver validation: {sorted(missing)}."
+            )
+        failed_rows = library[library["status"].fillna("") != "completed"].copy()
+        failed_request_ids = sorted({str(value).strip() for value in failed_rows["request_id"].dropna().tolist() if str(value).strip()})
+        if len(failed_request_ids) != failed_jobs:
+            raise PipelineError(
+                f"Campaign '{label}' summary/library failed-job mismatch: "
+                f"failed_jobs={failed_jobs}, failed_request_ids={failed_request_ids}."
+            )
+        unexpected_accepted = sorted(set(accepted_ids) - set(failed_request_ids))
+        if unexpected_accepted:
+            raise PipelineError(
+                f"Campaign '{label}' accepted_failed_request_ids are not failed request ids: "
+                f"{unexpected_accepted}."
+            )
+        waived_failed_request_ids = [request_id for request_id in failed_request_ids if request_id in accepted_ids]
+        unwaived_failed_request_ids = [request_id for request_id in failed_request_ids if request_id not in accepted_ids]
+        result["waived_failed_request_ids"] = waived_failed_request_ids
+        result["unwaived_failed_request_ids"] = unwaived_failed_request_ids
+        result["effective_failed_jobs"] = len(unwaived_failed_request_ids)
+        if unwaived_failed_request_ids:
+            raise PipelineError(
+                f"Campaign '{label}' has unwaived failed request ids: {unwaived_failed_request_ids}."
+            )
+    elif accepted_ids:
+        raise PipelineError(
+            f"Campaign '{label}' accepted_failed_request_ids were provided, but failed_jobs=0."
+        )
+
+    if valid_candidates < 10:
+        raise PipelineError(
+            f"Campaign '{label}' has valid_candidates={valid_candidates} (<10)."
+        )
+    if label_efficiency < 0.30:
+        raise PipelineError(
+            f"Campaign '{label}' has label_efficiency_gain={label_efficiency} (<0.30)."
+        )
+    return result
+
+
 def _build_followup_candidates(
     source_library: pd.DataFrame,
     *,
     out_path: Path,
     target_n: int,
     id_prefix: str,
+    require_source_result: bool = False,
 ) -> pd.DataFrame:
     required_cols = {"composition", "phase", "density_g_cm3", "formation_energy_eV", "valid_flag", "status"}
     missing = required_cols - set(source_library.columns)
@@ -303,6 +761,10 @@ def _build_followup_candidates(
 
     df = source_library.copy()
     df = df[(df["status"] == "completed") & (df["valid_flag"] == 1)]
+    if require_source_result:
+        if "result_path" not in df.columns:
+            raise PipelineError("Source candidate library missing result_path for follow-up stage.")
+        df = df[df["result_path"].notna()].copy()
     if df.empty:
         raise PipelineError("No completed+valid candidates available for follow-up stage.")
 
@@ -312,7 +774,17 @@ def _build_followup_candidates(
         ["formation_energy_rank", "max_force_eV_A", "latency_s", "candidate_id"],
         ascending=[True, True, True, True],
     )
-    df = df.drop_duplicates(subset=["composition"], keep="first")
+    dedupe_series = df["composition"].astype(str)
+    if require_source_result and "result_path" in df.columns:
+        dedupe_series = np.where(
+            df["result_path"].notna(),
+            "result:" + df["result_path"].astype(str),
+            "composition:" + df["composition"].astype(str),
+        )
+    df = df.assign(_followup_dedupe_key=dedupe_series)
+    df = df.drop_duplicates(subset=["_followup_dedupe_key"], keep="first").drop(
+        columns=["_followup_dedupe_key"]
+    )
     df = df.head(target_n).copy()
 
     if len(df) < 10:
@@ -323,18 +795,20 @@ def _build_followup_candidates(
     records: List[Dict[str, object]] = []
     for idx, row in enumerate(df.itertuples(index=False), start=1):
         density_val = float(getattr(row, "density_filled", 7.5))
-        records.append(
-            {
-                "candidate_id": f"{id_prefix}-{idx:03d}",
-                "composition": str(getattr(row, "composition")),
-                "phase": str(getattr(row, "phase") or "other"),
-                "predicted_density_g_cm3": density_val,
-                "target_density_g_cm3": density_val,
-                "density_error": 0.0,
-                "property_compliant": 1,
-                "valid": 1,
-            }
-        )
+        record = {
+            "candidate_id": f"{id_prefix}-{idx:03d}",
+            "composition": str(getattr(row, "composition")),
+            "phase": str(getattr(row, "phase") or "other"),
+            "predicted_density_g_cm3": density_val,
+            "target_density_g_cm3": density_val,
+            "density_error": 0.0,
+            "property_compliant": 1,
+            "valid": 1,
+        }
+        source_result_path = getattr(row, "result_path", None)
+        if pd.notna(source_result_path):
+            record["source_result_path"] = str(source_result_path)
+        records.append(record)
 
     out_df = pd.DataFrame.from_records(records)
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -485,6 +959,32 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=20260303)
     parser.add_argument("--campaign-prefix", default="top-tier-nonqpu")
     parser.add_argument("--require-gpu", action="store_true", default=True)
+    parser.add_argument("--preflight-only", action="store_true")
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--stages",
+        nargs="+",
+        default=None,
+        help=(
+            "Stages to run. Use names from: "
+            f"{', '.join(ALL_STAGE_NAMES)}. "
+            "Accepts space-separated or comma-separated values. "
+            "Default runs the full sequence."
+        ),
+    )
+    parser.add_argument("--discovery-campaign-id", default=None)
+    parser.add_argument("--vc-campaign-id", default=None)
+    parser.add_argument("--elastic-campaign-id", default=None)
+    parser.add_argument("--reference-campaign-id", default=None)
+    parser.add_argument(
+        "--accepted-failed-request-id",
+        action="append",
+        default=[],
+        help=(
+            "Request id that is explicitly accepted as a waived failed job for quality-gate purposes. "
+            "May be repeated."
+        ),
+    )
 
     parser.add_argument(
         "--discovery-candidate-csv",
@@ -498,7 +998,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--discovery-classical-label-budget", type=int, default=300)
     parser.add_argument("--discovery-k-grid", type=int, nargs=3, default=[4, 4, 4])
     parser.add_argument("--discovery-ecutwfc", type=float, default=50.0)
-    parser.add_argument("--discovery-ecutrho", type=float, default=400.0)
+    parser.add_argument("--discovery-ecutrho", type=float, default=600.0)
     parser.add_argument("--discovery-supercell", type=int, nargs=3, default=[2, 2, 2])
     parser.add_argument("--discovery-max-wall-seconds", type=int, default=None)
 
@@ -508,7 +1008,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--vc-classical-label-budget", type=int, default=240)
     parser.add_argument("--vc-k-grid", type=int, nargs=3, default=[5, 5, 5])
     parser.add_argument("--vc-ecutwfc", type=float, default=60.0)
-    parser.add_argument("--vc-ecutrho", type=float, default=480.0)
+    parser.add_argument("--vc-ecutrho", type=float, default=720.0)
     parser.add_argument("--vc-supercell", type=int, nargs=3, default=[2, 2, 2])
     parser.add_argument("--vc-max-wall-seconds", type=int, default=None)
 
@@ -518,7 +1018,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--elastic-classical-label-budget", type=int, default=200)
     parser.add_argument("--elastic-k-grid", type=int, nargs=3, default=[5, 5, 5])
     parser.add_argument("--elastic-ecutwfc", type=float, default=60.0)
-    parser.add_argument("--elastic-ecutrho", type=float, default=480.0)
+    parser.add_argument("--elastic-ecutrho", type=float, default=720.0)
     parser.add_argument("--elastic-supercell", type=int, nargs=3, default=[2, 2, 2])
     parser.add_argument("--elastic-max-wall-seconds", type=int, default=None)
 
@@ -529,7 +1029,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reference-classical-label-budget", type=int, default=240)
     parser.add_argument("--reference-k-grid", type=int, nargs=3, default=[4, 4, 4])
     parser.add_argument("--reference-ecutwfc", type=float, default=50.0)
-    parser.add_argument("--reference-ecutrho", type=float, default=400.0)
+    parser.add_argument("--reference-ecutrho", type=float, default=600.0)
     parser.add_argument("--reference-supercell", type=int, nargs=3, default=[2, 2, 2])
     parser.add_argument("--reference-max-wall-seconds", type=int, default=None)
     parser.add_argument("--reference-max-validation-gap", type=float, default=0.05)
@@ -546,12 +1046,28 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument("--skip-m7", action="store_true")
     parser.add_argument("--skip-release", action="store_true")
-    return parser.parse_args()
+    args = parser.parse_args()
+    try:
+        args.stages = _normalize_stage_selection(
+            args.stages,
+            skip_paper_grade_suite=bool(args.skip_paper_grade_suite),
+            skip_m7=bool(args.skip_m7),
+            skip_release=bool(args.skip_release),
+        )
+        (
+            args.accepted_failed_request_ids_by_stage,
+            args.accepted_failed_request_id,
+        ) = _parse_accepted_failed_request_ids(args.accepted_failed_request_id)
+    except ValueError as exc:
+        parser.error(str(exc))
+    return args
 
 
 def main() -> None:
     args = parse_args()
     queue_tracking_uri = args.queue_tracking_uri or args.tracking_uri
+    selected_stages = list(args.stages)
+    selected_stage_set = set(selected_stages)
 
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_root = args.log_root / f"top_tier_non_qpu_{timestamp}"
@@ -567,197 +1083,309 @@ def main() -> None:
     error_detail = ""
     steps: List[Dict[str, object]] = []
     artifacts: Dict[str, object] = {}
+    gate_decisions: Dict[str, object] = {}
     campaigns: Dict[str, str] = {}
     prereq_info: Dict[str, str] = {}
     started_utc = _utc_now()
 
     try:
-        prereq_info = _check_prereqs(require_gpu=bool(args.require_gpu))
-        if not args.discovery_candidate_csv.exists():
-            raise PipelineError(f"Discovery candidate CSV missing: {args.discovery_candidate_csv}")
-
-        # Stage 1: discovery SCF campaign.
-        discovery_id = f"{args.campaign_prefix}-scf-{timestamp.lower()}"
-        campaigns["discovery"] = discovery_id
-        discovery_cmd = _campaign_command(
-            campaign_id=discovery_id,
-            candidate_csv=args.discovery_candidate_csv,
-            iterations=int(args.discovery_iterations),
-            top_k=int(args.discovery_top_k),
-            max_workers=int(args.discovery_max_workers),
-            max_retries=int(args.discovery_max_retries),
-            job_class="scf_screen",
-            tracking_uri=args.tracking_uri,
-            queue_tracking_uri=queue_tracking_uri,
-            classical_label_budget=int(args.discovery_classical_label_budget),
-            k_grid=tuple(args.discovery_k_grid),
-            ecutwfc=float(args.discovery_ecutwfc),
-            ecutrho=float(args.discovery_ecutrho),
-            supercell=tuple(args.discovery_supercell),
-            random_state=int(args.seed),
-            max_wall_seconds=args.discovery_max_wall_seconds,
-            campaign_root=args.campaign_root,
-            request_prefix="SCF",
-        )
-        steps.append(_run_step("01_discovery_scf", discovery_cmd, log_dir=step_log_dir).__dict__)
-        discovery_summary = _load_campaign_summary(args.campaign_root, discovery_id)
-        artifacts["discovery_summary"] = str(args.campaign_root / discovery_id / "closed_loop_summary.json")
-        artifacts["discovery_library"] = str(args.campaign_root / discovery_id / "candidate_library.csv")
-
-        # Stage 2: vc_relax follow-up shortlist + campaign.
-        discovery_library = _load_campaign_library(args.campaign_root, discovery_id)
-        vc_candidates_csv = generated_dir / "vc_relax_candidates.csv"
-        vc_candidates = _build_followup_candidates(
-            discovery_library,
-            out_path=vc_candidates_csv,
-            target_n=int(args.vc_target_candidates),
-            id_prefix="VCRLX",
-        )
-        artifacts["vc_candidate_csv"] = str(vc_candidates_csv)
-
-        vc_id = f"{args.campaign_prefix}-vc-{timestamp.lower()}"
-        campaigns["vc_relax"] = vc_id
-        vc_iterations = max(1, int(np.ceil(len(vc_candidates) / args.discovery_top_k)))
-        vc_cmd = _campaign_command(
-            campaign_id=vc_id,
-            candidate_csv=vc_candidates_csv,
-            iterations=vc_iterations,
-            top_k=int(args.discovery_top_k),
-            max_workers=int(args.vc_max_workers),
-            max_retries=int(args.vc_max_retries),
-            job_class="vc_relax",
-            tracking_uri=args.tracking_uri,
-            queue_tracking_uri=queue_tracking_uri,
-            classical_label_budget=int(args.vc_classical_label_budget),
-            k_grid=tuple(args.vc_k_grid),
-            ecutwfc=float(args.vc_ecutwfc),
-            ecutrho=float(args.vc_ecutrho),
-            supercell=tuple(args.vc_supercell),
-            random_state=int(args.seed + 101),
-            max_wall_seconds=args.vc_max_wall_seconds,
-            campaign_root=args.campaign_root,
-            request_prefix="VCRLX",
-        )
-        steps.append(_run_step("02_vc_relax", vc_cmd, log_dir=step_log_dir).__dict__)
-        vc_summary = _load_campaign_summary(args.campaign_root, vc_id)
-        artifacts["vc_summary"] = str(args.campaign_root / vc_id / "closed_loop_summary.json")
-        artifacts["vc_library"] = str(args.campaign_root / vc_id / "candidate_library.csv")
-
-        # Stage 3: elastic_eval follow-up shortlist + campaign.
-        vc_library = _load_campaign_library(args.campaign_root, vc_id)
-        elastic_candidates_csv = generated_dir / "elastic_candidates.csv"
-        elastic_candidates = _build_followup_candidates(
-            vc_library,
-            out_path=elastic_candidates_csv,
-            target_n=int(args.elastic_target_candidates),
-            id_prefix="ELAST",
-        )
-        artifacts["elastic_candidate_csv"] = str(elastic_candidates_csv)
-
-        elastic_id = f"{args.campaign_prefix}-elastic-{timestamp.lower()}"
-        campaigns["elastic_eval"] = elastic_id
-        elastic_iterations = max(1, int(np.ceil(len(elastic_candidates) / args.discovery_top_k)))
-        elastic_cmd = _campaign_command(
-            campaign_id=elastic_id,
-            candidate_csv=elastic_candidates_csv,
-            iterations=elastic_iterations,
-            top_k=int(args.discovery_top_k),
-            max_workers=int(args.elastic_max_workers),
-            max_retries=int(args.elastic_max_retries),
-            job_class="elastic_eval",
-            tracking_uri=args.tracking_uri,
-            queue_tracking_uri=queue_tracking_uri,
-            classical_label_budget=int(args.elastic_classical_label_budget),
-            k_grid=tuple(args.elastic_k_grid),
-            ecutwfc=float(args.elastic_ecutwfc),
-            ecutrho=float(args.elastic_ecutrho),
-            supercell=tuple(args.elastic_supercell),
-            random_state=int(args.seed + 202),
-            max_wall_seconds=args.elastic_max_wall_seconds,
-            campaign_root=args.campaign_root,
-            request_prefix="ELAST",
-        )
-        steps.append(_run_step("03_elastic_eval", elastic_cmd, log_dir=step_log_dir).__dict__)
-        elastic_summary = _load_campaign_summary(args.campaign_root, elastic_id)
-        artifacts["elastic_summary"] = str(args.campaign_root / elastic_id / "closed_loop_summary.json")
-        artifacts["elastic_library"] = str(args.campaign_root / elastic_id / "candidate_library.csv")
-
-        # Stage 4: strict reference-backed campaign and validation.
-        strict_validation_payload: Dict[str, object] | None = None
-        reference_reports: List[str] = []
-        for attempt in range(1, int(args.reference_attempts) + 1):
-            attempt_suffix = f"a{attempt}"
-            candidate_count = max(10, int(args.reference_base_candidates) // (2 ** (attempt - 1)))
-            ref_k_grid = (
-                int(args.reference_k_grid[0]) + (attempt - 1),
-                int(args.reference_k_grid[1]) + (attempt - 1),
-                int(args.reference_k_grid[2]) + (attempt - 1),
+        prereq_info = {
+            "selected_stages": ",".join(selected_stages),
+        }
+        prereq_info.update(
+            _check_prereqs_for_modes(
+                require_gpu=bool(args.require_gpu and "paper_grade" in selected_stage_set),
+                check_gpu_backend="paper_grade" in selected_stage_set,
+                check_qe=bool(selected_stage_set & DFT_STAGE_NAMES),
             )
-            ref_ecutwfc = float(args.reference_ecutwfc) + 10.0 * (attempt - 1)
-            ref_ecutrho = float(args.reference_ecutrho) + 80.0 * (attempt - 1)
-
-            ref_csv = generated_dir / f"reference_candidates_{attempt_suffix}.csv"
-            ref_df = _build_reference_candidates(
-                out_path=ref_csv,
-                n_candidates=candidate_count,
-                supercell=tuple(args.reference_supercell),
-                seed=int(args.seed + 303 + attempt),
+        )
+        prereq_info.update(
+            _seed_existing_campaigns(
+                args=args,
+                selected_stage_set=selected_stage_set,
+                campaign_root=args.campaign_root,
+                campaigns=campaigns,
             )
-            artifacts[f"reference_candidate_csv_{attempt_suffix}"] = str(ref_csv)
+        )
+        _validate_stage_dependencies(
+            selected_stage_set=selected_stage_set,
+            campaign_root=args.campaign_root,
+            campaigns=campaigns,
+        )
+        if "discovery" in selected_stage_set:
+            prereq_info.update(
+                _check_discovery_candidate_csv(
+                    args.discovery_candidate_csv,
+                    minimum_rows=max(10, int(args.discovery_top_k)),
+                )
+            )
+        if "reference" in selected_stage_set:
+            prereq_info.update(_check_reference_dataset())
 
-            ref_campaign_id = f"{args.campaign_prefix}-ref-{attempt_suffix}-{timestamp.lower()}"
-            campaigns[f"reference_{attempt_suffix}"] = ref_campaign_id
-            ref_iterations = max(1, int(np.ceil(len(ref_df) / args.discovery_top_k)))
+        if args.preflight_only:
+            artifacts["preflight_mode"] = "completed"
+            report_payload = {
+                "timestamp_utc": _utc_now(),
+                "started_utc": started_utc,
+                "status": "pass",
+                "error": "",
+                "configuration": {
+                    "tracking_uri": args.tracking_uri,
+                    "queue_tracking_uri": queue_tracking_uri,
+                    "campaign_root": str(args.campaign_root),
+                    "report_path": str(args.report_path),
+                    "seed": args.seed,
+                    "campaign_prefix": args.campaign_prefix,
+                    "resume": bool(args.resume),
+                    "stages": selected_stages,
+                    "accepted_failed_request_ids": args.accepted_failed_request_id,
+                    "discovery_campaign_id": args.discovery_campaign_id,
+                    "vc_campaign_id": args.vc_campaign_id,
+                    "elastic_campaign_id": args.elastic_campaign_id,
+                    "reference_campaign_id": args.reference_campaign_id,
+                    "preflight_only": True,
+                },
+                "preflight": prereq_info,
+                "campaigns": campaigns,
+                "artifacts": artifacts,
+                "steps": steps,
+            }
+            args.report_path.write_text(json.dumps(report_payload, indent=2), encoding="utf-8")
+            print(
+                json.dumps(
+                    {
+                        "status": "pass",
+                        "report_path": str(args.report_path),
+                        "log_root": str(run_root),
+                        "campaigns": campaigns,
+                        "preflight_only": True,
+                        "stages": selected_stages,
+                        "error": "",
+                    },
+                    indent=2,
+                )
+            )
+            return
 
-            ref_cmd = _campaign_command(
-                campaign_id=ref_campaign_id,
-                candidate_csv=ref_csv,
-                iterations=ref_iterations,
+        if "discovery" in selected_stage_set:
+            discovery_id = f"{args.campaign_prefix}-scf-{timestamp.lower()}"
+            campaigns["discovery"] = discovery_id
+            discovery_cmd = _campaign_command(
+                campaign_id=discovery_id,
+                candidate_csv=args.discovery_candidate_csv,
+                iterations=int(args.discovery_iterations),
                 top_k=int(args.discovery_top_k),
-                max_workers=int(args.reference_max_workers),
-                max_retries=int(args.reference_max_retries),
+                max_workers=int(args.discovery_max_workers),
+                max_retries=int(args.discovery_max_retries),
                 job_class="scf_screen",
                 tracking_uri=args.tracking_uri,
                 queue_tracking_uri=queue_tracking_uri,
-                classical_label_budget=int(args.reference_classical_label_budget),
-                k_grid=ref_k_grid,
-                ecutwfc=ref_ecutwfc,
-                ecutrho=ref_ecutrho,
-                supercell=tuple(args.reference_supercell),
-                random_state=int(args.seed + 404 + attempt),
-                max_wall_seconds=args.reference_max_wall_seconds,
+                classical_label_budget=int(args.discovery_classical_label_budget),
+                k_grid=tuple(args.discovery_k_grid),
+                ecutwfc=float(args.discovery_ecutwfc),
+                ecutrho=float(args.discovery_ecutrho),
+                supercell=tuple(args.discovery_supercell),
+                random_state=int(args.seed),
+                max_wall_seconds=args.discovery_max_wall_seconds,
                 campaign_root=args.campaign_root,
-                request_prefix=f"REF{attempt}",
+                request_prefix="SCF",
+                resume=bool(args.resume),
             )
-            steps.append(
-                _run_step(f"04_reference_campaign_{attempt_suffix}", ref_cmd, log_dir=step_log_dir).__dict__
+            steps.append(_run_step("01_discovery_scf", discovery_cmd, log_dir=step_log_dir).__dict__)
+            discovery_summary = _load_campaign_summary(args.campaign_root, discovery_id)
+            discovery_library = _load_campaign_library(args.campaign_root, discovery_id)
+            artifacts["discovery_summary"] = str(args.campaign_root / discovery_id / "closed_loop_summary.json")
+            artifacts["discovery_library"] = str(args.campaign_root / discovery_id / "candidate_library.csv")
+            gate_decisions["discovery"] = _evaluate_campaign_quality_gate(
+                "discovery",
+                discovery_summary,
+                library=discovery_library,
+                accepted_failed_request_ids=args.accepted_failed_request_ids_by_stage["discovery"],
             )
 
-            ref_report_path = args.campaign_root / ref_campaign_id / "validation" / "validation_report.json"
-            try:
-                strict_validation_payload = _validate_campaign_strict(
-                    campaign_id=ref_campaign_id,
-                    campaign_root=args.campaign_root,
-                    report_path=ref_report_path,
-                    tracking_uri=args.tracking_uri,
-                    log_dir=step_log_dir,
-                    step_prefix=f"05_reference_{attempt_suffix}",
-                    steps=steps,
-                    max_gap=float(args.reference_max_validation_gap),
+        if "vc_relax" in selected_stage_set:
+            discovery_id = campaigns["discovery"]
+            discovery_library = _load_campaign_library(args.campaign_root, discovery_id)
+            artifacts.setdefault(
+                "discovery_library",
+                str(args.campaign_root / discovery_id / "candidate_library.csv"),
+            )
+            artifacts.setdefault(
+                "discovery_summary",
+                str(args.campaign_root / discovery_id / "closed_loop_summary.json"),
+            )
+
+            vc_candidates_csv = generated_dir / "vc_relax_candidates.csv"
+            vc_candidates = _build_followup_candidates(
+                discovery_library,
+                out_path=vc_candidates_csv,
+                target_n=int(args.vc_target_candidates),
+                id_prefix="VCRLX",
+            )
+            artifacts["vc_candidate_csv"] = str(vc_candidates_csv)
+
+            vc_id = f"{args.campaign_prefix}-vc-{timestamp.lower()}"
+            campaigns["vc_relax"] = vc_id
+            vc_iterations = max(1, int(np.ceil(len(vc_candidates) / args.discovery_top_k)))
+            vc_cmd = _campaign_command(
+                campaign_id=vc_id,
+                candidate_csv=vc_candidates_csv,
+                iterations=vc_iterations,
+                top_k=int(args.discovery_top_k),
+                max_workers=int(args.vc_max_workers),
+                max_retries=int(args.vc_max_retries),
+                job_class="vc_relax",
+                tracking_uri=args.tracking_uri,
+                queue_tracking_uri=queue_tracking_uri,
+                classical_label_budget=int(args.vc_classical_label_budget),
+                k_grid=tuple(args.vc_k_grid),
+                ecutwfc=float(args.vc_ecutwfc),
+                ecutrho=float(args.vc_ecutrho),
+                supercell=tuple(args.vc_supercell),
+                random_state=int(args.seed + 101),
+                max_wall_seconds=args.vc_max_wall_seconds,
+                campaign_root=args.campaign_root,
+                request_prefix="VCRLX",
+                resume=bool(args.resume),
+            )
+            steps.append(_run_step("02_vc_relax", vc_cmd, log_dir=step_log_dir).__dict__)
+            vc_summary = _load_campaign_summary(args.campaign_root, vc_id)
+            vc_library = _load_campaign_library(args.campaign_root, vc_id)
+            artifacts["vc_summary"] = str(args.campaign_root / vc_id / "closed_loop_summary.json")
+            artifacts["vc_library"] = str(args.campaign_root / vc_id / "candidate_library.csv")
+            gate_decisions["vc_relax"] = _evaluate_campaign_quality_gate(
+                "vc_relax",
+                vc_summary,
+                library=vc_library,
+                accepted_failed_request_ids=args.accepted_failed_request_ids_by_stage["vc_relax"],
+            )
+
+        if "elastic_eval" in selected_stage_set:
+            vc_id = campaigns["vc_relax"]
+            vc_library = _load_campaign_library(args.campaign_root, vc_id)
+            artifacts.setdefault("vc_summary", str(args.campaign_root / vc_id / "closed_loop_summary.json"))
+            artifacts.setdefault("vc_library", str(args.campaign_root / vc_id / "candidate_library.csv"))
+
+            elastic_candidates_csv = generated_dir / "elastic_candidates.csv"
+            elastic_candidates = _build_followup_candidates(
+                vc_library,
+                out_path=elastic_candidates_csv,
+                target_n=int(args.elastic_target_candidates),
+                id_prefix="ELAST",
+                require_source_result=True,
+            )
+            artifacts["elastic_candidate_csv"] = str(elastic_candidates_csv)
+
+            elastic_id = f"{args.campaign_prefix}-elastic-{timestamp.lower()}"
+            campaigns["elastic_eval"] = elastic_id
+            elastic_iterations = max(1, int(np.ceil(len(elastic_candidates) / args.discovery_top_k)))
+            elastic_cmd = _campaign_command(
+                campaign_id=elastic_id,
+                candidate_csv=elastic_candidates_csv,
+                iterations=elastic_iterations,
+                top_k=int(args.discovery_top_k),
+                max_workers=int(args.elastic_max_workers),
+                max_retries=int(args.elastic_max_retries),
+                job_class="elastic_eval",
+                tracking_uri=args.tracking_uri,
+                queue_tracking_uri=queue_tracking_uri,
+                classical_label_budget=int(args.elastic_classical_label_budget),
+                k_grid=tuple(args.elastic_k_grid),
+                ecutwfc=float(args.elastic_ecutwfc),
+                ecutrho=float(args.elastic_ecutrho),
+                supercell=tuple(args.elastic_supercell),
+                random_state=int(args.seed + 202),
+                max_wall_seconds=args.elastic_max_wall_seconds,
+                campaign_root=args.campaign_root,
+                request_prefix="ELAST",
+                resume=bool(args.resume),
+            )
+            steps.append(_run_step("03_elastic_eval", elastic_cmd, log_dir=step_log_dir).__dict__)
+            elastic_summary = _load_campaign_summary(args.campaign_root, elastic_id)
+            elastic_library = _load_campaign_library(args.campaign_root, elastic_id)
+            artifacts["elastic_summary"] = str(args.campaign_root / elastic_id / "closed_loop_summary.json")
+            artifacts["elastic_library"] = str(args.campaign_root / elastic_id / "candidate_library.csv")
+            gate_decisions["elastic_eval"] = _evaluate_campaign_quality_gate(
+                "elastic_eval",
+                elastic_summary,
+                library=elastic_library,
+                accepted_failed_request_ids=args.accepted_failed_request_ids_by_stage["elastic_eval"],
+            )
+
+        if "reference" in selected_stage_set:
+            strict_validation_payload: Dict[str, object] | None = None
+            for attempt in range(1, int(args.reference_attempts) + 1):
+                attempt_suffix = f"a{attempt}"
+                candidate_count = max(10, int(args.reference_base_candidates) // (2 ** (attempt - 1)))
+                ref_k_grid = (
+                    int(args.reference_k_grid[0]) + (attempt - 1),
+                    int(args.reference_k_grid[1]) + (attempt - 1),
+                    int(args.reference_k_grid[2]) + (attempt - 1),
                 )
-                campaigns["reference_passed"] = ref_campaign_id
-                artifacts["reference_validation_report"] = str(ref_report_path)
-                break
-            except PipelineError:
-                reference_reports.append(str(ref_report_path))
-                if attempt >= int(args.reference_attempts):
-                    raise
+                ref_ecutwfc = float(args.reference_ecutwfc) + 10.0 * (attempt - 1)
+                ref_ecutrho = float(args.reference_ecutrho) + 80.0 * (attempt - 1)
 
-        if strict_validation_payload is None:
-            raise PipelineError("Reference strict validation did not produce a payload.")
+                ref_csv = generated_dir / f"reference_candidates_{attempt_suffix}.csv"
+                ref_df = _build_reference_candidates(
+                    out_path=ref_csv,
+                    n_candidates=candidate_count,
+                    supercell=tuple(args.reference_supercell),
+                    seed=int(args.seed + 303 + attempt),
+                )
+                artifacts[f"reference_candidate_csv_{attempt_suffix}"] = str(ref_csv)
 
-        # Stage 5: Paper-grade GPU suite.
-        if not args.skip_paper_grade_suite:
+                ref_campaign_id = f"{args.campaign_prefix}-ref-{attempt_suffix}-{timestamp.lower()}"
+                campaigns[f"reference_{attempt_suffix}"] = ref_campaign_id
+                ref_iterations = max(1, int(np.ceil(len(ref_df) / args.discovery_top_k)))
+
+                ref_cmd = _campaign_command(
+                    campaign_id=ref_campaign_id,
+                    candidate_csv=ref_csv,
+                    iterations=ref_iterations,
+                    top_k=int(args.discovery_top_k),
+                    max_workers=int(args.reference_max_workers),
+                    max_retries=int(args.reference_max_retries),
+                    job_class="scf_screen",
+                    tracking_uri=args.tracking_uri,
+                    queue_tracking_uri=queue_tracking_uri,
+                    classical_label_budget=int(args.reference_classical_label_budget),
+                    k_grid=ref_k_grid,
+                    ecutwfc=ref_ecutwfc,
+                    ecutrho=ref_ecutrho,
+                    supercell=tuple(args.reference_supercell),
+                    random_state=int(args.seed + 404 + attempt),
+                    max_wall_seconds=args.reference_max_wall_seconds,
+                    campaign_root=args.campaign_root,
+                    request_prefix=f"REF{attempt}",
+                    resume=bool(args.resume),
+                )
+                steps.append(
+                    _run_step(f"04_reference_campaign_{attempt_suffix}", ref_cmd, log_dir=step_log_dir).__dict__
+                )
+
+                ref_report_path = args.campaign_root / ref_campaign_id / "validation" / "validation_report.json"
+                try:
+                    strict_validation_payload = _validate_campaign_strict(
+                        campaign_id=ref_campaign_id,
+                        campaign_root=args.campaign_root,
+                        report_path=ref_report_path,
+                        tracking_uri=args.tracking_uri,
+                        log_dir=step_log_dir,
+                        step_prefix=f"05_reference_{attempt_suffix}",
+                        steps=steps,
+                        max_gap=float(args.reference_max_validation_gap),
+                    )
+                    campaigns["reference_passed"] = ref_campaign_id
+                    artifacts["reference_validation_report"] = str(ref_report_path)
+                    break
+                except PipelineError:
+                    if attempt >= int(args.reference_attempts):
+                        raise
+
+            if strict_validation_payload is None:
+                raise PipelineError("Reference strict validation did not produce a payload.")
+
+        if "paper_grade" in selected_stage_set:
             paper_cmd = [
                 sys.executable,
                 "scripts/benchmarking/run_paper_grade_gpu_suite.py",
@@ -797,8 +1425,8 @@ def main() -> None:
             if accel != "gpu":
                 raise PipelineError(f"Paper-grade suite did not run on GPU (effective={accel}).")
 
-        # Stage 6: M7 (optional).
-        if not args.skip_m7:
+        if "m7" in selected_stage_set:
+            discovery_id = campaigns["discovery"]
             hardware_summary_path = DATA_DIR / "hardware" / "hardware_summary.json"
             if not hardware_summary_path.exists():
                 hw_cmd = [
@@ -821,14 +1449,15 @@ def main() -> None:
             steps.append(_run_step("08_m7_benchmarks", m7_cmd, log_dir=step_log_dir).__dict__)
             artifacts["m7_summary"] = str(DATA_DIR / "benchmarks" / "m7" / "m7_summary.json")
 
-        # Stage 7: release packaging (optional).
-        if not args.skip_release:
+        if "release" in selected_stage_set:
             release_root = DATA_DIR / "releases" / "top_tier_non_qpu"
             release_root.mkdir(parents=True, exist_ok=True)
+            packaged_any = False
             for key in ("discovery", "vc_relax", "elastic_eval", "reference_passed"):
                 campaign_id = campaigns.get(key)
                 if not campaign_id:
                     continue
+                packaged_any = True
                 release_dir = release_root / campaign_id
                 rel_cmd = [
                     sys.executable,
@@ -842,24 +1471,9 @@ def main() -> None:
                     _run_step(f"09_release_{key}", rel_cmd, log_dir=step_log_dir).__dict__
                 )
                 artifacts[f"release_{key}"] = str(release_dir)
-
-        # Gate checks on key campaign summaries.
-        for label, summary in (
-            ("discovery", discovery_summary),
-            ("vc_relax", vc_summary),
-            ("elastic_eval", elastic_summary),
-        ):
-            if int(summary.get("failed_jobs", 0)) > 0:
+            if not packaged_any:
                 raise PipelineError(
-                    f"Campaign '{label}' has failed_jobs={summary.get('failed_jobs')} (>0)."
-                )
-            if int(summary.get("valid_candidates", 0)) < 10:
-                raise PipelineError(
-                    f"Campaign '{label}' has valid_candidates={summary.get('valid_candidates')} (<10)."
-                )
-            if float(summary.get("label_efficiency_gain", 0.0)) < 0.30:
-                raise PipelineError(
-                    f"Campaign '{label}' has label_efficiency_gain={summary.get('label_efficiency_gain')} (<0.30)."
+                    "Stage 'release' had no campaign ids available to package."
                 )
 
     except Exception as exc:  # noqa: BLE001
@@ -878,10 +1492,18 @@ def main() -> None:
             "report_path": str(args.report_path),
             "seed": args.seed,
             "campaign_prefix": args.campaign_prefix,
+            "resume": bool(args.resume),
+            "stages": selected_stages,
+            "accepted_failed_request_ids": args.accepted_failed_request_id,
+            "discovery_campaign_id": args.discovery_campaign_id,
+            "vc_campaign_id": args.vc_campaign_id,
+            "elastic_campaign_id": args.elastic_campaign_id,
+            "reference_campaign_id": args.reference_campaign_id,
         },
         "preflight": prereq_info,
         "campaigns": campaigns,
         "artifacts": artifacts,
+        "gate_decisions": gate_decisions,
         "steps": steps,
     }
     args.report_path.write_text(json.dumps(report_payload, indent=2), encoding="utf-8")
@@ -890,8 +1512,10 @@ def main() -> None:
         json.dumps(
             {
                 "status": status,
+                "error": error_detail,
                 "report_path": str(args.report_path),
                 "log_root": str(run_root),
+                "stages": selected_stages,
                 "campaigns": campaigns,
             },
             indent=2,

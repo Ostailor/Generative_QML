@@ -1,0 +1,87 @@
+[
+  {
+    "path": "README.md",
+    "sha256": "3bd564a48f5a841b3614616032843085781863ae6c5fd20d28966561ed9fd653",
+    "size_bytes": 756
+  },
+  {
+    "path": "campaign/candidate_library.csv",
+    "sha256": "504faa44fe9b6707d9230406e7a917e689cb4789608562a073526bf718193240",
+    "size_bytes": 3595
+  },
+  {
+    "path": "campaign/closed_loop_summary.json",
+    "sha256": "6b1f6c22e8b51e048b0fdbaf43d9ffdd4512479367359783dc024c8fdda272a6",
+    "size_bytes": 2824
+  },
+  {
+    "path": "campaign/iteration_01/queue_monitoring/jobs.jsonl",
+    "sha256": "42429ad35d7002a64e6dd0e4d5a91d8e88b0c13a41583c26e2d428f9e38c766b",
+    "size_bytes": 2028
+  },
+  {
+    "path": "campaign/iteration_01/queue_monitoring/summary.json",
+    "sha256": "23fe77a235b1e5afe43eb78d5e05eb24943ef9c85d25364e7f112266bf563d8b",
+    "size_bytes": 3268
+  },
+  {
+    "path": "campaign/iteration_01_manifest.csv",
+    "sha256": "5a59ca3fbda60cb02af4a9f8fef2ae03acbc1d8b9c9d6be77a15b84a43aa3b4c",
+    "size_bytes": 285
+  },
+  {
+    "path": "campaign/iteration_02/queue_monitoring/jobs.jsonl",
+    "sha256": "c6ee0c9e55021bb812517bf5c11ad039dd12c9af6ef2500775ee40769630fce9",
+    "size_bytes": 2029
+  },
+  {
+    "path": "campaign/iteration_02/queue_monitoring/summary.json",
+    "sha256": "18a057d12032fa443bbbdcc69716a499ef33308f1c76f468b1f21b0ed2790b4d",
+    "size_bytes": 3269
+  },
+  {
+    "path": "campaign/iteration_02_manifest.csv",
+    "sha256": "0a55a690cbcd835db53d69e50c873b3423efa7f99f2e42d331ea4f36026235fc",
+    "size_bytes": 333
+  },
+  {
+    "path": "campaign/iteration_03/queue_monitoring/jobs.jsonl",
+    "sha256": "61f6348212755f4bc2d4c12acb31c64bc406549c725f3168f8b67bd3833de9e8",
+    "size_bytes": 2028
+  },
+  {
+    "path": "campaign/iteration_03/queue_monitoring/summary.json",
+    "sha256": "affd3dd631db8bd25f840e29ca17b3dc9bb3522be56e7d6f785770d1b9f17407",
+    "size_bytes": 3267
+  },
+  {
+    "path": "campaign/iteration_03_manifest.csv",
+    "sha256": "05e95e5ac3f75fc89f6cdb9c1dfc19702c8ea49b6978c97c5dbf2e0dc4615b5d",
+    "size_bytes": 341
+  },
+  {
+    "path": "campaign/iteration_04/queue_monitoring/jobs.jsonl",
+    "sha256": "9af308ffb38549fc03c1ed13b9466cf6ddeec52fb04a3a82490fd540f24f4a4e",
+    "size_bytes": 2031
+  },
+  {
+    "path": "campaign/iteration_04/queue_monitoring/summary.json",
+    "sha256": "9679bcd1a3373234429a4fa6aadfe2763c6ab20c4420c96bd471e0154cb54354",
+    "size_bytes": 3269
+  },
+  {
+    "path": "campaign/iteration_04_manifest.csv",
+    "sha256": "e69fb16598a2d68e279d16e5de93f180f69b5cd1d9677f3a3988dd13635d3493",
+    "size_bytes": 315
+  },
+  {
+    "path": "release_info.json",
+    "sha256": "82d4935c81abaf19fefb289e262af24fa3783009e479aa3e007bc467392a6c5a",
+    "size_bytes": 662
+  },
+  {
+    "path": "reproduction_runbook.md",
+    "sha256": "68bc2606faa3cdfe63ffd7007a26af5aac3a5330d67d58d6134fe5fee6ac28fa",
+    "size_bytes": 1077
+  }
+]

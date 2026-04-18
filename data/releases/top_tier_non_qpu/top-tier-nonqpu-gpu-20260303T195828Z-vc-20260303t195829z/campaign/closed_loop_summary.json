@@ -1,0 +1,88 @@
+{
+  "campaign_id": "top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z",
+  "job_class": "vc_relax",
+  "calculation_mode": "vc-relax",
+  "timestamp_utc": "2026-03-04T14:52:25.876029Z",
+  "iterations_planned": 6,
+  "iterations_executed": 6,
+  "classical_label_budget": 240,
+  "quantum_label_budget": 23,
+  "label_efficiency_gain": 0.9041666666666667,
+  "total_jobs": 24,
+  "completed_jobs": 23,
+  "failed_jobs": 1,
+  "valid_candidates": 23,
+  "max_force_threshold": 0.03,
+  "iteration_summaries": [
+    {
+      "iteration": 1,
+      "request_ids": [
+        "VCRLX-I01-C01",
+        "VCRLX-I01-C02",
+        "VCRLX-I01-C03",
+        "VCRLX-I01-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_01/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_01/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 2,
+      "request_ids": [
+        "VCRLX-I02-C01",
+        "VCRLX-I02-C02",
+        "VCRLX-I02-C03",
+        "VCRLX-I02-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_02/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_02/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 3,
+      "request_ids": [
+        "VCRLX-I03-C01",
+        "VCRLX-I03-C02",
+        "VCRLX-I03-C03",
+        "VCRLX-I03-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_03/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_03/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 4,
+      "request_ids": [
+        "VCRLX-I04-C01",
+        "VCRLX-I04-C02",
+        "VCRLX-I04-C03",
+        "VCRLX-I04-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_04/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_04/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 5,
+      "request_ids": [
+        "VCRLX-I05-C01",
+        "VCRLX-I05-C02",
+        "VCRLX-I05-C03",
+        "VCRLX-I05-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_05/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_05/queue_monitoring/jobs.jsonl"
+    },
+    {
+      "iteration": 6,
+      "request_ids": [
+        "VCRLX-I06-C01",
+        "VCRLX-I06-C02",
+        "VCRLX-I06-C03",
+        "VCRLX-I06-C04"
+      ],
+      "queue_summary_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_06/queue_monitoring/summary.json",
+      "queue_log_path": "/home/om/Projects/Generative_QML/data/dft_workflow/campaigns/top-tier-nonqpu-gpu-20260303T195828Z-vc-20260303t195829z/iteration_06/queue_monitoring/jobs.jsonl"
+    }
+  ],
+  "mlflow_run": {
+    "run_id": "f8dc407a43e74bd39fcbc72d2b79d515",
+    "experiment_id": "537309091092666076"
+  }
+}
